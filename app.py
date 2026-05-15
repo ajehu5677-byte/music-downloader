@@ -1,3 +1,13 @@
+from flask import Flask, request, jsonify
+import yt_dlp
+
+app = Flask(__name__)
+
+@app.route('/search', methods=['POST'])
+def search_music():
+    query = request.form.get('query')
+    # ... the rest of your code stays exactly the same ...
+
 @app.route('/search', methods=['POST'])
 def search_music():
     query = request.form.get('query')
