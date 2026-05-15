@@ -14,12 +14,12 @@ def search_music():
     if not query:
         return jsonify({'error': 'Please enter a search term'}), 400
 
-    ydl_opts = {
+        ydl_opts = {
         'format': 'bestaudio/best',
         'noplaylist': True,
-        'default_search': 'ytsearch10',
-        'extractor_args': {'youtube': {'player_client': ['web_safari']}},
+        'default_search': 'scsearch10',  # Swaps search engine index to SoundCloud
     }
+
 
     try:
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
