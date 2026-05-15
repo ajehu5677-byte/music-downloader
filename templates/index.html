@@ -3,336 +3,223 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MP3 Juice - Advanced Dual Search Layout</title>
+    <title>MP3Juice Music Hub</title>
     <style>
-        body { font-family: Arial, sans-serif; background-color: #2b7bb9; color: #ffffff; margin: 0; padding: 0; text-align: center; }
-        .navbar { display: flex; justify-content: center; gap: 20px; padding: 15px 0; font-size: 14px; border-bottom: 1px solid rgba(255,255,255,0.1); }
-        .navbar a { color: #ffffff; text-decoration: none; }
-        .logo-container { margin-top: 30px; margin-bottom: 25px; }
-        .logo-text { font-size: 42px; font-weight: bold; font-style: italic; letter-spacing: -1px; margin-top: 10px; }
-        .search-container { max-width: 700px; margin: 0 auto 20px auto; background-color: #1a5276; padding: 25px; border-radius: 4px; }
-        .search-wrapper { display: flex; background: white; border-radius: 4px; overflow: hidden; }
-        input[type="text"] { flex: 1; padding: 15px 20px; border: none; outline: none; font-size: 16px; color: #333; }
-        .search-btn { background: #ffffff; border: none; padding: 0 25px; cursor: pointer; display: flex; align-items: center; border-left: 1px solid #ccc; }
-        
-        #summaryText { max-width: 700px; margin: 0 auto 20px auto; font-size: 14px; text-align: left; display: none; }
-        #loading { display: none; margin-bottom: 20px; font-weight: bold; }
+        body {
+            background-color: #1a62b1;
+            font-family: Arial, sans-serif;
+            color: white;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
 
-        #resultsList { max-width: 700px; margin: 0 auto 40px auto; display: flex; flex-direction: column; gap: 15px; }
-        .result-card { background-color: #21618c; padding: 20px; border-radius: 4px; text-align: center; }
-        .song-title { margin: 0 0 8px 0; font-size: 16px; font-weight: bold; }
-        .meta-details { font-size: 11px; color: #d4e6f1; margin-bottom: 15px; }
-        .button-group { display: flex; justify-content: center; gap: 10px; margin-bottom: 5px; }
-        .action-btn { background: #ffffff; color: #333333; text-decoration: none; padding: 8px 20px; border-radius: 4px; font-size: 13px; font-weight: bold; border: none; cursor: pointer; }
-        
-        /* Centered layout container formatting using your exact parameters */
-        .video-player-box { width: 100%; max-width: 560px; margin: 15px auto 0 auto; display: none; background: #000; border-radius: 6px; overflow: hidden; }
-        .video-player-box iframe { width: 560px; height: 315px; border: none; display: block; margin: 0 auto; max-width: 100%; }
-        
-        #downloadDashboard { display: none; max-width: 700px; margin: 20px auto 50px auto; background: #222222; border-radius: 8px; padding: 30px; text-align: center; }
-        .server-header { font-size: 18px; font-weight: bold; border-bottom: 1px solid #444; padding-bottom: 10px; margin-bottom: 20px; }
-        .thumb-img { width: 220px; height: auto; border-radius: 8px; border: 2px solid #444; margin-bottom: 15px; }
-        .dash-title { font-size: 16px; font-weight: bold; margin-bottom: 20px; color: #eaeaea; }
-        
-        .format-tabs { display: inline-flex; background: #141414; padding: 4px; border-radius: 8px; margin-bottom: 25px; border: 1px solid #333; }
-        .tab-btn { background: transparent; color: #888888; border: none; padding: 10px 24px; font-weight: bold; font-size: 14px; border-radius: 6px; cursor: pointer; }
-        .tab-btn.active { background: #333333; color: #ffffff; }
+        h1 {
+            font-size: 42px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
 
-        .quality-container { display: flex; flex-direction: column; gap: 10px; max-width: 450px; margin: 0 auto; }
-        .quality-row { display: flex; justify-content: space-between; align-items: center; background: #3b5998; border-radius: 6px; padding: 12px 20px; text-decoration: none; color: white; font-weight: bold; font-size: 14px; }
-        .back-link { display: inline-block; color: #00ffcc; text-decoration: none; margin-top: 25px; font-size: 14px; }
+        /* Search input styling box container */
+        .search-box-container {
+            background: white;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 5px 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .search-box-container input {
+            width: 100%;
+            border: none;
+            padding: 12px;
+            font-size: 16px;
+            outline: none;
+            color: #333;
+        }
+
+        /* Search execution button styling */
+        .search-btn {
+            background: #222;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.2s;
+            box-shadow: 0 0 10px rgba(162, 0, 255, 0.5);
+        }
+
+        .search-btn:hover {
+            background: #444;
+        }
+
+        /* Media display grid panel layout */
+        .media-grid {
+            max-width: 700px;
+            margin: 40px auto;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .media-card {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            text-align: left;
+        }
+
+        .media-card h3 {
+            margin: 0 0 10px 0;
+            font-size: 18px;
+        }
+
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: 6px;
+            background: #000;
+            margin-bottom: 12px;
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .download-action-bar {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .download-btn {
+            background: #ff007f;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            font-weight: bold;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: transform 0.1s;
+        }
+
+        .download-btn:active {
+            transform: scale(0.95);
+        }
+
+        #status-message {
+            margin-top: 20px;
+            font-style: italic;
+            color: #ddd;
+        }
     </style>
 </head>
 <body>
 
-    <div class="navbar">
-        <a href="#">Home</a><a href="#">FAQ</a><a href="#">DMCA</a><a href="#">Contact</a>
+    <h1>MP3Juice</h1>
+
+    <!-- Search input node area section layout -->
+    <div class="search-box-container">
+        <input type="text" id="query-input" placeholder="Input keywords or paste URL here..." onkeypress="checkEnterKey(event)" />
     </div>
+    <button class="search-btn" onclick="executeMusicSearch()">Search</button>
 
-    <div class="logo-container"><div class="logo-text">MP3Juice</div></div>
+    <div id="status-message"></div>
 
-    <div class="search-container">
-        <form id="searchForm">
-            <div class="search-wrapper">
-                <input type="text" name="query" placeholder="Input keywords or paste URL here..." required>
-                <button type="submit" class="search-btn">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2b7bb9" stroke-width="3"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                </button>
-            </div>
-        </form>
-    </div>
+    <!-- Active dynamic injection media results catalog layout board panel -->
+    <div class="media-grid" id="catalog-results-grid"></div>
 
-    <div id="loading">Searching combined index catalogs... Please wait...</div>
-    <div id="summaryText"></div>
-    <div id="resultsList"></div>
-
-    <div id="downloadDashboard">
-        <div class="server-header">Server Download MP3</div>
-        <img id="dashThumb" class="thumb-img" src="" alt="Thumbnail">
-        <div id="dashTitle" class="dash-title">Track Title Placeholder</div>
-        
-        <div class="format-tabs">
-            <button class="tab-btn active" id="tabMp3" onclick="switchFormatTab('MP3')">MP3</button>
-            <button class="tab-btn" id="tabMp4" onclick="switchFormatTab('MP4')">MP4</button>
-        </div>
-
-        <div class="quality-container" id="qualityContainer"></div>
-        <a href="#" class="back-link" onclick="goBackToResults(event)">← Back to search results</a>
-    </div>
-
-     <div style="text-align:center; margin-top:20px;">
-
-  
-
-  <button onclick="searchYouTube()" class="glow-btn">Search</button>
-
-</div>
-
-<div id="results" style="text-align:center; margin-top:20px;"></div>
-
-<div style="text-align:center; margin:20px 0;">
-  <input type="text" placeholder="Search music..." id="search" />
-</div>
-
-<style>
-#search {
-  padding: 15px 25px;
-  font-size: 18px;
-  border: 2px solid white;
-  border-radius: 30px;
-  outline: none;
-  background: rgba(0,0,0,0.4);
-  color: white;
-  width: 80%;
-  max-width: 400px;
-  /* Multicolor glowing effect */
-  box-shadow: 0 0 15px #ff00ff, 0 0 30px #00ffff, 0 0 45px #ffff00;
-  transition: 0.3s all;
-}
-
-#search:focus {
-  /* Brighter, stronger multicolor glow on focus */
-  box-shadow: 0 0 25px #ff00ff, 0 0 50px #00ffff, 0 0 70px #ffff00;
-  border-color: #fff;
-}
-</style>
-    
-<style>
-/* Glowing Search Bar */
-.glow {
-  padding: 15px 25px;
-  width: 70%;
-  max-width: 350px;
-  font-size: 18px;
-  border-radius: 30px;
-  border: 2px solid white;
-  background: rgba(0,0,0,0.4);
-  color: white;
-  outline: none;
-  box-shadow: 0 0 15px #ff00ff, 0 0 25px #00ffff, 0 0 35px #ffff00;
-  transition: 0.3s;
-}
-
-.glow:focus {
-  box-shadow: 0 0 25px #ff00ff, 0 0 45px #00ffff, 0 0 65px #ffff00;
-}
-
-/* Glowing Search Button */
-.glow-btn {
-  padding: 14px 20px;
-  margin-left: 10px;
-  font-size: 16px;
-  border-radius: 25px;
-  border: none;
-  cursor: pointer;
-
-  background: #222;
-  color: white;
-
-  box-shadow: 0 0 15px #00ffff, 0 0 30px #ff00ff;
-  transition: 0.3s;
-}
-
-.glow-btn:hover {
-  box-shadow: 0 0 25px #00ffff, 0 0 45px #ff00ff, 0 0 65px #ffff00;
-}
-</style>
-
-<script>
-const API_KEY = "AIzaSyBQU073ZJlKUV55Yu3TykjCFIYW5AjOWlg";
-
-function searchYouTube() {
-  const query = document.getElementById("search").value;
-  const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${query}&maxResults=5&type=video&key=${API_KEY}`;
-
-  fetch(url)
-    .then(response => response.json())
-    .then(data => {
-      let resultsHTML = "";
-      data.items.forEach(item => {
-        const videoId = item.id.videoId;
-        resultsHTML += `
-          <iframe width="360" height="215" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>
-          <br><br>
-        `;
-      });
-      document.getElementById("results").innerHTML = resultsHTML;
-    });
-}
-</script>
-    
     <script>
-        let currentSearchResults = [];
-        let activeSelectedCardIndex = null;
-        let activeFormatExtension = 'MP3';
-
-        const form = document.getElementById('searchForm');
-        const resultsList = document.getElementById('resultsList');
-        const summaryText = document.getElementById('summaryText');
-        const loadingDiv = document.getElementById('loading');
-        const downloadDashboard = document.getElementById('downloadDashboard');
-
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const formData = new FormData(form);
-            resultsList.innerHTML = ''; 
-            summaryText.style.display = 'none';
-            downloadDashboard.style.display = 'none';
-            loadingDiv.style.display = 'block';
-
-            try {
-                const response = await fetch('/search', { method: 'POST', body: formData });
-                const data = await response.json();
-                loadingDiv.style.display = 'none';
-
-                if (data.error) {
-                    alert('Error: ' + data.error);
-                } else {
-                    currentSearchResults = data.results;
-                    summaryText.innerHTML = `Loaded index data from <strong>${data.source}</strong> for query: "${data.query}"`;
-                    summaryText.style.display = 'block';
-
-                    data.results.forEach((song, index) => {
-                        const card = document.createElement('div');
-                        card.className = 'result-card';
-                        card.innerHTML = `
-                            <div class="song-title">${song.title}</div>
-                            <div class="meta-details">Source: ${song.source} | Channel: ${song.channel} | Duration: ${song.duration}</div>
-                            <div class="button-group">
-                                <button class="action-btn" onclick="openDownloadDashboard(${index})">Download</button>
-                                <button class="action-btn" id="playBtn_${index}" onclick="toggleYoutubePlayer(${index}, '${song.id}', '${song.source}')">Play</button>
-                            </div>
-                            <div class="video-player-box" id="playerBox_${index}"></div>
-                        `;
-                        resultsList.appendChild(card);
-                    });
-                }
-            } catch (err) {
-                loadingDiv.style.display = 'none';
-                alert('Connection error.');
+        function checkEnterKey(event) {
+            if (event.key === 'Enter') {
+                executeMusicSearch();
             }
-        });
+        }
 
-        // Toggle player logic using your exact layout framework properties
-        function toggleYoutubePlayer(index, videoId, source) {
-            const playerBox = document.getElementById(`playerBox_${index}`);
-            const playButton = document.getElementById(`playBtn_${index}`);
-            
-            if (playerBox.style.display === 'block') {
-                playerBox.style.display = 'none';
-                playerBox.innerHTML = '';
-                playButton.innerText = 'Play';
-            } else {
-                document.querySelectorAll('.video-player-box').forEach(box => {
-                    box.style.display = 'none';
-                    box.innerHTML = '';
-                });
-                document.querySelectorAll('.button-group button').forEach(btn => {
-                    if(btn.innerText === 'Stop') btn.innerText = 'Play';
-                });
+        function executeMusicSearch() {
+            const queryValue = document.getElementById('query-input').value;
+            const statusDiv = document.getElementById('status-message');
+            const gridDiv = document.getElementById('catalog-results-grid');
+
+            if (!queryValue) {
+                alert("Please type a music track or artist name first!");
+                return;
+            }
+
+            statusDiv.innerText = "Searching music layers across catalogs...";
+            gridDiv.innerHTML = "";
+
+            const payloadData = new FormData();
+            payloadData.append('query', queryValue);
+
+            // Fetch index arrays straight from your Flask server app.py processing pipeline
+            fetch('/search', {
+                method: 'POST',
+                body: payloadData
+            })
+            .then(response => response.json())
+            .then(data => {
+                statusDiv.innerText = "";
                 
-                playerBox.style.display = 'block';
-
-                // Implements your exact verification embed parameters
-                if (source === 'YouTube' && videoId) {
-                    playerBox.innerHTML = `
-                        <iframe 
-                            src="https://youtube.com{videoId}?autoplay=1" 
-                            title="YouTube video player" 
-                            frameborder="0" 
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                            referrerpolicy="strict-origin-when-cross-origin" 
-                            allowfullscreen>
-                        </iframe>`;
-                } else {
-                    // Fallback to standard clean audio-stream visual block layout
-                    playerBox.innerHTML = `<p style="padding:20px; color:#aaa; font-style:italic;">SoundCloud stream playback active via download parameters.</p>`;
+                if (data.error) {
+                    statusDiv.innerText = "Error: " + data.error;
+                    return;
                 }
-                playButton.innerText = 'Stop';
-            }
-        }
 
-        function openDownloadDashboard(index) {
-            activeSelectedCardIndex = index;
-            activeFormatExtension = 'MP3';
-            document.getElementById('tabMp3').classList.add('active');
-            document.getElementById('tabMp4').classList.remove('active');
+                if (!data.results || data.results.length === 0) {
+                    statusDiv.innerText = "No matching music items found.";
+                    return;
+                }
 
-            const song = currentSearchResults[index];
-            if (!song) return;
+                // Programmatically build unified YouTube iframe + SoundCloud file layouts
+                data.results.forEach(track => {
+                    const cardElement = document.createElement('div');
+                    cardElement.className = 'media-card';
+                    
+                    // Safely bundle query tags to inject into the local browser client view frame
+                    const searchParam = encodeURIComponent(track.title);
 
-            resultsList.style.display = 'none';
-            summaryText.style.display = 'none';
+                    cardElement.innerHTML = `
+                        <h3>${track.title}</h3>
+                        
+                        <!-- Embedded YouTube Search Player Layout Box -->
+                        <div class="video-wrapper">
+                            <iframe 
+                                src="https://youtube.com{searchParam}"
+                                title="YouTube Media Stream"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen>
+                            </iframe>
+                        </div>
 
-            document.getElementById('dashThumb').src = song.thumbnail;
-            document.getElementById('dashTitle').innerText = song.title;
-            
-            renderQualityRows();
-            downloadDashboard.style.display = 'block';
-        }
-
-        function switchFormatTab(format) {
-            activeFormatExtension = format;
-            document.getElementById('tabMp3').classList.toggle('active', format === 'MP3');
-            document.getElementById('tabMp4').classList.toggle('active', format === 'MP4');
-            renderQualityRows();
-        }
-
-        function renderQualityRows() {
-            const song = currentSearchResults[activeSelectedCardIndex];
-            const qContainer = document.getElementById('qualityContainer');
-            qContainer.innerHTML = ''; 
-
-            const safeTitle = encodeURIComponent(song.title.replace(/["']/g, ""));
-            
-            const options = activeFormatExtension === 'MP3' ? [
-                { label: 'Original', size: song.sizes['320'] },
-                { label: '320 Kbps', size: song.sizes['320'] },
-                { label: '256 Kbps', size: song.sizes['256'] },
-                { label: '128 Kbps', size: song.sizes['128'] }
-            ] : [
-                { label: '720p HD', size: (parseFloat(song.sizes['128']) * 2.2).toFixed(1) },
-                { label: '360p Standard', size: parseFloat(song.sizes['128']).toFixed(1) }
-            ];
-
-            options.forEach(opt => {
-                const row = document.createElement('a');
-                row.className = 'quality-row';
-                row.href = `/download_proxy?url=${encodeURIComponent(song.download_url)}&title=${safeTitle}`;
-                row.target = '_blank';
-                row.innerHTML = `
-                    <div>${activeFormatExtension} <span style="font-weight:normal; opacity:0.7;">(${opt.size} MB)</span></div>
-                    <div>${opt.label}</div>
-                `;
-                qContainer.appendChild(row);
+                        <!-- Secondary SoundCloud Background Stream Controller For Live Downloads -->
+                        <div class="download-action-bar">
+                            <a href="/download_proxy?url=${encodeURIComponent(track.download_url)}&title=${encodeURIComponent(track.title)}" 
+                               class="download-btn">
+                                Download MP3
+                            </a>
+                        </div>
+                    `;
+                    gridDiv.appendChild(cardElement);
+                });
+            })
+            .catch(err => {
+                statusDiv.innerText = "Server communication failure.";
+                console.error(err);
             });
-        }
-
-        function goBackToResults(e) {
-            e.preventDefault();
-            downloadDashboard.style.display = 'none';
-            resultsList.style.display = 'flex';
-            summaryText.style.display = 'block';
         }
     </script>
 </body>
