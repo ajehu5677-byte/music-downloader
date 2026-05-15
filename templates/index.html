@@ -3,36 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MP3Juice Music Hub</title>
+    <title>MP3Juice - Free MP3 Downloads</title>
     <style>
+        /* Exact color theme matching your screenshot */
         body {
-            background-color: #1a62b1;
+            background-color: #1b75bb;
             font-family: Arial, sans-serif;
             color: white;
             margin: 0;
-            padding: 20px;
+            padding: 0;
             text-align: center;
         }
 
-        h1 {
-            font-size: 42px;
-            margin-bottom: 10px;
-            font-weight: bold;
+        /* Top Navbar Layout Row */
+        .top-nav {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 10px 0;
+            font-size: 14px;
+        }
+        .top-nav a, .top-nav span {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            cursor: pointer;
+        }
+        .top-nav a:hover {
+            text-decoration: underline;
         }
 
-        /* Search input styling box container */
-        .search-box-container {
+        /* Logo Layout Section Container */
+        .logo-container {
+            margin: 40px auto 20px auto;
+        }
+        .logo-container img {
+            max-width: 180px;
+            height: auto;
+        }
+
+        /* Input Card Box Construction */
+        .search-wrapper {
             background: white;
             border-radius: 4px;
             display: flex;
             align-items: center;
             max-width: 600px;
-            margin: 20px auto;
-            padding: 5px 15px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            margin: 0 auto;
+            padding: 2px 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
-
-        .search-box-container input {
+        .search-wrapper input {
             width: 100%;
             border: none;
             padding: 12px;
@@ -40,58 +59,97 @@
             outline: none;
             color: #333;
         }
-
-        /* Search execution button styling */
-        .search-btn {
-            background: #222;
-            color: white;
+        .search-icon-btn {
+            background: none;
             border: none;
-            padding: 12px 30px;
-            font-size: 16px;
-            border-radius: 20px;
             cursor: pointer;
-            margin-top: 10px;
-            transition: background 0.2s;
-            box-shadow: 0 0 10px rgba(162, 0, 255, 0.5);
+            font-size: 18px;
+            color: #666;
+            padding: 5px 10px;
         }
 
-        .search-btn:hover {
-            background: #444;
+        /* Legal disclaimer text layout label */
+        .disclaimer-text {
+            font-size: 12px;
+            margin: 15px 0 30px 0;
+            color: rgba(255, 255, 255, 0.9);
         }
 
-        /* Media display grid panel layout */
-        .media-grid {
-            max-width: 700px;
-            margin: 40px auto;
+        /* Search summary info response text block */
+        #summary-box {
+            max-width: 600px;
+            margin: 15px auto;
+            font-size: 13px;
+            line-height: 1.5;
+            color: #fff;
+            padding: 0 10px;
+        }
+
+        /* Track output catalog container grid system */
+        .results-container {
+            max-width: 640px;
+            margin: 20px auto;
+            padding: 0 10px;
             display: flex;
             flex-direction: column;
-            gap: 25px;
+            gap: 15px;
         }
 
-        .media-card {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 8px;
+        /* Your exact nested dark blue card blocks style */
+        .track-item-card {
+            background-color: #145990;
+            border-radius: 4px;
             padding: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            text-align: left;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
         }
-
-        .media-card h3 {
-            margin: 0 0 10px 0;
-            font-size: 18px;
+        .track-title {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            word-wrap: break-word;
         }
-
-        .video-wrapper {
-            position: relative;
-            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
-            height: 0;
-            overflow: hidden;
-            border-radius: 6px;
-            background: #000;
+        .track-meta {
+            font-size: 11px;
+            color: #cfebd2;
             margin-bottom: 12px;
         }
 
-        .video-wrapper iframe {
+        /* Direct horizontal flat inline utility action buttons layout */
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .action-button {
+            background-color: white;
+            color: #333;
+            border: none;
+            padding: 6px 16px;
+            font-size: 13px;
+            font-weight: bold;
+            border-radius: 2px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .action-button:hover {
+            background-color: #e6e6e6;
+        }
+
+        /* Video embed layout block container card styling */
+        .video-box {
+            display: none;
+            margin-top: 15px;
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 4px;
+            background: #000;
+        }
+        .video-box iframe {
             position: absolute;
             top: 0;
             left: 0;
@@ -99,127 +157,132 @@
             height: 100%;
             border: 0;
         }
-
-        .download-action-bar {
-            display: flex;
-            justify-content: flex-end;
-        }
-
-        .download-btn {
-            background: #ff007f;
-            color: white;
-            text-decoration: none;
-            padding: 10px 20px;
-            font-weight: bold;
-            border-radius: 4px;
-            font-size: 14px;
-            transition: transform 0.1s;
-        }
-
-        .download-btn:active {
-            transform: scale(0.95);
-        }
-
-        #status-message {
-            margin-top: 20px;
-            font-style: italic;
-            color: #ddd;
-        }
     </style>
 </head>
 <body>
 
-    <h1>MP3Juice</h1>
-
-    <!-- Search input node area section layout -->
-    <div class="search-box-container">
-        <input type="text" id="query-input" placeholder="Input keywords or paste URL here..." onkeypress="checkEnterKey(event)" />
+    <!-- Top Navigation Links Layout Section -->
+    <div class="top-nav">
+        <a href="#">Home</a>
+        <a href="#">FAQ</a>
+        <a href="#">DMCA</a>
+        <a href="#">Contact</a>
+        <span>English ▾</span>
     </div>
-    <button class="search-btn" onclick="executeMusicSearch()">Search</button>
 
-    <div id="status-message"></div>
+    
+    <div class="logo-container">
+        <!-- Using a placeholder white logo style that builds the classic look -->
+        <h2 style="font-size: 32px; letter-spacing: 1px; margin: 0; font-weight: normal;">Mp3Juice</h2>
+    </div>
 
-    <!-- Active dynamic injection media results catalog layout board panel -->
-    <div class="media-grid" id="catalog-results-grid"></div>
+    <!-- Active Main Text Search Row Input Field Grid Elements -->
+    <div class="search-wrapper">
+        <input type="text" id="music-search-bar" placeholder="Input keywords or paste URL here..." onkeypress="handleEnterKey(event)" />
+        <button class="search-icon-btn" onclick="triggerCatalogSearch()">🔍</button>
+    </div>
+
+    <div class="disclaimer-text">
+        By pressing "Search" you confirm your consent to our <u>Terms of Use</u>.
+    </div>
+
+    <!-- Live Dynamic Text Search Information Box Panel Summary -->
+    <div id="summary-box"></div>
+
+    <!-- Live Media Catalog Layout Results Rows Section -->
+    <div class="results-container" id="results-display-list"></div>
 
     <script>
-        function checkEnterKey(event) {
+        function handleEnterKey(event) {
             if (event.key === 'Enter') {
-                executeMusicSearch();
+                triggerCatalogSearch();
             }
         }
 
-        function executeMusicSearch() {
-            const queryValue = document.getElementById('query-input').value;
-            const statusDiv = document.getElementById('status-message');
-            const gridDiv = document.getElementById('catalog-results-grid');
+        function triggerCatalogSearch() {
+            const queryValue = document.getElementById('music-search-bar').value;
+            const summaryDiv = document.getElementById('summary-box');
+            const resultsListDiv = document.getElementById('results-display-list');
 
-            if (!queryValue) {
-                alert("Please type a music track or artist name first!");
-                return;
-            }
+            if (!queryValue) return alert("Please type a search query!");
 
-            statusDiv.innerText = "Searching music layers across catalogs...";
-            gridDiv.innerHTML = "";
+            summaryDiv.innerHTML = `Searching music layers for "<strong>${queryValue}</strong>"...`;
+            resultsListDiv.innerHTML = "";
 
-            const payloadData = new FormData();
-            payloadData.append('query', queryValue);
+            const payload = new FormData();
+            payload.append('query', queryValue);
 
-            // Fetch index arrays straight from your Flask server app.py processing pipeline
             fetch('/search', {
                 method: 'POST',
-                body: payloadData
+                body: payload
             })
-            .then(response => response.json())
+            .then(res => res.json())
             .then(data => {
-                statusDiv.innerText = "";
-                
                 if (data.error) {
-                    statusDiv.innerText = "Error: " + data.error;
+                    summaryDiv.innerHTML = `<span style="color:#ffcccc;">Error processing: ${data.error}</span>`;
                     return;
                 }
 
-                if (!data.results || data.results.length === 0) {
-                    statusDiv.innerText = "No matching music items found.";
+                const totalItems = (data.results && data.results.length) || 0;
+                if (totalItems === 0) {
+                    summaryDiv.innerHTML = `No results found for "<strong>${queryValue}</strong>".`;
                     return;
                 }
 
-                // Programmatically build unified YouTube iframe + SoundCloud file layouts
-                data.results.forEach(track => {
-                    const cardElement = document.createElement('div');
-                    cardElement.className = 'media-card';
-                    
-                    // Safely bundle query tags to inject into the local browser client view frame
-                    const searchParam = encodeURIComponent(track.title);
+                // Generates the exact descriptive text line matching your screenshot view layout
+                summaryDiv.innerHTML = `Here you can find all search results for your search query "<strong>${queryValue}</strong>". We've found ${totalItems} matching results. Now you have the opportunity to listen to each result before downloading it. If you wish to do so, click on the „Play“ button.`;
 
-                    cardElement.innerHTML = `
-                        <h3>${track.title}</h3>
+                // Render matching track results items panels directly on user screens
+                data.results.forEach((track, index) => {
+                    const card = document.createElement('div');
+                    card.className = 'track-item-card';
+
+                    const trackTitleEscaped = encodeURIComponent(track.title);
+
+                    card.innerHTML = `
+                        <div class="track-title">${track.title}</div>
+                        <div class="track-meta">Source: YouTube | Channel: ${track.channel || 'Artist'} | Duration: ${track.duration || '0:00'}</div>
                         
-                        <!-- Embedded YouTube Search Player Layout Box -->
-                        <div class="video-wrapper">
-                            <iframe 
-                                src="https://youtube.com{searchParam}"
-                                title="YouTube Media Stream"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowfullscreen>
-                            </iframe>
+                        <div class="button-group">
+                            <a href="/download_proxy?url=${encodeURIComponent(track.download_url)}&title=${trackTitleEscaped}" class="action-button">Download</a>
+                            <button class="action-button" onclick="togglePlayerFrame('player-${index}', '${trackTitleEscaped}')">Play</button>
                         </div>
 
-                        <!-- Secondary SoundCloud Background Stream Controller For Live Downloads -->
-                        <div class="download-action-bar">
-                            <a href="/download_proxy?url=${encodeURIComponent(track.download_url)}&title=${encodeURIComponent(track.title)}" 
-                               class="download-btn">
-                                Download MP3
-                            </a>
-                        </div>
+                        <!-- Embedded YouTube Iframe box drawer layer panel -->
+                        <div class="video-box" id="player-${index}"></div>
                     `;
-                    gridDiv.appendChild(cardElement);
+                    resultsListDiv.appendChild(card);
                 });
             })
             .catch(err => {
-                statusDiv.innerText = "Server communication failure.";
+                summaryDiv.innerHTML = "Failed to communicate with back-end music servers.";
                 console.error(err);
             });
+        }
+
+        // Toggles open and handles loading of the video frames seamlessly right inside the dark cards
+        function togglePlayerFrame(elementId, encodedTitle) {
+            const targetPlayerBox = document.getElementById(elementId);
+            
+            if (targetPlayerBox.style.display === "block") {
+                targetPlayerBox.style.display = "none";
+                targetPlayerBox.innerHTML = "";
+            } else {
+                // Closes any other active open stream boxes first to keep page neat
+                document.querySelectorAll('.video-box').forEach(box => {
+                    box.style.display = "none";
+                    box.innerHTML = "";
+                });
+
+                targetPlayerBox.style.display = "block";
+                targetPlayerBox.innerHTML = `
+                    <iframe 
+                        src="https://youtube.com{encodedTitle}"
+                        title="YouTube Player View Frame Layout Box"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen>
+                    </iframe>`;
+            }
         }
     </script>
 </body>
