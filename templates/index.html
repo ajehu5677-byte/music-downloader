@@ -80,6 +80,80 @@
         <a href="#" class="back-link" onclick="goBackToResults(event)">← Back to search results</a>
     </div>
 
+     <div style="text-align:center; margin-top:20px;">
+
+  
+
+  <button onclick="searchYouTube()" class="glow-btn">Search</button>
+
+</div>
+
+<div id="results" style="text-align:center; margin-top:20px;"></div>
+
+<style>
+/* Glowing Search Bar */
+.glow {
+  padding: 15px 25px;
+  width: 70%;
+  max-width: 350px;
+  font-size: 18px;
+  border-radius: 30px;
+  border: 2px solid white;
+  background: rgba(0,0,0,0.4);
+  color: white;
+  outline: none;
+  box-shadow: 0 0 15px #ff00ff, 0 0 25px #00ffff, 0 0 35px #ffff00;
+  transition: 0.3s;
+}
+
+.glow:focus {
+  box-shadow: 0 0 25px #ff00ff, 0 0 45px #00ffff, 0 0 65px #ffff00;
+}
+
+/* Glowing Search Button */
+.glow-btn {
+  padding: 14px 20px;
+  margin-left: 10px;
+  font-size: 16px;
+  border-radius: 25px;
+  border: none;
+  cursor: pointer;
+
+  background: #222;
+  color: white;
+
+  box-shadow: 0 0 15px #00ffff, 0 0 30px #ff00ff;
+  transition: 0.3s;
+}
+
+.glow-btn:hover {
+  box-shadow: 0 0 25px #00ffff, 0 0 45px #ff00ff, 0 0 65px #ffff00;
+}
+</style>
+
+<script>
+const API_KEY = "AIzaSyBQU073ZJlKUV55Yu3TykjCFIYW5AjOWlg";
+
+function searchYouTube() {
+  const query = document.getElementById("search").value;
+  const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${query}&maxResults=5&type=video&key=${API_KEY}`;
+
+  fetch(url)
+    .then(response => response.json())
+    .then(data => {
+      let resultsHTML = "";
+      data.items.forEach(item => {
+        const videoId = item.id.videoId;
+        resultsHTML += `
+          <iframe width="360" height="215" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>
+          <br><br>
+        `;
+      });
+      document.getElementById("results").innerHTML = resultsHTML;
+    });
+}
+</script>
+    
     <script>
         let currentSearchResults = [];
         let activeSelectedCardIndex = null;
