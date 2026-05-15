@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, jsonify, Response
 import yt_dlp
 import requests
+import os
 
 app = Flask(__name__)
 
@@ -14,12 +15,11 @@ def search_music():
     if not query:
         return jsonify({'error': 'Please enter a search term'}), 400
 
-        ydl_opts = {
+    ydl_opts = {
         'format': 'bestaudio/best',
         'noplaylist': True,
-        'default_search': 'scsearch10',  # Swaps search engine index to SoundCloud
+        'default_search': 'scsearch10',
     }
-
 
     try:
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
@@ -30,11 +30,10 @@ def search_music():
                 for entry in info['entries']:
                     if entry:
                         duration_sec = entry.get('duration') or 0
-                        minutes = duration_sec // 60
-                        seconds = duration_sec % 60
+                        minutes = int(duration_sec // 60)
+                        seconds = int(duration_sec % 60)
                         formatted_duration = f"{minutes}:{seconds:02d}"
 
-                        # Predict file sizes based on duration metrics
                         sizes = {
                             '320': round((320 * duration_sec) / 8 / 1024, 2),
                             '256': round((256 * duration_sec) / 8 / 1024, 2),
@@ -44,11 +43,11 @@ def search_music():
                         }
 
                         results.append({
-                            'id': entry.get('id'), # This extracts the vital unique video identification string
+                            'id': entry.get('id'),
                             'title': entry.get('title'),
                             'download_url': entry.get('url'),
                             'thumbnail': entry.get('thumbnail') or 'https://placeholder.com',
-                            'channel': entry.get('uploader') or 'Unknown Channel',
+                            'channel': entry.get('uploader') or 'SoundCloud Artist',
                             'duration': formatted_duration,
                             'sizes': sizes
                         })
@@ -75,9 +74,6 @@ def download_proxy():
     except Exception as e:
         return f"Download failed: {str(e)}", 500
 
-import os
-
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
-
