@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MP3Juice - Free MP3 Downloads</title>
     <style>
-        /* Exact color theme matching your screenshot */
         body {
             background-color: #1b75bb;
             font-family: Arial, sans-serif;
@@ -15,7 +14,6 @@
             text-align: center;
         }
 
-        /* Top Navbar Layout Row */
         .top-nav {
             border-bottom: 1px solid rgba(255, 255, 255, 0.2);
             padding: 10px 0;
@@ -31,16 +29,11 @@
             text-decoration: underline;
         }
 
-        /* Logo Layout Section Container */
         .logo-container {
             margin: 40px auto 20px auto;
         }
-        .logo-container img {
-            max-width: 180px;
-            height: auto;
-        }
 
-        /* Input Card Box Construction */
+        /* Search input card frame matching your layout precisely */
         .search-wrapper {
             background: white;
             border-radius: 4px;
@@ -59,23 +52,33 @@
             outline: none;
             color: #333;
         }
+        
+        /* Clean standard search button layout with standard icon */
         .search-icon-btn {
             background: none;
             border: none;
             cursor: pointer;
-            font-size: 18px;
-            color: #666;
             padding: 5px 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .search-icon-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: #555;
+            transition: fill 0.2s;
+        }
+        .search-icon-btn:hover svg {
+            fill: #1b75bb;
         }
 
-        /* Legal disclaimer text layout label */
         .disclaimer-text {
             font-size: 12px;
             margin: 15px 0 30px 0;
             color: rgba(255, 255, 255, 0.9);
         }
 
-        /* Search summary info response text block */
         #summary-box {
             max-width: 600px;
             margin: 15px auto;
@@ -85,7 +88,6 @@
             padding: 0 10px;
         }
 
-        /* Track output catalog container grid system */
         .results-container {
             max-width: 640px;
             margin: 20px auto;
@@ -95,7 +97,6 @@
             gap: 15px;
         }
 
-        /* Your exact nested dark blue card blocks style */
         .track-item-card {
             background-color: #145990;
             border-radius: 4px;
@@ -115,7 +116,6 @@
             margin-bottom: 12px;
         }
 
-        /* Direct horizontal flat inline utility action buttons layout */
         .button-group {
             display: flex;
             justify-content: center;
@@ -138,7 +138,6 @@
             background-color: #e6e6e6;
         }
 
-        /* Video embed layout block container card styling */
         .video-box {
             display: none;
             margin-top: 15px;
@@ -161,7 +160,6 @@
 </head>
 <body>
 
-    <!-- Top Navigation Links Layout Section -->
     <div class="top-nav">
         <a href="#">Home</a>
         <a href="#">FAQ</a>
@@ -170,26 +168,28 @@
         <span>English ▾</span>
     </div>
 
-    
     <div class="logo-container">
-        <!-- Using a placeholder white logo style that builds the classic look -->
         <h2 style="font-size: 32px; letter-spacing: 1px; margin: 0; font-weight: normal;">Mp3Juice</h2>
     </div>
 
-    <!-- Active Main Text Search Row Input Field Grid Elements -->
     <div class="search-wrapper">
+        <!-- Runs layout searches automatically on Enter -->
         <input type="text" id="music-search-bar" placeholder="Input keywords or paste URL here..." onkeypress="handleEnterKey(event)" />
-        <button class="search-icon-btn" onclick="triggerCatalogSearch()">🔍</button>
+        
+        <!-- Standard Magnifying Glass Icon Button -->
+        <button class="search-icon-btn" onclick="triggerCatalogSearch()" id="search-action-trigger">
+            <svg xmlns="http://w3.org" viewBox="0 0 24 24">
+                <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+            </svg>
+        </button>
     </div>
 
     <div class="disclaimer-text">
         By pressing "Search" you confirm your consent to our <u>Terms of Use</u>.
     </div>
 
-    <!-- Live Dynamic Text Search Information Box Panel Summary -->
     <div id="summary-box"></div>
 
-    <!-- Live Media Catalog Layout Results Rows Section -->
     <div class="results-container" id="results-display-list"></div>
 
     <script>
@@ -229,10 +229,8 @@
                     return;
                 }
 
-                // Generates the exact descriptive text line matching your screenshot view layout
                 summaryDiv.innerHTML = `Here you can find all search results for your search query "<strong>${queryValue}</strong>". We've found ${totalItems} matching results. Now you have the opportunity to listen to each result before downloading it. If you wish to do so, click on the „Play“ button.`;
 
-                // Render matching track results items panels directly on user screens
                 data.results.forEach((track, index) => {
                     const card = document.createElement('div');
                     card.className = 'track-item-card';
@@ -241,14 +239,13 @@
 
                     card.innerHTML = `
                         <div class="track-title">${track.title}</div>
-                        <div class="track-meta">Source: YouTube | Channel: ${track.channel || 'Artist'} | Duration: ${track.duration || '0:00'}</div>
+                        <div class="track-meta">Source: Multi-Engine | Channel: ${track.channel || 'Artist'} | Duration: ${track.duration || '0:00'}</div>
                         
                         <div class="button-group">
                             <a href="/download_proxy?url=${encodeURIComponent(track.download_url)}&title=${trackTitleEscaped}" class="action-button">Download</a>
                             <button class="action-button" onclick="togglePlayerFrame('player-${index}', '${trackTitleEscaped}')">Play</button>
                         </div>
 
-                        <!-- Embedded YouTube Iframe box drawer layer panel -->
                         <div class="video-box" id="player-${index}"></div>
                     `;
                     resultsListDiv.appendChild(card);
@@ -260,7 +257,6 @@
             });
         }
 
-        // Toggles open and handles loading of the video frames seamlessly right inside the dark cards
         function togglePlayerFrame(elementId, encodedTitle) {
             const targetPlayerBox = document.getElementById(elementId);
             
@@ -268,7 +264,6 @@
                 targetPlayerBox.style.display = "none";
                 targetPlayerBox.innerHTML = "";
             } else {
-                // Closes any other active open stream boxes first to keep page neat
                 document.querySelectorAll('.video-box').forEach(box => {
                     box.style.display = "none";
                     box.innerHTML = "";
