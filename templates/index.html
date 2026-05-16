@@ -3,13 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MP3 Juice - Free and Safe MP3 Downloads</title>
+    <title>MP3 Juice - Free MP3 Downloads</title>
     <style>
-        :root {
-            --bg-color: #1e73be;
-            --accent-dark: #222222;
-            --button-blue: #007bff;
-        }
         * {
             box-sizing: border-box;
             margin: 0;
@@ -17,230 +12,99 @@
             font-family: Arial, sans-serif;
         }
         body {
-            background-color: var(--bg-color);
+            background-color: #1e73be;
             color: #ffffff;
-            min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            overflow-x: hidden;
-            position: relative;
+            min-height: 100vh;
+            padding: 20px;
         }
-        /* Top Navigation Header Mock */
         header {
             width: 100%;
+            max-width: 600px;
             display: flex;
             justify-content: center;
             gap: 20px;
-            padding: 15px 0;
-            font-size: 14px;
+            margin-bottom: 30px;
         }
         header a {
             color: #fff;
             text-decoration: none;
-            opacity: 0.9;
+            font-size: 14px;
         }
-        header a:hover { opacity: 1; }
-
-        /* Animated Left Floating Sidebar */
-        .sidebar {
-            position: fixed;
-            left: -60px; /* Hidden state initially */
-            top: 30%;
-            display: flex;
-            flex-direction: column;
-            width: 45px;
-            z-index: 1000;
-            animation: slideIn 0.8s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards;
-            animation-delay: 3s; /* Exactly 3 seconds delay after load */
-        }
-        @keyframes slideIn {
-            to { left: 0px; }
-        }
-        .side-item {
-            width: 45px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 16px;
-        }
-        .fb { background-color: #3b5998; }
-        .tw { background-color: #000000; }
-        .wa { background-color: #25d366; }
-        .tg { background-color: #0088cc; }
-        .pin { background-color: #cb2027; }
-
-        /* Main Container Elements */
-        .container {
+        #content {
             width: 100%;
-            max-width: 750px;
+            max-width: 600px;
             text-align: center;
-            padding: 40px 20px;
         }
-        .logo-box img {
-            max-width: 180px;
+        .logo-title {
+            font-style: italic;
+            font-size: 32px;
             margin-bottom: 20px;
+            letter-spacing: 1px;
         }
-        
-        /* Search Box Layout */
-        .search-wrapper {
+        /* Self-contained styling for the search container */
+        .search-box-container {
             display: flex;
-            width: 100%;
-            background: white;
+            background: #ffffff;
             border-radius: 4px;
             overflow: hidden;
-            margin-bottom: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
         }
-        .search-wrapper input {
+        .search-box-container input {
             flex: 1;
             border: none;
             padding: 15px;
             font-size: 16px;
             outline: none;
-            color: #333;
+            color: #333333;
         }
-        .search-wrapper button {
-            background: #fff;
+        .search-box-container button {
+            background: #ffffff;
             border: none;
-            padding: 0 20px;
+            padding: 0 25px;
             cursor: pointer;
             font-size: 18px;
-            border-left: 1px solid #ccc;
-        }
-        .terms-text {
-            font-size: 12px;
-            margin-bottom: 30px;
-            opacity: 0.8;
-        }
-
-        /* Dynamic Views (Step 2 and Step 3 Panels) */
-        .view-panel {
-            display: none;
-            background: transparent;
-            width: 100%;
-            margin-top: 20px;
-        }
-        .active { display: block !important; }
-
-        /* Media Player Wrapper */
-        .player-card {
-            background: white;
-            border-radius: 6px;
-            padding: 15px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-        }
-        .video-container {
-            position: relative;
-            padding-bottom: 56.25%;
-            height: 0;
-            overflow: hidden;
-            border-radius: 4px;
-        }
-        .video-container iframe {
-            position: absolute;
-            top:0; left:0; width:100%; height:100%;
-            border: 0;
-        }
-        .track-meta {
-            background: #f8f9fa;
-            color: #333;
-            padding: 15px;
-            border-radius: 4px;
-            margin-top: 10px;
-            font-size: 14px;
-        }
-        .action-btns {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 10px;
-        }
-        .btn-ui {
-            padding: 8px 20px;
-            border: 1px solid #ccc;
-            background: white;
-            cursor: pointer;
-            border-radius: 4px;
-            font-size: 13px;
-        }
-
-        /* Server Conversion & Server DL Section (Step 3) */
-        .server-box {
-            background: var(--accent-dark);
-            border-radius: 8px;
-            padding: 25px 20px;
-            margin-top: 20px;
-        }
-        .thumb-circle {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid #fff;
-            margin-bottom: 15px;
-        }
-        .format-tabs {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin: 20px 0;
-        }
-        .tab-btn {
-            background: #333;
-            color: white;
-            border: none;
-            padding: 8px 20px;
-            cursor: pointer;
-            border-radius: 4px;
-        }
-        .tab-btn.active-tab {
-            background: #555;
-            font-weight: bold;
+            border-left: 1px solid #dddddd;
         }
         
-        /* High Quality Download Quality Rows */
-        .dl-rows-container {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            max-width: 400px;
-            margin: 0 auto;
+        /* Interactive Step Switcher Boxes */
+        .status-panel {
+            display: none;
+            background: #ffffff;
+            color: #333333;
+            border-radius: 6px;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
-        .dl-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: var(--button-blue);
-            color: white;
-            padding: 12px 20px;
-            border-radius: 4px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 14px;
-            transition: opacity 0.2s;
-        }
-        .dl-row:hover { opacity: 0.9; }
-        .dl-row span:first-child { font-size: 11px; background: rgba(0,0,0,0.15); padding: 2px 6px; border-radius: 3px; }
+        .active-panel { display: block !important; }
 
-        /* Information Body Content styling */
-        .info-text-section {
+        .action-button {
+            background: #007bff;
+            color: #ffffff;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 15px;
+        }
+        .info-section {
             text-align: left;
             margin-top: 40px;
             font-size: 14px;
             line-height: 1.6;
         }
-        .info-text-section h3 { margin: 20px 0 10px 0; font-size: 18px; }
+        .info-section h3 { margin: 20px 0 10px 0; font-size: 18px; }
     </style>
 </head>
 <body>
 
-    <!-- Top Mapped Navigation Bar -->
     <header>
         <a href="#">Home</a>
         <a href="#">FAQ</a>
@@ -248,120 +112,89 @@
         <a href="#">Contact</a>
     </header>
 
-    <!-- Sidebar with 3s Entrance Cycle Delay Loop -->
-    <div class="sidebar">
-        <a href="https://facebook.com" target="_blank" class="side-item fb">f</a>
-        <a href="https://x.com" target="_blank" class="side-item tw">𝕏</a>
-        <a href="https://whatsapp.com" target="_blank" class="side-item wa"> Guilds ✆ </a>
-        <a href="https://telegram.org" target="_blank" class="side-item tg">✈</a>
-        <a href="https://pinterest.com" target="_blank" class="side-item pin">℗</a>
-    </div>
-
     <div id="content">
-       <a href=""><img id="logo" src="/images/mp3juice-1.png" alt="Mp3juice"></a><div class="hero-input">
-    <form method="POST">
-    <div class="hero-input-Search">
-        <input id="query" type="text" name="query" placeholder="Input keywords or paste YouTube URL here ..." autocomplete="off" autofocus="">
-        <button id="button" class="btn btn-submit" type="submit"><i class="fa fa-search"></i></button>
-         
-   <div id="suggestions" style="display: none;"></div> </div>
-</form>
-    <p>By pressing Search” you confirm your consent to our Terms of Use.</p>
-</div>
-    <div id="load">
-   <i class="fa fa-spinner fa-spin"></i>
-  </div>
-  
-<div id="text">
-  <p>
-    </p><h1>MP3 Juice - MP3Juice Free and Safe MP3 Downloads</h1>
-  <p></p>
-  <p><a href="/">Mp3juice</a> accessing our favorite tunes effortlessly is a luxury we cherish. Among the myriad of platforms offering music downloads, MP3 Juice - MP3Juice Free MP3 Downloads stands out as a beacon of convenience and accessibility. Let's delve into the realm of MP3 Juice, exploring its features, impact, and the controversies that often accompany such platforms.</p>
-  <p>
-    <strong>The Genesis of MP3 Juice</strong>
-  </p>
-  <p>MP3 Juice emerged as a response to the growing demand for easy-to-use platforms providing free music downloads. It quickly gained popularity due to its straightforward interface and extensive library of songs spanning across genres and languages. With just a few clicks, users can search for their desired tracks and download them in high-quality MP3 format, ready to be enjoyed offline.</p>
-  <p>
-    <strong>The Interface: Simplicity Redefined</strong>
-  </p>
-  <p>One of the key reasons behind MP3 Juice's widespread acclaim is its minimalist interface. Upon visiting the platform, users are greeted by a clean and intuitive layout, devoid of clutter and distractions. The search bar takes center stage, allowing users to enter keywords, song titles, or artist names with ease. This simplicity ensures that even those with limited technical prowess can navigate the platform effortlessly, making music discovery a seamless experience.</p>
-  <p>
-    <strong>A Vast Musical Repository</strong>
-  </p>
-  <p>MP3 Juice prides itself on its vast collection of songs, ranging from chart-toppers to underground gems. Whether you're a fan of pop, rock, hip-hop, or classical music, you're bound to find something that resonates with your taste. Furthermore, the platform regularly updates its library to keep up with the latest releases, ensuring that users have access to the freshest tracks at their fingertips.</p>
-  <p>
-    <strong>Empowering Independent Artists</strong>
-  </p>
-  <p>While MP3 Juice primarily serves as a hub for mainstream music consumption, it also provides a platform for independent artists to showcase their talent. Through MP3 Juice, emerging musicians can upload their tracks and reach a wider audience without the barriers typically associated with traditional music distribution channels. This democratization of the music industry fosters creativity and diversity, allowing artists from all walks of life to share their art with the world.</p>
-  <p>
-    <strong>Navigating Copyright Conundrums</strong>
-  </p>
-  <p>Despite its undeniable convenience, MP3 Juice has found itself embroiled in controversies surrounding copyright infringement. The platform's practice of offering free downloads of copyrighted material has drawn criticism from artists, record labels, and industry stakeholders. While MP3 Juice argues that it operates within the bounds of fair use, skeptics question the legality of its practices and the potential impact on artists' livelihoods.</p>
-  <p>
-    <strong>The Ethical Quandary</strong>
-  </p>
-  <p>The debate surrounding MP3 Juice raises broader questions about the ethics of free music distribution in the digital age. On one hand, proponents argue that music should be accessible to all, regardless of financial means. They view platforms like MP3 Juice as champions of music democracy, leveling the playing field for artists and listeners alike. On the other hand, detractors raise concerns about the erosion of intellectual property rights and the devaluation of artistic work in a culture of rampant piracy.</p>
-  <p>
-    <strong>Looking Ahead: The Future of Music Consumption</strong>
-  </p>
-  <p>As technology continues to evolve, so too will the landscape of music consumption. While platforms like MP3 Juice provide a glimpse into the future of on-demand music access, their long-term viability hinges on striking a balance between convenience and ethical integrity. As consumers, we must recognize the value of music and support artists in their creative endeavors, whether through purchasing albums, attending concerts, or streaming on licensed platforms.</p>
-  <p>In conclusion, MP3 Juice - MP3Juice Free MP3 Downloads represents a double-edged sword in the realm of digital music. While it offers unparalleled convenience and accessibility, its controversial approach to copyright raises ethical concerns that cannot be ignored. As we navigate the intricacies of music consumption in the digital age, let us strive to support artists while embracing the technological innovations that enrich our musical experiences.</p>
+        <h1 class="logo-title">Mp3Juice</h1>
+
+        <!-- Form with default action blocked via JavaScript to avoid Method Errors -->
+        <form id="searchForm" onsubmit="event.preventDefault(); performSearch();">
+            <div class="search-box-container">
+                <input type="text" id="queryInput" placeholder="Input keywords or paste YouTube URL here...">
+                <button type="submit" id="searchBtn">🔍</button>
+            </div>
+        </form>
+        <p style="font-size: 12px; opacity: 0.8; margin-bottom: 30px;">By pressing "Search" you confirm your consent to our Terms of Use.</p>
+
+        <!-- STEP 2 PANEL -->
+        <div id="step2Panel" class="status-panel">
+            <h4 id="trackTitleStep2" style="font-size: 16px; font-weight: bold;"></h4>
+            <p style="font-size: 13px; color: #666666; margin-top: 5px;">Source Status: Ready for Extraction</p>
+            <button class="action-button" onclick="initiateStep3()">Download Options</button>
+        </div>
+
+        <!-- STEP 3 PANEL -->
+        <div id="step3Panel" class="status-panel" style="background: #222222; color: #ffffff;">
+            <h4 id="trackTitleStep3" style="font-size: 16px; margin-bottom: 10px;"></h4>
+            <p style="color: #ff4a4a; font-size: 12px; font-style: italic; margin-bottom: 15px;">If an ad window appears, close it and click download again.</p>
+            <a href="#" id="rawDlLink" target="_blank" class="action-button" style="background: #28a745; display: block;">Download MP3 (High Quality)</a>
+            <a href="javascript:location.reload()" style="color: #cccccc; display: inline-block; margin-top: 15px; font-size: 13px; text-decoration: none;">← Search Another Song</a>
+        </div>
+
+        <!-- SEO TEXT SECTION -->
+        <div id="infoSection" class="info-section">
+            <h3>MP3 Juice - MP3Juice Free and Safe MP3 Downloads</h3>
+            <p>Accessing your favorite tunes effortlessly is a luxury we cherish. Among the myriad of platforms offering music downloads, MP3 Juice stands out as a beacon of convenience and accessibility.</p>
+            <h3>The Genesis of MP3 Juice</h3>
+            <p>MP3 Juice emerged as a response to the growing demand for easy-to-use platforms providing quick download files without complex installations required.</p>
+        </div>
     </div>
-</div>
-<script>
-    let currentTrackData = null;
 
-    document.getElementById('searchBtn').addEventListener('click', performSearch);
-    document.getElementById('queryInput').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') performSearch();
-    });
+    <script>
+        let currentTrackData = null;
 
-    function performSearch() {
-        const queryVal = document.getElementById('queryInput').value.trim();
-        if (!queryVal) return alert("Please type keywords first.");
+        function performSearch() {
+            const queryVal = document.getElementById('queryInput').value.trim();
+            if (!queryVal) return alert("Please type keywords first.");
 
-        document.getElementById('searchBtn').innerText = "⏳";
+            document.getElementById('searchBtn').innerText = "⏳";
 
-        fetch('/search', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ query: queryVal })
-        })
-        .then(res => res.json())
-        .then(data => {
-            document.getElementById('searchBtn').innerText = "🔍";
+            fetch('/search', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ query: queryVal })
+            })
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('searchBtn').innerText = "🔍";
 
-            if (data.success && data.results && data.results.length > 0) {
-                // Read the active item object data cleanly
-                currentTrackData = data.results; 
-                
-                document.getElementById('infoSection').style.display = 'none';
-                document.getElementById('step3Panel').classList.remove('active');
-                
-                document.getElementById('trackTitleStep2').innerText = currentTrackData.title;
-                document.getElementById('step2Panel').classList.add('active');
-            } else {
-                alert("Search failed: " + (data.error || "Please try another track name."));
-            }
-        })
-        .catch(err => {
-            document.getElementById('searchBtn').innerText = "🔍";
-            console.error(err);
-            alert("Error connecting to Render backend.");
-        });
-    }
+                if (data.success && data.results) {
+                    currentTrackData = data.results; 
+                    
+                    document.getElementById('infoSection').style.display = 'none';
+                    document.getElementById('step3Panel').classList.remove('active-panel');
+                    
+                    document.getElementById('trackTitleStep2').innerText = currentTrackData.title;
+                    document.getElementById('step2Panel').classList.add('active-panel');
+                } else {
+                    alert("Search failed: " + (data.error || "Please try another track name."));
+                }
+            })
+            .catch(err => {
+                document.getElementById('searchBtn').innerText = "🔍";
+                console.error(err);
+                alert("Error connecting to server backend system.");
+            });
+        }
 
-    function initiateStep3() {
-        if (!currentTrackData) return;
-        
-        document.getElementById('step2Panel').classList.remove('active');
-        
-        document.getElementById('trackTitleStep3').innerText = currentTrackData.title;
-        document.getElementById('rawDlLink').href = "https://9xbuddy.xyz" + encodeURIComponent("https://youtube.com" + currentTrackData.id);
-        
-        document.getElementById('step3Panel').classList.add('active');
-    }
-</script>
+        function initiateStep3() {
+            if (!currentTrackData) return;
+            
+            document.getElementById('step2Panel').classList.remove('active-panel');
+            
+            document.getElementById('trackTitleStep3').innerText = currentTrackData.title;
+            document.getElementById('rawDlLink').href = "https://9xbuddy.xyz" + encodeURIComponent("https://youtube.com" + currentTrackData.id);
+            
+            document.getElementById('step3Panel').classList.add('active-panel');
+        }
+    </script>
 </body>
 </html>
-
