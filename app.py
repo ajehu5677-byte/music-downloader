@@ -5,7 +5,6 @@ app = Flask(__name__)
 
 @app.route('/')
 def home():
-    # This serves your HTML homepage
     return render_template('index.html')
 
 @app.route('/search', methods=['POST'])
@@ -14,42 +13,44 @@ def search_music():
     if not query:
         return jsonify({"error": "No search query provided"}), 400
 
-    # Configure yt_dlp to search globally across YouTube and SoundCloud
     ydl_opts = {
         'format': 'bestaudio/best',
         'noplaylist': True,
         'quiet': True,
-        'extract_flat': True,  # Fast extraction without downloading
+        'extract_flat': True,
     }
 
     results = []
     
-    # 1. Search YouTube (returns top 3 global results)
+    # 1. YouTube Search
     try:
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             yt_search = ydl.extract_info(f"ytsearch3:{query}", download=False)
             if 'entries' in yt_search:
                 for entry in yt_search['entries']:
-                                        results.append({
-                        "title": entry.get('title'),
-                        "source": "YouTube",
-                        "url": f"https://youtube.com{entry.get('id')}"
-                    })
-
+                    video_id = entry.get('id')
+                    if video_id:
+                        results.append({
+                            "title": entry.get('title'),
+                            "source": "YouTube",
+                            "url": "https://youtube.com" + str(video_id)
+                        })
     except Exception as e:
         print(f"YouTube search error: {e}")
 
-    # 2. Search SoundCloud (returns top 2 global results)
+    # 2. SoundCloud Search
     try:
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             sc_search = ydl.extract_info(f"scsearch2:{query}", download=False)
             if 'entries' in sc_search:
                 for entry in sc_search['entries']:
-                    results.append({
-                        "title": entry.get('title'),
-                        "source": "SoundCloud",
-                        "url": entry.get('url')
-                    })
+                    track_url = entry.get('url')
+                    if track_url:
+                        results.append({
+                            "title": entry.get('title'),
+                            "source": "SoundCloud",
+                            "url": str(track_url)
+                        })
     except Exception as e:
         print(f"SoundCloud search error: {e}")
 
