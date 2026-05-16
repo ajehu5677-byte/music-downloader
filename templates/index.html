@@ -3,349 +3,161 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MP3Juice - Free MP3 Downloads</title>
+    <title>MP3Juice Global Search</title>
     <style>
-        /* Exact color theme matching your template screenshot */
         body {
-            background-color: #1b75bb;
-            font-family: Arial, sans-serif;
-            color: white;
             margin: 0;
-            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #247cb5;
+            color: white;
             text-align: center;
-            position: relative;
         }
-
-        /* Top Navbar Layout Row */
-        .top-nav {
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 12px 0;
+        .navbar {
+            background-color: #1a6292;
+            padding: 15px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 20px;
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
             font-size: 14px;
         }
-        .top-nav a, .top-nav span {
-            color: white;
-            text-decoration: none;
-            margin: 0 15px;
-            cursor: pointer;
+        .search-container {
+            margin-top: 100px;
+            padding: 20px;
         }
-        .top-nav a:hover {
-            text-decoration: underline;
-        }
-
-        /* Floating Social Share Sidebar on Left Edge */
-        .social-sidebar {
-            position: fixed;
-            left: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            display: flex;
-            flex-direction: column;
-            z-index: 1000;
-        }
-        .share-count {
-            background-color: #ffffff;
-            color: #333333;
-            font-size: 11px;
-            font-weight: bold;
-            padding: 6px 4px;
-            text-align: center;
-            line-height: 1.2;
-            border-bottom: 1px solid #ddd;
-        }
-        .share-btn {
-            width: 35px;
-            height: 35px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 16px;
-        }
-        .bg-facebook { background-color: #3b5998; }
-        .bg-twitter { background-color: #000000; }
-        .bg-whatsapp { background-color: #25d366; }
-        .bg-messenger { background-color: #0084ff; }
-        .bg-telegram { background-color: #0088cc; }
-        .bg-sms { background-color: #34a853; }
-        .bg-pinterest { background-color: #bd081c; }
-
-        /* Logo Layout Section Container using the original image path */
-        .logo-container {
-            margin: 35px auto 15px auto;
-        }
-        .logo-container img {
-            width: 190px;
-            height: auto;
-            display: inline-block;
-        }
-
-        /* Input Card Box Construction */
-        .search-wrapper {
-            background: white;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            max-width: 580px;
+        .search-box {
+            position: relative;
+            max-width: 600px;
             margin: 0 auto;
-            padding: 2px 6px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
         }
-        .search-wrapper input {
+        input[type="text"] {
             width: 100%;
+            padding: 15px 50px 15px 20px;
+            font-size: 18px;
             border: none;
-            padding: 12px 8px;
-            font-size: 15px;
-            outline: none;
-            color: #333;
+            border-radius: 4px;
+            box-sizing: border-box;
         }
-        .search-icon-btn {
+        button {
+            position: absolute;
+            right: 5px;
+            top: 5px;
             background: none;
             border: none;
+            font-size: 20px;
             cursor: pointer;
-            padding: 5px 10px;
+            padding: 10px;
+        }
+        #results {
+            max-width: 600px;
+            margin: 30px auto;
+            text-align: left;
+        }
+        .track-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 4px;
             display: flex;
+            justify-content: space-between;
             align-items: center;
         }
-        .search-icon-btn svg {
-            width: 18px;
-            height: 18px;
-            fill: #444;
-        }
-
-        /* Legal disclaimer text layout label */
-        .disclaimer-text {
-            font-size: 11px;
-            margin: 12px 0 35px 0;
-            color: rgba(255, 255, 255, 0.85);
-        }
-
-        /* Search summary info response text block */
-        #summary-box {
-            max-width: 580px;
-            margin: 15px auto;
-            font-size: 12px;
-            line-height: 1.6;
-            color: #ffffff;
-            padding: 0 15px;
-            text-align: center;
-        }
-
-        /* Track output catalog container grid system */
-        .results-container {
-            max-width: 580px;
-            margin: 20px auto;
-            padding: 0 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        /* Exact matching nested dark blue card blocks */
-        .track-item-card {
-            background-color: #145990;
-            border-radius: 3px;
-            padding: 12px 15px;
-            text-align: center;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.15);
-        }
-        .track-title {
-            font-size: 13px;
-            font-weight: bold;
-            margin-bottom: 4px;
-            word-wrap: break-word;
-        }
-        .track-meta {
-            font-size: 11px;
-            color: #b3d7ff;
-            margin-bottom: 10px;
-        }
-
-        /* Horizontal action buttons layout */
-        .button-group {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            margin-bottom: 4px;
-        }
-        .action-button {
-            background-color: #ffffff;
-            color: #333333;
-            border: none;
-            padding: 6px 14px;
-            font-size: 12px;
-            font-weight: bold;
-            border-radius: 3px;
-            cursor: pointer;
+        .track-card a {
+            background-color: #ff9800;
+            color: white;
             text-decoration: none;
-            display: inline-block;
-            transition: background 0.15s;
+            padding: 8px 15px;
+            border-radius: 4px;
+            font-weight: bold;
         }
-        .action-button:hover {
-            background-color: #f2f2f2;
-        }
-
-        /* Clean Video Embed Drawer Container styling */
-        .video-box {
+        .loader {
             display: none;
-            margin-top: 12px;
-            position: relative;
-            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
-            height: 0;
-            overflow: hidden;
-            border-radius: 3px;
-            background: #000000;
-        }
-        .video-box iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: 0;
+            font-size: 18px;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
 
-    <!-- Left Pinned Floating Social Share Sidebar Layout -->
-    <div class="social-sidebar">
-        <div class="share-count">832<br><span style="font-size:9px;font-weight:normal;color:#666;">Shares</span></div>
-        <a href="#" class="share-btn bg-facebook">f</a>
-        <a href="#" class="share-btn bg-twitter">𝕏</a>
-        <a href="#" class="share-btn bg-whatsapp">Line</a>
-        <a href="#" class="share-btn bg-messenger">💬</a>
-        <a href="#" class="share-btn bg-telegram">✈</a>
-        <a href="#" class="share-btn bg-sms">✉</a>
-        <a href="#" class="share-btn bg-pinterest">P</a>
-    </div>
-
-    <!-- Top Navigation Links Layout Section -->
-    <div class="top-nav">
+    <div class="navbar">
         <a href="#">Home</a>
         <a href="#">FAQ</a>
         <a href="#">DMCA</a>
         <a href="#">Contact</a>
-        <span>English ▾</span>
     </div>
 
-    
-    <div class="logo-container">
-        <!-- Replaced plain text with the precise, high-res original Mp3Juice graphic template asset -->
-        <img src="https://mp3juices.cc" alt="Mp3Juice Logo" onerror="this.src='https://mp3juices.cc';">
+    <div class="search-container">
+        <!-- Removed standard action/method to prevent page reload -->
+        <div class="search-box">
+            <input type="text" id="query" placeholder="Search global YouTube & SoundCloud music...">
+            <button onclick="triggerSearch()">🔍</button>
+        </div>
+        <p style="font-size: 12px; margin-top: 10px; opacity: 0.8;">
+            By pressing "Search" you confirm your consent to our Terms of Use.
+        </p>
+        
+        <div class="loader" id="loadingText">Searching global databases... Please wait...</div>
+        <div id="results"></div>
     </div>
-
-    <!-- Main Text Search Input Layout Row -->
-    <div class="search-wrapper">
-        <input type="text" id="music-search-bar" placeholder="Input keywords or paste YouTube URL here ..." onkeypress="handleEnterKey(event)" />
-        <button class="search-icon-btn" onclick="triggerCatalogSearch()">
-            <svg xmlns="http://w3.org" viewBox="0 0 24 24">
-                <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
-            </svg>
-        </button>
-    </div>
-
-    <div class="disclaimer-text">
-        By pressing "Search" you confirm your consent to our <u>Terms of Use</u>.
-    </div>
-
-    <!-- Live Dynamic Text Search Information Summary Panel -->
-    <div id="summary-box"></div>
-
-    <!-- Live Media Catalog Layout Results Rows Section -->
-    <div class="results-container" id="results-display-list"></div>
 
     <script>
-        function handleEnterKey(event) {
-            if (event.key === 'Enter') {
-                triggerCatalogSearch();
+        // Listen for Enter key press inside the search box
+        document.getElementById('query').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                triggerSearch();
             }
-        }
+        });
 
-        function triggerCatalogSearch() {
-            const queryValue = document.getElementById('music-search-bar').value;
-            const summaryDiv = document.getElementById('summary-box');
-            const resultsListDiv = document.getElementById('results-display-list');
+        function triggerSearch() {
+            const searchInput = document.getElementById('query').value;
+            const resultsDiv = document.getElementById('results');
+            const loader = document.getElementById('loadingText');
 
-            if (!queryValue) return alert("Please type a search query!");
+            if (!searchInput) return;
 
-            summaryDiv.innerHTML = `Searching music layers for "<strong>${queryValue}</strong>"...`;
-            resultsListDiv.innerHTML = "";
+            // Show loading text and clear previous items
+            loader.style.display = 'block';
+            resultsDiv.innerHTML = '';
 
-            const payload = new FormData();
-            payload.append('query', queryValue);
+            // Send search request to Flask app via background API call
+            const formData = new FormData();
+            formData.append('query', searchInput);
 
             fetch('/search', {
                 method: 'POST',
-                body: payload
+                body: formData
             })
-            .then(res => res.json())
+            .then(response => response.json())
             .then(data => {
-                if (data.error) {
-                    summaryDiv.innerHTML = `<span style="color:#ffcccc;">Error processing: ${data.error}</span>`;
+                loader.style.display = 'none';
+                
+                if (data.error || data.length === 0) {
+                    resultsDiv.innerHTML = `<p style="text-align:center;">No global results found for "${searchInput}".</p>`;
                     return;
                 }
 
-                const totalItems = (data.results && data.results.length) || 0;
-                if (totalItems === 0) {
-                    summaryDiv.innerHTML = `No results found for "<strong>${queryValue}</strong>".`;
-                    return;
-                }
-
-                // Generates precise layout description paragraph
-                summaryDiv.innerHTML = `How you can find all search results for your search query „<strong>${queryValue}</strong>“. We've found ${totalItems} matching results. Now you have the opportunity to listen to each result before downloading it. If you wish to do so, click on the „Play“ button.`;
-
-                // Render structured dark-blue template cards
-                data.results.forEach((track, index) => {
+                // Render the global tracks directly onto the page
+                data.forEach(item => {
                     const card = document.createElement('div');
-                    card.className = 'track-item-card';
-
-                    const trackTitleEscaped = encodeURIComponent(track.title);
-
+                    card.className = 'track-card';
                     card.innerHTML = `
-                        <div class="track-title">${track.title}</div>
-                        <div class="track-meta">Source: YouTube | Channel: ${track.channel || 'Unknown'} | Duration: ${track.duration || '0:00'}</div>
-                        
-                        <div class="button-group">
-                            <a href="/download_proxy?url=${encodeURIComponent(track.download_url)}&title=${trackTitleEscaped}" class="action-button">Download</a>
-                            <button class="action-button" onclick="togglePlayerFrame('player-${index}', '${trackTitleEscaped}')">Play</button>
+                        <div>
+                            <strong>${item.title}</strong><br>
+                            <span style="font-size:12px; opacity:0.7;">Source: ${item.source}</span>
                         </div>
-
-                        <!-- Smooth embedded video box drawer panel inside card layout -->
-                        <div class="video-box" id="player-${index}"></div>
+                        <a href="${item.url}" target="_blank">Open Link</a>
                     `;
-                    resultsListDiv.appendChild(card);
+                    resultsDiv.appendChild(card);
                 });
             })
-            .catch(err => {
-                summaryDiv.innerHTML = "Failed to communicate with back-end music servers.";
-                console.error(err);
+            .catch(error => {
+                loader.style.display = 'none';
+                resultsDiv.innerHTML = '<p style="text-align:center; color: #ff8888;">Search failed. Ensure Render backend is running.</p>';
+                console.error('Error:', error);
             });
-        }
-
-        function togglePlayerFrame(elementId, encodedTitle) {
-            const targetPlayerBox = document.getElementById(elementId);
-            
-            if (targetPlayerBox.style.display === "block") {
-                targetPlayerBox.style.display = "none";
-                targetPlayerBox.innerHTML = "";
-            } else {
-                // Collapse other drawers to keep search card results neat
-                document.querySelectorAll('.video-box').forEach(box => {
-                    box.style.display = "none";
-                    box.innerHTML = "";
-                });
-
-                targetPlayerBox.style.display = "block";
-                targetPlayerBox.innerHTML = `
-                    <iframe 
-                        src="https://youtube.com{encodedTitle}"
-                        title="YouTube Player View Frame"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowfullscreen>
-                    </iframe>`;
-            }
         }
     </script>
 </body>
