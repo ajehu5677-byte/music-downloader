@@ -1,45 +1,38 @@
 from flask import Flask, render_template, request, jsonify
-import urllib.request
-import json
+from youtubesearchpython import VideosSearch
 import os
 
 app = Flask(__name__)
 
-def universal_youtube_search(query):
-    """Uses a public search endpoint to bypass cloud network blocks globally."""
+def live_global_search(query):
+    """Uses youtube-search-python to fetch live data without hitting blocked third-party URLs."""
     try:
-        # Encode the search string safely for URLs
-        encoded_query = urllib.parse.quote(query)
-        # Using a reliable, unblocked open-source Invidious API instance for global video fetching
-        url = f"https://puffyan.us{encoded_query}&type=video"
+        # Search for the top 3 items matching the phrase
+        videos_search = VideosSearch(query, limit=3)
+        result_data = videos_search.result()
         
-        req = urllib.request.Request(
-            url, 
-            headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}
-        )
-        
-        with urllib.request.urlopen(req, timeout=7) as response:
-            data = json.loads(response.read().decode())
-            
-        if not data:
+        if not result_data or 'result' not in result_data or len(result_data['result']) == 0:
             return []
             
         results = []
-        # Parse out the top 3 global results matching the criteria
-        for item in data[:3]:
-            v_id = item.get('videoId')
+        for item in result_data['result']:
+            v_id = item.get('id')
             if not v_id:
                 continue
                 
+            # Safely grab the highest quality available thumbnail image dictionary entry
+            thumbnails = item.get('thumbnails', [])
+            thumb_url = thumbnails[0].get('url') if thumbnails else f"https://youtube.com{v_id}/mqdefault.jpg"
+            
             results.append({
                 "id": v_id,
                 "title": item.get('title', 'Unknown Track'),
                 "embed_url": f"https://youtube.com{v_id}",
-                "thumbnail": f"https://youtube.com{v_id}/mqdefault.jpg"
+                "thumbnail": thumb_url
             })
         return results
     except Exception as e:
-        print(f"Global proxy search fallback error: {e}")
+        print(f"Internal wrapper search error: {e}")
         return []
 
 @app.route('/')
@@ -53,11 +46,11 @@ def handle_search():
     if not query:
         return jsonify({"success": False, "error": "Query cannot be empty"})
         
-    search_results = universal_youtube_search(query)
+    search_results = live_global_search(query)
     if search_results:
         return jsonify({"success": True, "results": search_results})
     else:
-        return jsonify({"success": False, "error": "Global servers are busy. Please try clicking search again."})
+        return jsonify({"success": False, "error": "No matching media tracks found. Try general keywords."})
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
