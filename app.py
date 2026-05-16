@@ -30,11 +30,12 @@ def search_music():
             yt_search = ydl.extract_info(f"ytsearch3:{query}", download=False)
             if 'entries' in yt_search:
                 for entry in yt_search['entries']:
-                    results.append({
+                                        results.append({
                         "title": entry.get('title'),
                         "source": "YouTube",
                         "url": f"https://youtube.com{entry.get('id')}"
                     })
+
     except Exception as e:
         print(f"YouTube search error: {e}")
 
