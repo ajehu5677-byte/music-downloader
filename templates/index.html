@@ -4,197 +4,217 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MP3 Juice - MP3Juice Free and Safe MP3 Downloads</title>
-    <!-- Font Awesome Icons for Social Sidebar -->
+    <!-- Font Awesome Icons for Social Sidebar Icons -->
     <link rel="stylesheet" href="https://cloudflare.com">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
-        body { background-color: #0076cf; color: white; padding-bottom: 50px; }
+        body { background-color: #1e7fcb; color: white; padding-bottom: 60px; }
         
-        /* Navigation Header */
-        header { width: 100%; display: flex; justify-content: center; gap: 20px; padding: 15px; font-size: 14px; border-bottom: 1px solid rgba(255,255,255,0.1); }
-        header a { color: white; text-decoration: none; opacity: 0.9; }
-        header a:hover { opacity: 1; text-decoration: underline; }
+        /* Top Navigation Bar Component Grid */
+        header { width: 100%; display: flex; justify-content: center; align-items: center; gap: 30px; padding: 18px 10px; font-size: 13px; background: rgba(0, 0, 0, 0.05); }
+        header a { color: white; text-decoration: none; font-weight: normal; opacity: 0.95; }
+        header a:hover { text-decoration: underline; opacity: 1; }
 
-        /* Social Share Sticky Sidebar */
-        .sidebar { position: fixed; left: 0; top: 35%; display: flex; flex-direction: column; width: 45px; z-index: 100; }
-        .share-btn { width: 100%; height: 40px; display: flex; align-items: center; justify-content: center; color: white; text-decoration: none; font-size: 16px; }
-        .share-count { background: #fff; color: #333; font-size: 11px; font-weight: bold; text-align: center; padding: 4px 0; border: 1px solid #ccc; }
-        .fb { background: #3b5998; } .tw { background: #000000; } .wa { background: #25d366; } .tg { background: #0088cc; } .pt { background: #cb2027; }
+        /* Left-aligned Share Sidebar Element Tracker */
+        .sticky-sidebar { position: fixed; left: 0; top: 30%; display: flex; flex-direction: column; width: 42px; z-index: 999; box-shadow: 2px 0 10px rgba(0,0,0,0.1); }
+        .sidebar-counter { background: white; color: #333; font-size: 13px; font-weight: bold; text-align: center; padding: 6px 0; border: 1px solid #e2e2e2; border-bottom: none; line-height: 1.1; }
+        .sidebar-counter span { font-size: 9px; font-weight: normal; color: #666; display: block; margin-top: 1px; }
+        .social-link { width: 100%; height: 40px; display: flex; align-items: center; justify-content: center; color: white; text-decoration: none; font-size: 16px; }
+        .social-link:hover { opacity: 0.9; }
+        .fb-color { background: #3b5998; } .tw-color { background: #000000; } .wa-color { background: #25d366; } .tg-color { background: #0088cc; } .line-color { background: #06c755; } .pt-color { background: #cb2027; }
 
-        /* Main Container Layout */
-        .main-container { max-width: 700px; margin: 0 auto; padding: 20px; text-align: center; }
-        .logo-box { margin: 30px auto; }
-        .logo-box img { max-width: 220px; }
+        /* Global Structural Core */
+        .wrapper { max-width: 820px; margin: 0 auto; padding: 0 25px; text-align: center; }
         
-        /* Search Box and Suggestions Area */
-        .search-wrapper { position: relative; max-width: 600px; margin: 0 auto 25px; }
-        .search-box { width: 100%; padding: 14px 50px 14px 15px; border: none; border-radius: 4px; font-size: 16px; outline: none; color: #333; }
-        .search-btn { position: absolute; right: 5px; top: 5px; background: none; border: none; font-size: 20px; color: #333; cursor: pointer; padding: 6px 10px; }
-        .suggestions-box { background: white; color: black; text-align: left; border-radius: 0 0 4px 4px; border-top: 1px solid #eee; display: none; max-height: 300px; overflow-y: auto; }
-        .suggestion-item { padding: 10px 15px; cursor: pointer; font-size: 14px; border-bottom: 1px solid #f9f9f9; }
-        .suggestion-item:hover { background: #f0f0f0; }
+        /* Hero Branding Header Component */
+        .brand-hero { margin: 40px auto 30px; display: flex; flex-direction: column; align-items: center; }
+        .soundwave-svg { width: 160px; height: auto; margin-bottom: 5px; fill: white; }
+        .brand-title { font-size: 36px; font-weight: bold; color: white; letter-spacing: -0.5px; }
+        
+        /* Centered Focus Search Capsule */
+        .search-container-box { background: #1366ab; border-radius: 8px; padding: 30px 40px 25px; max-width: 660px; margin: 0 auto 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+        .input-group-row { position: relative; width: 100%; display: flex; background: white; border-radius: 4px; overflow: hidden; }
+        .input-element { width: 100%; padding: 14px 55px 14px 16px; border: none; font-size: 14px; outline: none; color: #333; }
+        .input-element::placeholder { color: #888; }
+        .search-action-btn { position: absolute; right: 0; top: 0; height: 100%; width: 50px; background: white; border: none; font-size: 16px; color: #444; cursor: pointer; display: flex; align-items: center; justify-content: center; border-left: 1px solid #e0e0e0; }
+        .search-action-btn:hover { background: #f9f9f9; color: #000; }
+        .legal-clause { font-size: 11px; font-style: italic; margin-top: 14px; opacity: 0.85; color: white; letter-spacing: 0.2px; }
 
-        /* Content Summary Paragraphs */
-        .info-header { font-size: 24px; margin-bottom: 15px; font-weight: normal; }
-        .info-text { font-size: 13px; line-height: 1.6; opacity: 0.95; margin-bottom: 20px; text-align: justify; }
+        /* Document Text Layout Typography Engine */
+        .article-block { text-align: left; max-width: 760px; margin: 0 auto; }
+        .document-h1 { font-size: 25px; font-weight: normal; margin-bottom: 25px; line-height: 1.3; text-align: center; padding: 0 20px; }
+        .document-h2 { font-size: 15px; font-weight: bold; margin: 25px 0 10px; color: white; }
+        .document-p { font-size: 13.5px; line-height: 1.65; opacity: 0.95; margin-bottom: 18px; text-align: justify; text-justify: inter-word; color: #f5f9ff; }
+        .document-p a { color: white; font-weight: bold; text-decoration: underline; }
 
         /* Results Card Container */
-        .result-card { background: rgba(0, 0, 0, 0.15); border-radius: 4px; padding: 15px; margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.08); text-align: center; }
-        .title-txt { font-size: 14px; font-weight: bold; margin-bottom: 4px; }
-        .source-txt { font-size: 11px; opacity: 0.8; margin-bottom: 12px; }
+        .result-card { background: rgba(0, 0, 0, 0.12); border-radius: 6px; padding: 20px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.08); text-align: center; max-width: 660px; margin-left: auto; margin-right: auto; }
+        .title-txt { font-size: 15px; font-weight: bold; margin-bottom: 6px; color: white; text-align: left; line-height: 1.4; }
+        .source-txt { font-size: 11.5px; opacity: 0.8; margin-bottom: 15px; color: white; text-align: left; }
         
         /* Action Buttons */
-        .btn-group { display: flex; justify-content: center; gap: 10px; margin-bottom: 10px; }
-        .action-btn { background: white; color: black; border: none; padding: 6px 20px; font-size: 14px; font-weight: bold; border-radius: 3px; cursor: pointer; text-decoration: none; }
-        .action-btn:hover { background: #e6e6e6; }
+        .btn-group { display: flex; justify-content: flex-start; gap: 10px; margin-bottom: 5px; }
+        .action-btn { background: #1a1a1a; color: white; border: none; padding: 8px 24px; font-size: 13px; font-weight: bold; border-radius: 4px; cursor: pointer; text-decoration: none; display: flex; align-items: center; gap: 6px; }
+        .action-btn:hover { background: #333333; }
         
-        /* Embedded Media Elements */
-        .media-player { margin: 15px auto; width: 100%; max-width: 480px; background: #000; position: relative; aspect-ratio: 16/9; }
-        .media-player iframe { width: 100%; height: 100%; border: none; }
-
-        /* Format Conversion Sub-options */
-        .conversion-pane { background: white; color: black; border-radius: 4px; padding: 20px; margin: 15px auto; max-width: 550px; }
-        .download-row-group { display: flex; gap: 10px; justify-content: center; margin: 15px 0; }
-        .format-select-btn { background: #1a1a1a; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 3px; font-weight: bold; font-size: 14px; text-decoration: none; }
-        
-        /* Bitrate Quality Grid Table */
-        .quality-table { width: 100%; max-width: 400px; margin: 15px auto 0; border-collapse: separate; border-spacing: 0 6px; }
-        .quality-row { display: flex; width: 100%; background: #3b82f6; border-radius: 4px; overflow: hidden; margin-bottom: 6px; align-items: center; color: white; text-decoration: none; }
-        .quality-row:hover { opacity: 0.9; }
-        .quality-cell-left { width: 35%; padding: 10px; text-align: left; font-size: 13px; font-weight: bold; background: rgba(0,0,0,0.1); }
-        .quality-cell-right { width: 65%; padding: 10px; text-align: right; font-size: 13px; padding-right: 15px; }
-        
-        /* Utility Notice Banner */
-        .notice-banner { color: #ff4d4d; font-style: italic; font-weight: bold; font-size: 13px; margin-bottom: 15px; }
+        /* Media Player Container */
+        .video-container { width: 100%; max-width: 480px; margin: 15px auto; aspect-ratio: 16/9; background: #000; border-radius: 4px; overflow: hidden; }
+        .video-container iframe { width: 100%; height: 100%; border: none; }
     </style>
 </head>
 <body>
 
-    <!-- Social Sidebar -->
-    <div class="sidebar">
-        <div class="share-count">1k<br><span style="font-size:9px; font-weight:normal;">Shares</span></div>
-        <a href="#" class="share-btn fb"><i class="fab fa-facebook-f"></i></a>
-        <a href="#" class="share-btn tw"><i class="fab fa-x-twitter"></i></a>
-        <a href="#" class="share-btn wa"><i class="fab fa-whatsapp"></i></a>
-        <a href="#" class="share-btn tg"><i class="fab fa-telegram-plane"></i></a>
-        <a href="#" class="share-btn pt"><i class="fab fa-pinterest"></i></a>
+    <!-- Left Sticky Social Anchor Rail Menu -->
+    <div class="sticky-sidebar">
+        <div class="sidebar-counter">1.1k<span>Shares</span></div>
+        <a href="#" class="social-link fb-color"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" class="social-link tw-color"><i class="fab fa-x-twitter"></i></a>
+        <a href="#" class="social-link wa-color"><i class="fab fa-whatsapp"></i></a>
+        <a href="#" class="social-link tg-color"><i class="fab fa-telegram-plane"></i></a>
+        <a href="#" class="social-link line-color"><i class="fab fa-line"></i></a>
+        <a href="#" class="social-link pt-color"><i class="fab fa-pinterest"></i></a>
     </div>
 
+    <!-- Navigation Bar Menu Section -->
     <header>
-        <a href="#">Home</a>
+        <a href="/">Home</a>
         <a href="#">FAQ</a>
         <a href="#">DMCA</a>
         <a href="#">Contact</a>
-        <a href="#">English <i class="fas fa-caret-down"></i></a>
+        <a href="#">English <i class="fas fa-caret-down" style="font-size:10px; margin-left:2px;"></i></a>
     </header>
 
-    <div class="main-container">
-        <!-- Brand Logo Element -->
-        <div class="logo-box">
-            <svg viewBox="0 0 200 60" width="200" fill="white">
-                <path d="M10,30 Q20,10 30,30 T50,30 T70,30 T90,30 T110,30 T130,30 T150,30 T170,30 T190,30" stroke="white" stroke-width="2" fill="none"/>
+    <div class="wrapper">
+        
+        
+        <div class="brand-hero">
+            <svg class="soundwave-svg" viewBox="0 0 120 40">
+                <rect x="10" y="16" width="3" height="8" rx="1.5" />
+                <rect x="18" y="12" width="3" height="16" rx="1.5" />
+                <rect x="26" y="8" width="3" height="24" rx="1.5" />
+                <rect x="34" y="14" width="3" height="12" rx="1.5" />
+                <rect x="42" y="4" width="3" height="32" rx="1.5" />
+                <rect x="50" y="10" width="3" height="20" rx="1.5" />
+                <rect x="58" y="2" width="3" height="36" rx="1.5" />
+                <rect x="66" y="12" width="3" height="16" rx="1.5" />
+                <rect x="74" y="6" width="3" height="28" rx="1.5" />
+                <rect x="82" y="15" width="3" height="10" rx="1.5" />
+                <rect x="90" y="8" width="3" height="24" rx="1.5" />
+                <rect x="98" y="14" width="3" height="12" rx="1.5" />
+                <rect x="106" y="18" width="3" height="4" rx="1.5" />
             </svg>
-            <h1 style="font-size: 28px; font-weight: bold; margin-top:-10px;">Mp3Juice</h1>
+            <h1 class="brand-title">Mp3Juice</h1>
         </div>
 
-        <!-- Dynamic Search Form Wrapper -->
-        <form method="POST" action="/">
-            <div class="search-wrapper">
-                <input type="text" name="query" class="search-box" id="searchBox" placeholder="Input keywords or paste YouTube URL here..." autocomplete="off" value="{{ user_query if user_query }}">
-                <button type="submit" class="search-btn"><i class="fas fa-search"></i></button>
-                
-                <!-- Autocomplete suggestions dropdown match -->
-                <div class="suggestions-box" id="suggestionsBox">
-                    <div class="suggestion-item">wzky</div>
-                    <div class="suggestion-item">wzky remix 2025</div>
-                    <div class="suggestion-item">wzky</div>
-                    <div class="suggestion-item">sky news live</div>
-                    <div class="suggestion-item">skyfall</div>
-                    <div class="suggestion-item">skyfall matrix remix</div>
-                    <div class="suggestion-item">sky high full movie</div>
+        <!-- Operational Search Control Capsule -->
+        <div class="search-container-box">
+            <form method="POST" action="/">
+                <div class="input-group-row">
+                    <input type="text" name="query" class="input-element" placeholder="Input keywords or paste YouTube URL here" autocomplete="off" value="{{ user_query if user_query }}">
+                    <button type="submit" class="search-action-btn"><i class="fas fa-search"></i></button>
                 </div>
-            </div>
-        </form>
+            </form>
+            <p class="legal-clause">By pressing Search you confirm your consent to our Terms of Use.</p>
+        </div>
 
-        {% if not results %}
-        <!-- Default Content Summary Layout -->
-        <h2 class="info-header">MP3 Juice - MP3Juice Free and Safe MP3 Downloads</h2>
-        <p class="info-text">Mp3Juice accessing our favorite tunes effortlessly is a luxury we cherish. Among the myriad of platforms offering music downloads, MP3 Juice - MP3Juice Free MP3 Downloads stands out as a beacon of convenience and accessibility.</p>
-        <h3 style="text-align:left; font-size:15px; margin-bottom:8px;">The Genesis of MP3 Juice</h3>
-        <p class="info-text">MP3 Juice emerged as a response to the growing demand for easy-to-use platforms providing free music downloads. It quickly gained popularity due to its straightforward interface and extensive library of songs spanning across genres and languages.</p>
-        {% endif %}
-
+        <!-- SEARCH RESULTS PANEL: Appears dynamically after a query is made -->
         {% if results %}
-            <!-- Notice bar if conversion page is rendered -->
-            {% if active_conversion %}
-                <div class="notice-banner">If the ad appears, please come back and click the download button again...</div>
-            {% endif %}
-
-            {% for item in results %}
-                <div class="result-card">
-                    <div class="title-txt">{{ item.title }}</div>
-                    <div class="source-txt">Source: {{ item.source }} | Channel: {{ item.channel }} | Duration: {{ item.duration }}</div>
-                    
-                    <!-- Base Inline Group Controllers -->
-                    <div class="btn-group">
-                        <a href="/convert/{{ loop.index0 }}?q={{ user_query }}" class="action-btn">Download</a>
-                        <a href="/play/{{ loop.index0 }}?q={{ user_query }}" class="action-btn">{% if playing_index == loop.index0 %}Stop{% else %}Play{% endif %}</a>
-                    </div>
-
-                    <!-- Inline Embedded Video Condition -->
-                    {% if playing_index == loop.index0 %}
-                        <div class="media-player">
-                            <iframe src="https://youtube.com{{ item.video_id }}?autoplay=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            <div style="margin-bottom: 40px;">
+                {% for item in results %}
+                    <div class="result-card">
+                        <div class="title-txt">{{ item.title }}</div>
+                        <div class="source-txt">Source: {{ item.source }} | Channel: {{ item.channel }} | Duration: {{ item.duration }}</div>
+                        
+                        <div class="btn-group">
+                            <a href="/convert/{{ loop.index0 }}?q={{ user_query }}" class="action-btn" style="background:#000; color:#fff;"><i class="fas fa-download"></i> Download</a>
+                            <a href="/play/{{ loop.index0 }}?q={{ user_query }}" class="action-btn" style="background:#e0e0e0; color:#000;"><i class="fas fa-play"></i> Play</a>
                         </div>
-                    {% endif %}
 
-                    <!-- Step 3 & Step 4 Phase: Download Confirmation and Quality Option Trees -->
-                    {% if active_conversion and conversion_index == loop.index0 %}
-                        <div class="conversion-pane">
-                            <p style="font-size:14px; font-weight:bold; margin-bottom:5px;">The file is ready. Please click the download button to start the download.</p>
-                            <div class="download-row-group">
-                                                    <a href="/download-file?id={{ item.video_id }}&title={{ item.title }}" class="format-select-btn"><i class="fas fa-download"></i> Download MP3</a>
-                    <a href="/download-file?id={{ item.video_id }}&title={{ item.title }}" class="format-select-btn"><i class="fas fa-download"></i> Download MP4</a>
-
+                        <!-- Video Player Expansion Pane (When Play is Active) -->
+                        {% if playing_index == loop.index0 %}
+                            <div class="video-container">
+                                <iframe src="https://youtube.com{{ item.video_id }}?autoplay=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
                             </div>
-                            
-                            <!-- Bitrate Selection Node Array Layout -->
-                            <p style="font-size:15px; font-weight:bold; margin-top:20px; color:#333;">Server Download MP3</p>
-                            <table class="quality-table">
-                                <a href="#" class="quality-row"><div class="quality-cell-left">MP3 <span style="font-weight:normal;font-size:11px;display:block;">3.91 MB</span></div><div class="quality-cell-right">Original</div></a>
-                                <a href="#" class="quality-row"><div class="quality-cell-left">MP3 <span style="font-weight:normal;font-size:11px;display:block;">9.57 MB</span></div><div class="quality-cell-right">320 Kbps</div></a>
-                                <a href="#" class="quality-row"><div class="quality-cell-left">MP3 <span style="font-weight:normal;font-size:11px;display:block;">7.66 MB</span></div><div class="quality-cell-right">256 Kbps</div></a>
-                                <a href="#" class="quality-row"><div class="quality-cell-left">MP3 <span style="font-weight:normal;font-size:11px;display:block;">5.74 MB</span></div><div class="quality-cell-right">192 Kbps</div></a>
-                                <a href="#" class="quality-row"><div class="quality-cell-left">MP3 <span style="font-weight:normal;font-size:11px;display:block;">3.83 MB</span></div><div class="quality-cell-right">128 Kbps</div></a>
-                            </table>
-                        </div>
-                    {% endif %}
-                </div>
-            {% endfor %}
+                        {% endif %}
+
+                        <!-- Step 3 & Step 4 Phase: Download Confirmation and Quality Option Trees (When Download is Active) -->
+                        {% if active_conversion and conversion_index == loop.index0 %}
+                            <div style="margin-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px;">
+                                <p style="color: #d1e7ff; font-size: 13px; font-weight: bold; margin-bottom: 15px; text-align: center;">
+                                    Panduan: -> <span style="color: #ffeb3b;">Download MP3</span> -> <span style="color: #ff5722;">Converting</span> -> <span style="color: #ffeb3b;">Download Now</span>
+                                </p>
+
+                                <div class="conversion-pane" style="background: #1e1e1e; color: white; border-radius: 6px; padding: 25px; margin: 0 auto; max-width: 550px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); text-align: center;">
+                                    <p style="font-size: 15px; font-weight: bold; margin-bottom: 15px; color: #fff;">Server Download MP3</p>
+                                    
+                                    <div style="width: 100%; max-width: 240px; margin: 0 auto 15px; border-radius: 4px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.5);">
+                                        <img src="https://youtube.com{{ item.video_id }}/mqdefault.jpg" alt="Thumbnail" style="width: 100%; display: block; height: auto;">
+                                    </div>
+
+                                    <h3 style="font-size: 14px; font-weight: bold; margin-bottom: 20px; color: #e0e0e0; line-height: 1.4;">{{ item.title }}</h3>
+
+                                    <div style="display: flex; gap: 2px; justify-content: center; width: 100%; max-width: 160px; margin: 0 auto 20px; background: #2d2d2d; padding: 3px; border-radius: 6px;">
+                                        <a href="#" style="flex: 1; text-align: center; background: #3a3a3a; color: white; padding: 6px 0; font-size: 12px; font-weight: bold; text-decoration: none; border-radius: 4px;">MP3</a>
+                                        <a href="#" style="flex: 1; text-align: center; background: transparent; color: #aaa; padding: 6px 0; font-size: 12px; font-weight: bold; text-decoration: none; border-radius: 4px;">MP4</a>
+                                    </div>
+                                    
+                                    <div style="width: 100%; max-width: 280px; margin: 0 auto; display: flex; flex-direction: column; gap: 8px;">
+                                        <a href="/download-file?id={{ item.video_id }}&title={{ item.title }}&bitrate=original" style="display: flex; background: #2b82ea; color: white; text-decoration: none; border-radius: 6px; overflow: hidden; align-items: center; min-height: 44px;">
+                                            <div style="width: 35%; background: rgba(0,0,0,0.15); padding: 6px 10px; font-size: 13px; font-weight: bold; text-align: left; line-height: 1.2;">MP3<span style="display:block; font-size: 10px; font-weight: normal; opacity: 0.8; margin-top: 2px;">3.91 MB</span></div>
+                                            <div style="width: 65%; text-align: right; padding-right: 15px; font-size: 12px; font-weight: 500;">Original</div>
+                                        </a>
+
+                                        <a href="/download-file?id={{ item.video_id }}&title={{ item.title }}&bitrate=320" style="display: flex; background: #635bff; color: white; text-decoration: none; border-radius: 6px; overflow: hidden; align-items: center; min-height: 44px;">
+                                            <div style="width: 35%; background: rgba(0,0,0,0.15); padding: 6px 10px; font-size: 13px; font-weight: bold; text-align: left; line-height: 1.2;">MP3<span style="display:block; font-size: 10px; font-weight: normal; opacity: 0.8; margin-top: 2px;">9.57 MB</span></div>
+                                            <div style="width: 65%; text-align: right; padding-right: 15px; font-size: 12px; font-weight: 500;">320 Kbps</div>
+                                        </a>
+
+                                        <a href="/download-file?id={{ item.video_id }}&title={{ item.title }}&bitrate=256" style="display: flex; background: #635bff; color: white; text-decoration: none; border-radius: 6px; overflow: hidden; align-items: center; min-height: 44px;">
+                                            <div style="width: 35%; background: rgba(0,0,0,0.15); padding: 6px 10px; font-size: 13px; font-weight: bold; text-align: left; line-height: 1.2;">MP3<span style="display:block; font-size: 10px; font-weight: normal; opacity: 0.8; margin-top: 2px;">7.66 MB</span></div>
+                                            <div style="width: 65%; text-align: right; padding-right: 15px; font-size: 12px; font-weight: 500;">256 Kbps</div>
+                                        </a>
+
+                                        <a href="/download-file?id={{ item.video_id }}&title={{ item.title }}&bitrate=192" style="display: flex; background: #635bff; color: white; text-decoration: none; border-radius: 6px; overflow: hidden; align-items: center; min-height: 44px;">
+                                            <div style="width: 35%; background: rgba(0,0,0,0.15); padding: 6px 10px; font-size: 13px; font-weight: bold; text-align: left; line-height: 1.2;">MP3<span style="display:block; font-size: 10px; font-weight: normal; opacity: 0.8; margin-top: 2px;">5.74 MB</span></div>
+                                            <div style="width: 65%; text-align: right; padding-right: 15px; font-size: 12px; font-weight: 500;">192 Kbps</div>
+                                        </a>
+
+                                        <a href="/download-file?id={{ item.video_id }}&title={{ item.title }}&bitrate=128" style="display: flex; background: #635bff; color: white; text-decoration: none; border-radius: 6px; overflow: hidden; align-items: center; min-height: 44px;">
+                                            <div style="width: 35%; background: rgba(0,0,0,0.15); padding: 6px 10px; font-size: 13px; font-weight: bold; text-align: left; line-height: 1.2;">MP3<span style="display:block; font-size: 10px; font-weight: normal; opacity: 0.8; margin-top: 2px;">3.83 MB</span></div>
+                                            <div style="width: 65%; text-align: right; padding-right: 15px; font-size: 12px; font-weight: 500;">128 Kbps</div>
+                                        </a>
+
+                                        <a href="/download-file?id={{ item.video_id }}&title={{ item.title }}&bitrate=64" style="display: flex; background: #635bff; color: white; text-decoration: none; border-radius: 6px; overflow: hidden; align-items: center; min-height: 44px;">
+                                            <div style="width: 35%; background: rgba(0,0,0,0.15); padding: 6px 10px; font-size: 13px; font-weight: bold; text-align: left; line-height: 1.2;">MP3<span style="display:block; font-size: 10px; font-weight: normal; opacity: 0.8; margin-top: 2px;">1.91 MB</span></div>
+                                            <div style="width: 65%; text-align: right; padding-right: 15px; font-size: 12px; font-weight: 500;">64 Kbps</div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
         {% endif %}
+
+        <!-- DEFAULT HOME PAGE PANEL: Only renders if there are no search results active -->
+        {% if not results %}
+        <div class="article-block">
+            <h2 class="document-h1">MP3 Juice - MP3Juice Free and Safe MP3 Downloads</h2>
+            
+            <p class="document-p"><a href="#">Mp3Juice</a> accessing our favorite tunes effortlessly is a luxury we cherish. Among the myriad of platforms offering music downloads, MP3 Juice - MP3Juice Free MP3 Downloads stands out as a beacon of convenience and accessibility. Let's delve into the realm of MP3 Juice, exploring its features, impact, and the controversies that often accompany such platforms.</p>
+            
+            <h3 class="document-h2">The Genesis of MP3 Juice</h3>
+            <p class="document-p">MP3 Juice emerged as a response to the growing demand for easy-to-use platforms providing free music downloads. It quickly gained popularity due to its straightforward interface and extensive library of songs spanning across genres and languages. With just a few clicks, users can search for their desired tracks and download them in high-quality MP3 format, ready to be enjoyed offline.</p>
+            
+            <h3 class="document-h2">The Interface: Simplicity Redefined</h3>
+            <p class="document-p">One of the key reasons behind MP3 Juice's widespread acclaim is its minimalist interface. Upon visiting the platform, users are greeted by a clean and intuitive layout, devoid of clutter and distractions. The search bar takes center stage, allowing users to enter keywords, song titles, or artist names with ease. This simplicity ensures that even those with limited technical prowess can navigate the platform effortlessly, making music discovery a seamless experience.</p>
+            
+            <h3 class="document-h2">A Vast Musical Repository</h3>
+            <p class="document-p">MP3 Juice prides itself on its vast collection of songs, sourcing from chart-toppers to underground gems...</p>
+        </div>
+        {% endif %}
+
     </div>
-
-    <!-- Interface state script triggers -->
-    <script>
-        const searchBox = document.getElementById('searchBox');
-        const suggestionsBox = document.getElementById('suggestionsBox');
-
-        searchBox.addEventListener('focus', () => {
-            suggestionsBox.style.display = 'block';
-        });
-
-        document.addEventListener('click', (e) => {
-            if (!searchBox.contains(e.target) && !suggestionsBox.contains(e.target)) {
-                suggestionsBox.style.display = 'none';
-            }
-        });
-
-        document.querySelectorAll('.suggestion-item').forEach(item => {
-            item.addEventListener('click', () => {
-                searchBox.value = item.textContent;
-                suggestionsBox.style.display = 'none';
-            });
-        });
-    </script>
 </body>
 </html>
