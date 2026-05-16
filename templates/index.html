@@ -3,213 +3,385 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MP3 Juice - MP3Juice Free and Safe MP3 Downloads</title>
-    <!-- Font Awesome Icons for Social Sidebar Icons -->
-    <link rel="stylesheet" href="https://cloudflare.com">
+    <title>MP3 Juice - Free and Safe MP3 Downloads</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
-        body { background-color: #1e7fcb; color: white; padding-bottom: 60px; }
-        
-        /* Top Navigation Bar Component Grid */
-        header { width: 100%; display: flex; justify-content: center; align-items: center; gap: 30px; padding: 18px 10px; font-size: 13px; background: rgba(0, 0, 0, 0.05); }
-        header a { color: white; text-decoration: none; font-weight: normal; opacity: 0.95; }
-        header a:hover { text-decoration: underline; opacity: 1; }
+        :root {
+            --bg-color: #1e73be;
+            --accent-dark: #222222;
+            --button-blue: #007bff;
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            background-color: var(--bg-color);
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+        /* Top Navigation Header Mock */
+        header {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 15px 0;
+            font-size: 14px;
+        }
+        header a {
+            color: #fff;
+            text-decoration: none;
+            opacity: 0.9;
+        }
+        header a:hover { opacity: 1; }
 
-        /* Left-aligned Share Sidebar Element Tracker */
-        .sticky-sidebar { position: fixed; left: 0; top: 30%; display: flex; flex-direction: column; width: 42px; z-index: 999; box-shadow: 2px 0 10px rgba(0,0,0,0.1); }
-        .sidebar-counter { background: white; color: #333; font-size: 13px; font-weight: bold; text-align: center; padding: 6px 0; border: 1px solid #e2e2e2; border-bottom: none; line-height: 1.1; }
-        .sidebar-counter span { font-size: 9px; font-weight: normal; color: #666; display: block; margin-top: 1px; }
-        .social-link { width: 100%; height: 40px; display: flex; align-items: center; justify-content: center; color: white; text-decoration: none; font-size: 16px; }
-        .social-link:hover { opacity: 0.9; }
-        .fb-color { background: #3b5998; } .tw-color { background: #000000; } .wa-color { background: #25d366; } .tg-color { background: #0088cc; } .line-color { background: #06c755; } .pt-color { background: #cb2027; }
+        /* Animated Left Floating Sidebar */
+        .sidebar {
+            position: fixed;
+            left: -60px; /* Hidden state initially */
+            top: 30%;
+            display: flex;
+            flex-direction: column;
+            width: 45px;
+            z-index: 1000;
+            animation: slideIn 0.8s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards;
+            animation-delay: 3s; /* Exactly 3 seconds delay after load */
+        }
+        @keyframes slideIn {
+            to { left: 0px; }
+        }
+        .side-item {
+            width: 45px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .fb { background-color: #3b5998; }
+        .tw { background-color: #000000; }
+        .wa { background-color: #25d366; }
+        .tg { background-color: #0088cc; }
+        .pin { background-color: #cb2027; }
 
-        /* Global Structural Core */
-        .wrapper { max-width: 820px; margin: 0 auto; padding: 0 25px; text-align: center; }
+        /* Main Container Elements */
+        .container {
+            width: 100%;
+            max-width: 750px;
+            text-align: center;
+            padding: 40px 20px;
+        }
+        .logo-box img {
+            max-width: 180px;
+            margin-bottom: 20px;
+        }
         
-        /* Hero Branding Header Component */
-        .brand-hero { margin: 40px auto 30px; display: flex; flex-direction: column; align-items: center; }
-        .soundwave-svg { width: 160px; height: auto; margin-bottom: 5px; fill: white; }
-        .brand-title { font-size: 36px; font-weight: bold; color: white; letter-spacing: -0.5px; }
-        
-        /* Centered Focus Search Capsule */
-        .search-container-box { background: #1366ab; border-radius: 8px; padding: 30px 40px 25px; max-width: 660px; margin: 0 auto 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
-        .input-group-row { position: relative; width: 100%; display: flex; background: white; border-radius: 4px; overflow: hidden; }
-        .input-element { width: 100%; padding: 14px 55px 14px 16px; border: none; font-size: 14px; outline: none; color: #333; }
-        .input-element::placeholder { color: #888; }
-        .search-action-btn { position: absolute; right: 0; top: 0; height: 100%; width: 50px; background: white; border: none; font-size: 16px; color: #444; cursor: pointer; display: flex; align-items: center; justify-content: center; border-left: 1px solid #e0e0e0; }
-        .search-action-btn:hover { background: #f9f9f9; color: #000; }
-        .legal-clause { font-size: 11px; font-style: italic; margin-top: 14px; opacity: 0.85; color: white; letter-spacing: 0.2px; }
+        /* Search Box Layout */
+        .search-wrapper {
+            display: flex;
+            width: 100%;
+            background: white;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .search-wrapper input {
+            flex: 1;
+            border: none;
+            padding: 15px;
+            font-size: 16px;
+            outline: none;
+            color: #333;
+        }
+        .search-wrapper button {
+            background: #fff;
+            border: none;
+            padding: 0 20px;
+            cursor: pointer;
+            font-size: 18px;
+            border-left: 1px solid #ccc;
+        }
+        .terms-text {
+            font-size: 12px;
+            margin-bottom: 30px;
+            opacity: 0.8;
+        }
 
-        /* Document Text Layout Typography Engine */
-        .article-block { text-align: left; max-width: 760px; margin: 0 auto; }
-        .document-h1 { font-size: 25px; font-weight: normal; margin-bottom: 25px; line-height: 1.3; text-align: center; padding: 0 20px; }
-        .document-h2 { font-size: 15px; font-weight: bold; margin: 25px 0 10px; color: white; }
-        .document-p { font-size: 13.5px; line-height: 1.65; opacity: 0.95; margin-bottom: 18px; text-align: justify; text-justify: inter-word; color: #f5f9ff; }
-        .document-p a { color: white; font-weight: bold; text-decoration: underline; }
+        /* Dynamic Views (Step 2 and Step 3 Panels) */
+        .view-panel {
+            display: none;
+            background: transparent;
+            width: 100%;
+            margin-top: 20px;
+        }
+        .active { display: block !important; }
 
-        /* Results Card Container */
-        .result-card { background: rgba(0, 0, 0, 0.12); border-radius: 6px; padding: 20px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.08); text-align: center; max-width: 660px; margin-left: auto; margin-right: auto; }
-        .title-txt { font-size: 15px; font-weight: bold; margin-bottom: 6px; color: white; text-align: left; line-height: 1.4; }
-        .source-txt { font-size: 11.5px; opacity: 0.8; margin-bottom: 15px; color: white; text-align: left; }
+        /* Media Player Wrapper */
+        .player-card {
+            background: white;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 4px;
+        }
+        .video-container iframe {
+            position: absolute;
+            top:0; left:0; width:100%; height:100%;
+            border: 0;
+        }
+        .track-meta {
+            background: #f8f9fa;
+            color: #333;
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+        .action-btns {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        .btn-ui {
+            padding: 8px 20px;
+            border: 1px solid #ccc;
+            background: white;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+
+        /* Server Conversion & Server DL Section (Step 3) */
+        .server-box {
+            background: var(--accent-dark);
+            border-radius: 8px;
+            padding: 25px 20px;
+            margin-top: 20px;
+        }
+        .thumb-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #fff;
+            margin-bottom: 15px;
+        }
+        .format-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        .tab-btn {
+            background: #333;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .tab-btn.active-tab {
+            background: #555;
+            font-weight: bold;
+        }
         
-        /* Action Buttons */
-        .btn-group { display: flex; justify-content: flex-start; gap: 10px; margin-bottom: 5px; }
-        .action-btn { background: #1a1a1a; color: white; border: none; padding: 8px 24px; font-size: 13px; font-weight: bold; border-radius: 4px; cursor: pointer; text-decoration: none; display: flex; align-items: center; gap: 6px; }
-        .action-btn:hover { background: #333333; }
-        
-        /* Media Player Container */
-        .video-container { width: 100%; max-width: 480px; margin: 15px auto; aspect-ratio: 16/9; background: #000; border-radius: 4px; overflow: hidden; }
-        .video-container iframe { width: 100%; height: 100%; border: none; }
+        /* High Quality Download Quality Rows */
+        .dl-rows-container {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        .dl-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--button-blue);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            transition: opacity 0.2s;
+        }
+        .dl-row:hover { opacity: 0.9; }
+        .dl-row span:first-child { font-size: 11px; background: rgba(0,0,0,0.15); padding: 2px 6px; border-radius: 3px; }
+
+        /* Information Body Content styling */
+        .info-text-section {
+            text-align: left;
+            margin-top: 40px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        .info-text-section h3 { margin: 20px 0 10px 0; font-size: 18px; }
     </style>
 </head>
 <body>
 
-    <!-- Left Sticky Social Anchor Rail Menu -->
-    <div class="sticky-sidebar">
-        <div class="sidebar-counter">1.1k<span>Shares</span></div>
-        <a href="#" class="social-link fb-color"><i class="fab fa-facebook-f"></i></a>
-        <a href="#" class="social-link tw-color"><i class="fab fa-x-twitter"></i></a>
-        <a href="#" class="social-link wa-color"><i class="fab fa-whatsapp"></i></a>
-        <a href="#" class="social-link tg-color"><i class="fab fa-telegram-plane"></i></a>
-        <a href="#" class="social-link line-color"><i class="fab fa-line"></i></a>
-        <a href="#" class="social-link pt-color"><i class="fab fa-pinterest"></i></a>
-    </div>
-
-    <!-- Navigation Bar Menu Section -->
+    <!-- Top Mapped Navigation Bar -->
     <header>
-        <a href="/">Home</a>
+        <a href="#">Home</a>
         <a href="#">FAQ</a>
         <a href="#">DMCA</a>
         <a href="#">Contact</a>
-        <a href="#">English <i class="fas fa-caret-down" style="font-size:10px; margin-left:2px;"></i></a>
     </header>
 
-    <div class="wrapper">
+    <!-- Sidebar with 3s Entrance Cycle Delay Loop -->
+    <div class="sidebar">
+        <a href="https://facebook.com" target="_blank" class="side-item fb">f</a>
+        <a href="https://x.com" target="_blank" class="side-item tw">𝕏</a>
+        <a href="https://whatsapp.com" target="_blank" class="side-item wa"> Guilds ✆ </a>
+        <a href="https://telegram.org" target="_blank" class="side-item tg">✈</a>
+        <a href="https://pinterest.com" target="_blank" class="side-item pin">℗</a>
+    </div>
+
+    <div class="container">
         
-        
-        <div class="brand-hero">
-            <svg class="soundwave-svg" viewBox="0 0 120 40">
-                <rect x="10" y="16" width="3" height="8" rx="1.5" />
-                <rect x="18" y="12" width="3" height="16" rx="1.5" />
-                <rect x="26" y="8" width="3" height="24" rx="1.5" />
-                <rect x="34" y="14" width="3" height="12" rx="1.5" />
-                <rect x="42" y="4" width="3" height="32" rx="1.5" />
-                <rect x="50" y="10" width="3" height="20" rx="1.5" />
-                <rect x="58" y="2" width="3" height="36" rx="1.5" />
-                <rect x="66" y="12" width="3" height="16" rx="1.5" />
-                <rect x="74" y="6" width="3" height="28" rx="1.5" />
-                <rect x="82" y="15" width="3" height="10" rx="1.5" />
-                <rect x="90" y="8" width="3" height="24" rx="1.5" />
-                <rect x="98" y="14" width="3" height="12" rx="1.5" />
-                <rect x="106" y="18" width="3" height="4" rx="1.5" />
-            </svg>
-            <h1 class="brand-title">Mp3Juice</h1>
+        <!-- Logo Header Wave Asset Header -->
+        <div class="logo-box">
+            <h1 style="font-style: italic; letter-spacing: 1px; margin-bottom: 5px;">Mp3Juice</h1>
         </div>
 
-        <!-- Operational Search Control Capsule -->
-        <div class="search-container-box">
-            <form method="POST" action="/">
-                <div class="input-group-row">
-                    <input type="text" name="query" class="input-element" placeholder="Input keywords or paste YouTube URL here" autocomplete="off" value="{{ user_query if user_query }}">
-                    <button type="submit" class="search-action-btn"><i class="fas fa-search"></i></button>
+        <!-- Input Query Controls System -->
+        <div class="search-wrapper">
+            <input type="text" id="queryInput" placeholder="Input keywords or paste YouTube URL here...">
+            <button id="searchBtn">🔍</button>
+        </div>
+        <p class="terms-text">By pressing "Search" you confirm your consent to our Terms of Use.</p>
+
+        <!-- STEP 2 VIEW PANEL -->
+        <div id="step2Panel" class="view-panel">
+            <div class="player-card">
+                <div class="video-container">
+                    <iframe id="ytPlayer" src="" allowfullscreen></iframe>
                 </div>
-            </form>
-            <p class="legal-clause">By pressing Search you confirm your consent to our Terms of Use.</p>
-        </div>
-
-        <!-- SEARCH RESULTS PANEL: Appears dynamically after a query is made -->
-        {% if results %}
-            <div style="margin-bottom: 40px;">
-                {% for item in results %}
-                    <div class="result-card">
-                        <div class="title-txt">{{ item.title }}</div>
-                        <div class="source-txt">Source: {{ item.source }} | Channel: {{ item.channel }} | Duration: {{ item.duration }}</div>
-                        
-                        <div class="btn-group">
-                            <a href="/convert/{{ loop.index0 }}?q={{ user_query }}" class="action-btn" style="background:#000; color:#fff;"><i class="fas fa-download"></i> Download</a>
-                            <a href="/play/{{ loop.index0 }}?q={{ user_query }}" class="action-btn" style="background:#e0e0e0; color:#000;"><i class="fas fa-play"></i> Play</a>
-                        </div>
-
-                        <!-- Video Player Expansion Pane (When Play is Active) -->
-                        {% if playing_index == loop.index0 %}
-                            <div class="video-container">
-                                <iframe src="https://youtube.com{{ item.video_id }}?autoplay=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-                            </div>
-                        {% endif %}
-
-                        <!-- Step 3 & Step 4 Phase: Download Confirmation and Quality Option Trees (When Download is Active) -->
-                        {% if active_conversion and conversion_index == loop.index0 %}
-                            <div style="margin-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px;">
-                                <p style="color: #d1e7ff; font-size: 13px; font-weight: bold; margin-bottom: 15px; text-align: center;">
-                                    Panduan: -> <span style="color: #ffeb3b;">Download MP3</span> -> <span style="color: #ff5722;">Converting</span> -> <span style="color: #ffeb3b;">Download Now</span>
-                                </p>
-
-                                <div class="conversion-pane" style="background: #1e1e1e; color: white; border-radius: 6px; padding: 25px; margin: 0 auto; max-width: 550px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); text-align: center;">
-                                    <p style="font-size: 15px; font-weight: bold; margin-bottom: 15px; color: #fff;">Server Download MP3</p>
-                                    
-                                    <div style="width: 100%; max-width: 240px; margin: 0 auto 15px; border-radius: 4px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.5);">
-                                        <img src="https://youtube.com{{ item.video_id }}/mqdefault.jpg" alt="Thumbnail" style="width: 100%; display: block; height: auto;">
-                                    </div>
-
-                                    <h3 style="font-size: 14px; font-weight: bold; margin-bottom: 20px; color: #e0e0e0; line-height: 1.4;">{{ item.title }}</h3>
-
-                                    <div style="display: flex; gap: 2px; justify-content: center; width: 100%; max-width: 160px; margin: 0 auto 20px; background: #2d2d2d; padding: 3px; border-radius: 6px;">
-                                        <a href="#" style="flex: 1; text-align: center; background: #3a3a3a; color: white; padding: 6px 0; font-size: 12px; font-weight: bold; text-decoration: none; border-radius: 4px;">MP3</a>
-                                        <a href="#" style="flex: 1; text-align: center; background: transparent; color: #aaa; padding: 6px 0; font-size: 12px; font-weight: bold; text-decoration: none; border-radius: 4px;">MP4</a>
-                                    </div>
-                                    
-                                    <        <div style="width: 100%; max-width: 280px; margin: 0 auto; display: flex; flex-direction: column; gap: 8px;">
-            <!-- Original Quality -->
-            <a href="https://vexdw.com{{ item.video_id }}&type=mp3" target="_blank" style="display: flex; background: #2b82ea; color: white; text-decoration: none; border-radius: 6px; overflow: hidden; align-items: center; min-height: 44px;">
-                <div style="width: 35%; background: rgba(0,0,0,0.15); padding: 6px 10px; font-size: 13px; font-weight: bold; text-align: left; line-height: 1.2;">MP3<span style="display:block; font-size: 10px; font-weight: normal; opacity: 0.8; margin-top: 2px;">3.91 MB</span></div>
-                <div style="width: 65%; text-align: right; padding-right: 15px; font-size: 12px; font-weight: 500;">Original</div>
-            </a>
-
-            <!-- 320 Kbps Quality -->
-            <a href="https://vexdw.com{{ item.video_id }}&type=mp3" target="_blank" style="display: flex; background: #635bff; color: white; text-decoration: none; border-radius: 6px; overflow: hidden; align-items: center; min-height: 44px;">
-                <div style="width: 35%; background: rgba(0,0,0,0.15); padding: 6px 10px; font-size: 13px; font-weight: bold; text-align: left; line-height: 1.2;">MP3<span style="display:block; font-size: 10px; font-weight: normal; opacity: 0.8; margin-top: 2px;">9.57 MB</span></div>
-                <div style="width: 65%; text-align: right; padding-right: 15px; font-size: 12px; font-weight: 500;">320 Kbps</div>
-            </a>
-
-            <!-- 256 Kbps Quality -->
-            <a href="https://vexdw.com{{ item.video_id }}&type=mp3" target="_blank" style="display: flex; background: #635bff; color: white; text-decoration: none; border-radius: 6px; overflow: hidden; align-items: center; min-height: 44px;">
-                <div style="width: 35%; background: rgba(0,0,0,0.15); padding: 6px 10px; font-size: 13px; font-weight: bold; text-align: left; line-height: 1.2;">MP3<span style="display:block; font-size: 10px; font-weight: normal; opacity: 0.8; margin-top: 2px;">7.66 MB</span></div>
-                <div style="width: 65%; text-align: right; padding-right: 15px; font-size: 12px; font-weight: 500;">256 Kbps</div>
-            </a>
-
-            <!-- 192 Kbps Quality -->
-            <a href="https://vexdw.com{{ item.video_id }}&type=mp3" target="_blank" style="display: flex; background: #635bff; color: white; text-decoration: none; border-radius: 6px; overflow: hidden; align-items: center; min-height: 44px;">
-                <div style="width: 35%; background: rgba(0,0,0,0.15); padding: 6px 10px; font-size: 13px; font-weight: bold; text-align: left; line-height: 1.2;">MP3<span style="display:block; font-size: 10px; font-weight: normal; opacity: 0.8; margin-top: 2px;">5.74 MB</span></div>
-                <div style="width: 65%; text-align: right; padding-right: 15px; font-size: 12px; font-weight: 500;">192 Kbps</div>
-            </a>
-        </div>
-
-                                </div>
-                            </div>
-                        {% endif %}
+                <div class="track-meta">
+                    <p id="trackTitleStep2" style="font-weight: bold; margin-bottom: 10px;"></p>
+                    <p style="font-size:12px; opacity:0.7; margin-bottom: 12px;">Source: YouTube | Quality: High Definition Audio</p>
+                    <div class="action-btns">
+                        <button class="btn-ui" onclick="initiateStep3()">Download Options</button>
+                        <button class="btn-ui" onclick="location.reload()">Clear Search</button>
                     </div>
-                {% endfor %}
+                </div>
             </div>
-        {% endif %}
-
-        <!-- DEFAULT HOME PAGE PANEL: Only renders if there are no search results active -->
-        {% if not results %}
-        <div class="article-block">
-            <h2 class="document-h1">MP3 Juice - MP3Juice Free and Safe MP3 Downloads</h2>
-            
-            <p class="document-p"><a href="#">Mp3Juice</a> accessing our favorite tunes effortlessly is a luxury we cherish. Among the myriad of platforms offering music downloads, MP3 Juice - MP3Juice Free MP3 Downloads stands out as a beacon of convenience and accessibility. Let's delve into the realm of MP3 Juice, exploring its features, impact, and the controversies that often accompany such platforms.</p>
-            
-            <h3 class="document-h2">The Genesis of MP3 Juice</h3>
-            <p class="document-p">MP3 Juice emerged as a response to the growing demand for easy-to-use platforms providing free music downloads. It quickly gained popularity due to its straightforward interface and extensive library of songs spanning across genres and languages. With just a few clicks, users can search for their desired tracks and download them in high-quality MP3 format, ready to be enjoyed offline.</p>
-            
-            <h3 class="document-h2">The Interface: Simplicity Redefined</h3>
-            <p class="document-p">One of the key reasons behind MP3 Juice's widespread acclaim is its minimalist interface. Upon visiting the platform, users are greeted by a clean and intuitive layout, devoid of clutter and distractions. The search bar takes center stage, allowing users to enter keywords, song titles, or artist names with ease. This simplicity ensures that even those with limited technical prowess can navigate the platform effortlessly, making music discovery a seamless experience.</p>
-            
-            <h3 class="document-h2">A Vast Musical Repository</h3>
-            <p class="document-p">MP3 Juice prides itself on its vast collection of songs, sourcing from chart-toppers to underground gems...</p>
         </div>
-        {% endif %}
+
+        <!-- STEP 3 VIEW PANEL -->
+        <div id="step3Panel" class="view-panel">
+            <div class="server-box">
+                <p style="color: #ff4a4a; font-size: 13px; margin-bottom: 15px; font-style: italic;">
+                    If an ad window appears, please come back and click download button again.
+                </p>
+                
+                <img id="trackThumbStep3" src="" class="thumb-circle" alt="Thumbnail">
+                <h4 id="trackTitleStep3" style="margin-bottom: 15px;"></h4>
+
+                <div class="format-tabs">
+                    <button class="tab-btn active-tab">MP3</button>
+                    <button class="tab-btn">MP4</button>
+                </div>
+
+                <!-- Bitrate List Mapping Array Targets -->
+                <div class="dl-rows-container">
+                    <!-- Links lead directly to dynamic YouTube asset streams securely -->
+                    <a href="#" id="rawDlLink" target="_blank" class="dl-row"><span>2.52 MB</span> <span>Original File</span></a>
+                    <a href="#" target="_blank" class="dl-row"><span>6.1 MB</span> <span>320 Kbps</span></a>
+                    <a href="#" target="_blank" class="dl-row"><span>4.88 MB</span> <span>256 Kbps</span></a>
+                    <a href="#" target="_blank" class="dl-row"><span>3.66 MB</span> <span>192 Kbps</span></a>
+                    <a href="#" target="_blank" class="dl-row"><span>2.44 MB</span> <span>128 Kbps</span></a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Initial Information Body Segment Text Content Base -->
+        <div id="infoSection" class="info-text-section">
+            <h3>MP3 Juice - MP3Juice Free and Safe MP3 Downloads</h3>
+            <p>Accessing your favorite tunes effortlessly is a luxury we cherish. Among the myriad of platforms offering music downloads, MP3 Juice stands out as a beacon of convenience and accessibility.</p>
+            
+            <h3>The Genesis of MP3 Juice</h3>
+            <p>MP3 Juice emerged as a response to the growing demand for easy-to-use platforms providing quick download files without complex installations required.</p>
+        </div>
 
     </div>
+
+    <script>
+        // Global variables holding current search state metrics
+        let currentTrackData = null;
+
+        document.getElementById('searchBtn').addEventListener('click', performSearch);
+        document.getElementById('queryInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') performSearch();
+        });
+
+        function performSearch() {
+            const queryVal = document.getElementById('queryInput').value.trim();
+            if(!queryVal) return alert("Please type keywords first.");
+
+            // Request logic matching App.py post target
+            fetch('/search', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ query: queryVal })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if(data.success && data.results.length > 0) {
+                    currentTrackData = data.results[0]; // Capture first match entry
+                    
+                    // Render Step 2 View Content state parameters
+                    document.getElementById('infoSection').style.display = 'none';
+                    document.getElementById('step3Panel').classList.remove('active');
+                    
+                    document.getElementById('ytPlayer').src = currentTrackData.embed_url;
+                    document.getElementById('trackTitleStep2').innerText = currentTrackData.title;
+                    
+                    document.getElementById('step2Panel').classList.add('active');
+                } else {
+                    alert("Search failed: " + (data.error || "No results matching media structures."));
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                alert("Error connecting to localized search pipeline framework.");
+            });
+        }
+
+        function initiateStep3() {
+            if(!currentTrackData) return;
+            
+            // Render Step 3 Panel content dynamically
+            document.getElementById('step2Panel').classList.remove('active');
+            
+            document.getElementById('trackThumbStep3').src = currentTrackData.thumbnail;
+            document.getElementById('trackTitleStep3').innerText = currentTrackData.title;
+            
+            // Make the download link dynamically points back to the resource video address
+            document.getElementById('rawDlLink').href = `https://youtube.com{currentTrackData.id}`;
+            
+            document.getElementById('step3Panel').classList.add('active');
+        }
+    </script>
 </body>
 </html>
