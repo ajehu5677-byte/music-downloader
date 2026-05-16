@@ -327,64 +327,73 @@
     </div>
 
     <script>
-        // Global variables holding current search state metrics
-        let currentTrackData = null;
+    // Global variable holding current search state metrics
+    let currentTrackData = null;
 
-        document.getElementById('searchBtn').addEventListener('click', performSearch);
-        document.getElementById('queryInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') performSearch();
-        });
-
-      function performSearch() {
-    const queryVal = document.getElementById('queryInput').value.trim();
-    if(!queryVal) return alert("Please type keywords first.");
-
-    fetch('/search', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ query: queryVal })
-    })
-    .then(res => res.json())
-    .then(data => {
-        // FIX: Verify success and ensure results array is populated
-        if(data.success && data.results && data.results.length > 0) {
-            
-            // FIX: Explicitly target the FIRST object in the array result index [0]
-            currentTrackData = data.results[0]; 
-            
-            document.getElementById('infoSection').style.display = 'none';
-            document.getElementById('step3Panel').classList.remove('active');
-            
-            // Now these correctly read properties from the individual track item
-            document.getElementById('ytPlayer').src = currentTrackData.embed_url;
-            document.getElementById('trackTitleStep2').innerText = currentTrackData.title;
-            
-            document.getElementById('step2Panel').classList.add('active');
-        } else {
-            alert("Search failed: " + (data.error || "No results matching media structures."));
-        }
-    })
-    .catch(err => {
-        console.error(err);
-        alert("Error connecting to localized search pipeline framework.");
+    document.getElementById('searchBtn').addEventListener('click', performSearch);
+    document.getElementById('queryInput').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') performSearch();
     });
-}
 
+    function performSearch() {
+        const queryVal = document.getElementById('queryInput').value.trim();
+        if(!queryVal) return alert("Please type keywords first.");
 
-        function initiateStep3() {
-            if(!currentTrackData) return;
-            
-            // Render Step 3 Panel content dynamically
-            document.getElementById('step2Panel').classList.remove('active');
-            
-            document.getElementById('trackThumbStep3').src = currentTrackData.thumbnail;
-            document.getElementById('trackTitleStep3').innerText = currentTrackData.title;
-            
-            // Make the download link dynamically points back to the resource video address
-            document.getElementById('rawDlLink').href = `https://youtube.com{currentTrackData.id}`;
-            
-            document.getElementById('step3Panel').classList.add('active');
-        }
-    </script>
+        // Visual loading feedback
+        document.getElementById('searchBtn').innerText = "⏳";
+
+        fetch('/search', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ query: queryVal })
+        })
+        .then(res => res.json())
+        .then(data => {
+            // Restore search button icon
+            document.getElementById('searchBtn').innerText = "🔍";
+
+            if(data.success && data.results && data.results.length > 0) {
+                // FIXED: Explicitly target index 0 to grab the first video item object
+                currentTrackData = data.results[0]; 
+                
+                // Hide information section block text
+                document.getElementById('infoSection').style.display = 'none';
+                document.getElementById('step3Panel').classList.remove('active');
+                
+                // Update Step 2 panel with valid single item details
+                document.getElementById('ytPlayer').src = currentTrackData.embed_url;
+                document.getElementById('trackTitleStep2').innerText = currentTrackData.title;
+                
+                // Reveal Step 2 Panel
+                document.getElementById('step2Panel').classList.add('active');
+            } else {
+                alert("Search failed: " + (data.error || "No results found. YouTube might be blocking requests."));
+            }
+        })
+        .catch(err => {
+            document.getElementById('searchBtn').innerText = "🔍";
+            console.error(err);
+            alert("Error connecting to server framework backend system.");
+        });
+    }
+
+    function initiateStep3() {
+        if(!currentTrackData) return;
+        
+        // Hide Step 2 Panel Layout
+        document.getElementById('step2Panel').classList.remove('active');
+        
+        // Populate Step 3 Download Assets View Layout
+        document.getElementById('trackThumbStep3').src = currentTrackData.thumbnail;
+        document.getElementById('trackTitleStep3').innerText = currentTrackData.title;
+        
+        // Construct standard YouTube download reference mapping address
+        document.getElementById('rawDlLink').href = `https://youtube.com{currentTrackData.id}`;
+        
+        // Reveal Step 3 Panel
+        document.getElementById('step3Panel').classList.add('active');
+    }
+</script>
+
 </body>
 </html>
