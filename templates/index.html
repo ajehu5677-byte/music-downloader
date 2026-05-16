@@ -335,38 +335,41 @@
             if (e.key === 'Enter') performSearch();
         });
 
-        function performSearch() {
-            const queryVal = document.getElementById('queryInput').value.trim();
-            if(!queryVal) return alert("Please type keywords first.");
+      function performSearch() {
+    const queryVal = document.getElementById('queryInput').value.trim();
+    if(!queryVal) return alert("Please type keywords first.");
 
-            // Request logic matching App.py post target
-            fetch('/search', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ query: queryVal })
-            })
-            .then(res => res.json())
-            .then(data => {
-                if(data.success && data.results.length > 0) {
-                    currentTrackData = data.results[0]; // Capture first match entry
-                    
-                    // Render Step 2 View Content state parameters
-                    document.getElementById('infoSection').style.display = 'none';
-                    document.getElementById('step3Panel').classList.remove('active');
-                    
-                    document.getElementById('ytPlayer').src = currentTrackData.embed_url;
-                    document.getElementById('trackTitleStep2').innerText = currentTrackData.title;
-                    
-                    document.getElementById('step2Panel').classList.add('active');
-                } else {
-                    alert("Search failed: " + (data.error || "No results matching media structures."));
-                }
-            })
-            .catch(err => {
-                console.error(err);
-                alert("Error connecting to localized search pipeline framework.");
-            });
+    fetch('/search', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query: queryVal })
+    })
+    .then(res => res.json())
+    .then(data => {
+        // FIX: Verify success and ensure results array is populated
+        if(data.success && data.results && data.results.length > 0) {
+            
+            // FIX: Explicitly target the FIRST object in the array result index [0]
+            currentTrackData = data.results[0]; 
+            
+            document.getElementById('infoSection').style.display = 'none';
+            document.getElementById('step3Panel').classList.remove('active');
+            
+            // Now these correctly read properties from the individual track item
+            document.getElementById('ytPlayer').src = currentTrackData.embed_url;
+            document.getElementById('trackTitleStep2').innerText = currentTrackData.title;
+            
+            document.getElementById('step2Panel').classList.add('active');
+        } else {
+            alert("Search failed: " + (data.error || "No results matching media structures."));
         }
+    })
+    .catch(err => {
+        console.error(err);
+        alert("Error connecting to localized search pipeline framework.");
+    });
+}
+
 
         function initiateStep3() {
             if(!currentTrackData) return;
