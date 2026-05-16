@@ -327,71 +327,85 @@
     </div>
 
     <script>
+    // Global variable holding the selected track data object
     let currentTrackData = null;
 
+    // Attach cross-platform event listeners securely 
     document.getElementById('searchBtn').addEventListener('click', performSearch);
     document.getElementById('queryInput').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') performSearch();
-    });
-
-   function performSearch() {
-    const queryVal = document.getElementById('queryInput').value.trim();
-    if(!queryVal) return alert("Please type keywords first.");
-
-    document.getElementById('searchBtn').innerText = "⏳";
-
-    fetch('/search', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ query: queryVal })
-    })
-    .then(res => res.json())
-    .then(data => {
-        document.getElementById('searchBtn').innerText = "🔍";
-
-        if(data.success && data.results && data.results.length > 0) {
-            // FIX: Grab index 0 object from results array
-            currentTrackData = data.results[0]; 
-            
-            document.getElementById('infoSection').style.display = 'none';
-            document.getElementById('step3Panel').classList.remove('active');
-            
-            document.getElementById('ytPlayer').src = currentTrackData.embed_url;
-            document.getElementById('trackTitleStep2').innerText = currentTrackData.title;
-            
-            document.getElementById('step2Panel').classList.add('active');
-        } else {
-            alert("Search failed: " + (data.error || "Please try another search phrase."));
+        if (e.key === 'Enter') {
+            performSearch();
         }
-    })
-    .catch(err => {
-        document.getElementById('searchBtn').innerText = "🔍";
-        console.error(err);
-        alert("Server communication failure.");
     });
-}
 
-        .catch(err => {
+    function performSearch() {
+        const queryVal = document.getElementById('queryInput').value.trim();
+        if (!queryVal) {
+            alert("Please type keywords first.");
+            return;
+        }
+
+        // Change button icon to show the user a loading sequence is active
+        document.getElementById('searchBtn').innerText = "⏳";
+
+        fetch('/search', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ query: queryVal })
+        })
+        .then(function(res) { 
+            return res.json(); 
+        })
+        .then(function(data) {
+            // Restore default search interface graphic state
             document.getElementById('searchBtn').innerText = "🔍";
-            console.error(err);
-            alert("Network connection error to backend platform application.");
+
+            if (data.success && data.results && data.results.length > 0) {
+                // FIXED: Extracts the single object item at index 0 without generating unexpected tokens
+                currentTrackData = data.results[0]; 
+                
+                // Hide landing page default informative text items safely
+                document.getElementById('infoSection').style.display = 'none';
+                document.getElementById('step3Panel').classList.remove('active');
+                
+                // Mount video player source and set dynamic text headers matching the return payload
+                document.getElementById('ytPlayer').src = currentTrackData.embed_url;
+                document.getElementById('trackTitleStep2').innerText = currentTrackData.title;
+                
+                // Display the step 2 interactive block area view
+                document.getElementById('step2Panel').classList.add('active');
+            } else {
+                alert("Search failed: " + (data.error || "No matching results found. Please modify your search terms."));
+            }
+        })
+        .catch(function(err) {
+            document.getElementById('searchBtn').innerText = "🔍";
+            console.error("Frontend application fetch error:", err);
+            alert("Error communicating with your Render backend application service.");
         });
     }
 
     function initiateStep3() {
-        if(!currentTrackData) return;
+        if (!currentTrackData) {
+            alert("No track metadata discovered. Please restart your search query.");
+            return;
+        }
         
+        // Disable visibility of step 2 player controls wrapper container
         document.getElementById('step2Panel').classList.remove('active');
         
+        // Dynamically inject object components cleanly into step 3 conversion views
         document.getElementById('trackThumbStep3').src = currentTrackData.thumbnail;
         document.getElementById('trackTitleStep3').innerText = currentTrackData.title;
         
-        // Link updated to point directly to an instant global web download platform helper conversion link
-        document.getElementById('rawDlLink').href = `https://9xbuddy.xyz{currentTrackData.id}`;
+        // Map the direct web download asset pipeline out to a resilient mirror extractor node
+        document.getElementById('rawDlLink').href = "https://9xbuddy.xyz" + encodeURIComponent("https://youtube.com" + currentTrackData.id);
         
+        // Make the conversion download array list visibly render on user interface screen
         document.getElementById('step3Panel').classList.add('active');
     }
 </script>
+
 
 
 </body>
