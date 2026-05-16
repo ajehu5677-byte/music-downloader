@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MP3Juice Global Search</title>
+    <title>Mp3Juice - Free MP3 Downloader</title>
     <style>
         body {
             margin: 0;
@@ -13,70 +13,160 @@
             text-align: center;
         }
         .navbar {
-            background-color: #1a6292;
             padding: 15px;
             display: flex;
-            justify-content: flex-end;
+            justify-content: center;
             gap: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.15);
         }
         .navbar a {
             color: white;
             text-decoration: none;
             font-size: 14px;
         }
+        /* MATCHED SCREENSHOT LOGO & WAVEFORM CONTAINER */
+        .logo-container {
+            margin-top: 35px;
+            margin-bottom: 25px;
+            display: inline-block;
+        }
+        .waveform-graphic {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+            height: 45px;
+            margin-bottom: 5px;
+        }
+        .waveform-bar {
+            width: 3px;
+            background-color: white;
+            border-radius: 2px;
+            animation: pulse 1.2s infinite ease-in-out;
+        }
+        /* Custom varying heights to match the logo look */
+        .waveform-bar:nth-child(odd) { height: 15px; }
+        .waveform-bar:nth-child(3pt) { height: 35px; }
+        .waveform-bar:nth-child(5pt) { height: 45px; }
+        .waveform-bar:nth-child(even) { height: 25px; }
+        
+        .logo-text {
+            font-size: 38px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
         .search-container {
-            margin-top: 100px;
-            padding: 20px;
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 0 20px;
         }
         .search-box {
             position: relative;
-            max-width: 600px;
-            margin: 0 auto;
+            background: white;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
         input[type="text"] {
             width: 100%;
-            padding: 15px 50px 15px 20px;
-            font-size: 18px;
+            padding: 14px 50px 14px 20px;
+            font-size: 15px;
             border: none;
             border-radius: 4px;
-            box-sizing: border-box;
+            outline: none;
+            color: #444;
         }
-        button {
+        .search-btn {
             position: absolute;
-            right: 5px;
-            top: 5px;
+            right: 0;
+            top: 0;
+            height: 100%;
+            width: 50px;
             background: none;
             border: none;
-            font-size: 20px;
+            font-size: 18px;
             cursor: pointer;
-            padding: 10px;
+            color: #555;
         }
-        #results {
-            max-width: 600px;
-            margin: 30px auto;
+        .disclaimer {
+            font-size: 12px;
+            margin-top: 12px;
+            opacity: 0.85;
+        }
+        .info-text {
+            max-width: 620px;
+            margin: 25px auto;
+            font-size: 13.5px;
+            line-height: 1.6;
+            opacity: 0.9;
             text-align: left;
         }
-        .track-card {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 15px;
-            margin-bottom: 10px;
+        #results {
+            max-width: 640px;
+            margin: 25px auto;
+        }
+        .result-card {
+            background: white;
+            color: #333;
             border-radius: 4px;
+            padding: 0;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.25);
+            overflow: hidden;
+        }
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            background: #000;
+        }
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .meta-info {
+            background: #fdfdfd;
+            padding: 12px 15px;
+            font-size: 12.5px;
+            text-align: center;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #ddd;
+            color: #0056b3;
+            font-weight: 500;
+        }
+        /* MATCHED ACTION ROW FROM SCREENSHOT */
+        .action-row {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            background: #eaeaea;
+            padding: 12px;
         }
-        .track-card a {
-            background-color: #ff9800;
-            color: white;
+        .btn {
             text-decoration: none;
-            padding: 8px 15px;
-            border-radius: 4px;
+            padding: 8px 24px;
+            font-size: 13px;
             font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            border: none;
+            transition: opacity 0.2s;
         }
+        .btn:hover { opacity: 0.9; }
+        .btn-download { background-color: #007bff; color: white; }
+        .btn-stop { background-color: #6c757d; color: white; }
+        
         .loader {
             display: none;
-            font-size: 18px;
-            margin-top: 20px;
+            font-size: 16px;
+            margin-top: 25px;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -87,72 +177,112 @@
         <a href="#">FAQ</a>
         <a href="#">DMCA</a>
         <a href="#">Contact</a>
+        <a href="#">English ▾</a>
+    </div>
+
+    <!-- MATCHED MP3JUICE WAVE MUSIC SIGN LOGO -->
+    <div class="logo-container">
+        <div class="waveform-graphic">
+            <div class="waveform-bar"></div>
+            <div class="waveform-bar"></div>
+            <div class="waveform-bar"></div>
+            <div class="waveform-bar"></div>
+            <div class="waveform-bar"></div>
+            <div class="waveform-bar"></div>
+            <div class="waveform-bar"></div>
+            <div class="waveform-bar"></div>
+            <div class="waveform-bar"></div>
+            <div class="waveform-bar"></div>
+            <div class="waveform-bar"></div>
+            <div class="waveform-bar"></div>
+            <div class="waveform-bar"></div>
+        </div>
+        <div class="logo-text">Mp3Juice</div>
     </div>
 
     <div class="search-container">
         <div class="search-box">
-            <input type="text" id="query" placeholder="Search global YouTube & SoundCloud music...">
-            <button onclick="triggerSearch()">🔍</button>
+            <input type="text" id="query" placeholder="Input keywords or paste YouTube URL here...">
+            <button class="search-btn" onclick="triggerSearch()">🔍</button>
         </div>
-        <p style="font-size: 12px; margin-top: 10px; opacity: 0.8;">
-            By pressing "Search" you confirm your consent to our Terms of Use.
-        </p>
+        <p class="disclaimer">By pressing Search you confirm your consent to our Terms of Use.</p>
         
         <div class="loader" id="loadingText">Searching global databases... Please wait...</div>
+        <div class="info-text" id="statusHeader"></div>
         <div id="results"></div>
     </div>
 
     <script>
         document.getElementById('query').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                triggerSearch();
-            }
+            if (e.key === 'Enter') triggerSearch();
         });
 
         function triggerSearch() {
             const searchInput = document.getElementById('query').value;
             const resultsDiv = document.getElementById('results');
             const loader = document.getElementById('loadingText');
+            const statusHeader = document.getElementById('statusHeader');
 
             if (!searchInput) return;
 
             loader.style.display = 'block';
             resultsDiv.innerHTML = '';
+            statusHeader.innerHTML = '';
 
             const formData = new FormData();
             formData.append('query', searchInput);
 
-            fetch('/search', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
+            fetch('/search', { method: 'POST', body: formData })
+            .then(res => res.json())
             .then(data => {
                 loader.style.display = 'none';
-                
                 if (data.error || data.length === 0) {
-                    resultsDiv.innerHTML = `<p style="text-align:center;">No global results found for "${searchInput}".</p>`;
+                    statusHeader.innerHTML = `No results found for "${searchInput}"`;
                     return;
                 }
 
-                data.forEach(item => {
+                statusHeader.innerHTML = `Here you can find all search results for your search query "${searchInput}". We've found matching results. Now you have the opportunity to listen to each result before downloading it. If you wish to do so, click on the 'Play' button.`;
+
+                data.forEach(track => {
                     const card = document.createElement('div');
-                    card.className = 'track-card';
+                    card.className = 'result-card';
                     card.innerHTML = `
-                        <div>
-                            <strong>${item.title}</strong><br>
-                            <span style="font-size:12px; opacity:0.7;">Source: ${item.source}</span>
+                        <div class="video-wrapper">
+                            <iframe id="player-${track.id}" src="https://youtube.com{track.id}?enablejsapi=1" allowfullscreen></iframe>
                         </div>
-                        <a href="${item.url}" target="_blank" rel="noopener noreferrer">Play Track</a>
+                        <div class="meta-info">
+                            \${track.title}<br>
+                            Source: \${track.source} | Channel: \${track.channel} | Duration: \${track.duration}
+                        </div>
+                        <div class="action-row">
+                            <button class="btn btn-download" onclick="launchDownload('\${track.id}')">Download</button>
+                            <button class="btn btn-stop" onclick="stopVideo('player-\${track.id}')">Stop</button>
+                        </div>
                     `;
                     resultsDiv.appendChild(card);
                 });
             })
-            .catch(error => {
+            .catch(() => {
                 loader.style.display = 'none';
-                resultsDiv.innerHTML = '<p style="text-align:center; color: #ff8888;">Search failed. Check Render server status.</p>';
-                console.error('Error:', error);
+                statusHeader.innerHTML = 'Search execution failed.';
             });
+        }
+
+        function launchDownload(videoId) {
+            // Direct safe route to download selection conversion engine panel
+            const convertUrl = `https://9xbuddy.org\${videoId}`;
+            window.open(convertUrl, '_blank');
+        }
+
+        function stopVideo(iframeId) {
+            const iframe = document.getElementById(iframeId);
+            if (iframe) {
+                // PostMessage interaction resets the active iframe media streams safely
+                iframe.contentWindow.postMessage('{"event":"command","func":"stopVideo","args":""}', '*');
+                // Standard fallback reload completely forces streaming thread termination
+                const src = iframe.src;
+                iframe.src = src;
+            }
         }
     </script>
 </body>
