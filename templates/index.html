@@ -257,95 +257,69 @@
         <a href="https://pinterest.com" target="_blank" class="side-item pin">℗</a>
     </div>
 
-    <div class="container">
-        
-        <!-- Logo Header Wave Asset Header -->
-        <div class="logo-box">
-            <h1 style="font-style: italic; letter-spacing: 1px; margin-bottom: 5px;">Mp3Juice</h1>
-        </div>
-
-        <!-- Input Query Controls System -->
-        <div class="search-wrapper">
-            <input type="text" id="queryInput" placeholder="Input keywords or paste YouTube URL here...">
-            <button id="searchBtn">🔍</button>
-        </div>
-        <p class="terms-text">By pressing "Search" you confirm your consent to our Terms of Use.</p>
-
-        <!-- STEP 2 VIEW PANEL -->
-        <div id="step2Panel" class="view-panel">
-            <div class="player-card">
-                <div class="video-container">
-                    <iframe id="ytPlayer" src="" allowfullscreen></iframe>
-                </div>
-                <div class="track-meta">
-                    <p id="trackTitleStep2" style="font-weight: bold; margin-bottom: 10px;"></p>
-                    <p style="font-size:12px; opacity:0.7; margin-bottom: 12px;">Source: YouTube | Quality: High Definition Audio</p>
-                    <div class="action-btns">
-                        <button class="btn-ui" onclick="initiateStep3()">Download Options</button>
-                        <button class="btn-ui" onclick="location.reload()">Clear Search</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- STEP 3 VIEW PANEL -->
-        <div id="step3Panel" class="view-panel">
-            <div class="server-box">
-                <p style="color: #ff4a4a; font-size: 13px; margin-bottom: 15px; font-style: italic;">
-                    If an ad window appears, please come back and click download button again.
-                </p>
-                
-                <img id="trackThumbStep3" src="" class="thumb-circle" alt="Thumbnail">
-                <h4 id="trackTitleStep3" style="margin-bottom: 15px;"></h4>
-
-                <div class="format-tabs">
-                    <button class="tab-btn active-tab">MP3</button>
-                    <button class="tab-btn">MP4</button>
-                </div>
-
-                <!-- Bitrate List Mapping Array Targets -->
-                <div class="dl-rows-container">
-                    <!-- Links lead directly to dynamic YouTube asset streams securely -->
-                    <a href="#" id="rawDlLink" target="_blank" class="dl-row"><span>2.52 MB</span> <span>Original File</span></a>
-                    <a href="#" target="_blank" class="dl-row"><span>6.1 MB</span> <span>320 Kbps</span></a>
-                    <a href="#" target="_blank" class="dl-row"><span>4.88 MB</span> <span>256 Kbps</span></a>
-                    <a href="#" target="_blank" class="dl-row"><span>3.66 MB</span> <span>192 Kbps</span></a>
-                    <a href="#" target="_blank" class="dl-row"><span>2.44 MB</span> <span>128 Kbps</span></a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Initial Information Body Segment Text Content Base -->
-        <div id="infoSection" class="info-text-section">
-            <h3>MP3 Juice - MP3Juice Free and Safe MP3 Downloads</h3>
-            <p>Accessing your favorite tunes effortlessly is a luxury we cherish. Among the myriad of platforms offering music downloads, MP3 Juice stands out as a beacon of convenience and accessibility.</p>
-            
-            <h3>The Genesis of MP3 Juice</h3>
-            <p>MP3 Juice emerged as a response to the growing demand for easy-to-use platforms providing quick download files without complex installations required.</p>
-        </div>
-
+    <div id="content">
+       <a href=""><img id="logo" src="/images/mp3juice-1.png" alt="Mp3juice"></a><div class="hero-input">
+    <form method="POST">
+    <div class="hero-input-Search">
+        <input id="query" type="text" name="query" placeholder="Input keywords or paste YouTube URL here ..." autocomplete="off" autofocus="">
+        <button id="button" class="btn btn-submit" type="submit"><i class="fa fa-search"></i></button>
+         
+   <div id="suggestions" style="display: none;"></div> </div>
+</form>
+    <p>By pressing Search” you confirm your consent to our Terms of Use.</p>
+</div>
+    <div id="load">
+   <i class="fa fa-spinner fa-spin"></i>
+  </div>
+  
+<div id="text">
+  <p>
+    </p><h1>MP3 Juice - MP3Juice Free and Safe MP3 Downloads</h1>
+  <p></p>
+  <p><a href="/">Mp3juice</a> accessing our favorite tunes effortlessly is a luxury we cherish. Among the myriad of platforms offering music downloads, MP3 Juice - MP3Juice Free MP3 Downloads stands out as a beacon of convenience and accessibility. Let's delve into the realm of MP3 Juice, exploring its features, impact, and the controversies that often accompany such platforms.</p>
+  <p>
+    <strong>The Genesis of MP3 Juice</strong>
+  </p>
+  <p>MP3 Juice emerged as a response to the growing demand for easy-to-use platforms providing free music downloads. It quickly gained popularity due to its straightforward interface and extensive library of songs spanning across genres and languages. With just a few clicks, users can search for their desired tracks and download them in high-quality MP3 format, ready to be enjoyed offline.</p>
+  <p>
+    <strong>The Interface: Simplicity Redefined</strong>
+  </p>
+  <p>One of the key reasons behind MP3 Juice's widespread acclaim is its minimalist interface. Upon visiting the platform, users are greeted by a clean and intuitive layout, devoid of clutter and distractions. The search bar takes center stage, allowing users to enter keywords, song titles, or artist names with ease. This simplicity ensures that even those with limited technical prowess can navigate the platform effortlessly, making music discovery a seamless experience.</p>
+  <p>
+    <strong>A Vast Musical Repository</strong>
+  </p>
+  <p>MP3 Juice prides itself on its vast collection of songs, ranging from chart-toppers to underground gems. Whether you're a fan of pop, rock, hip-hop, or classical music, you're bound to find something that resonates with your taste. Furthermore, the platform regularly updates its library to keep up with the latest releases, ensuring that users have access to the freshest tracks at their fingertips.</p>
+  <p>
+    <strong>Empowering Independent Artists</strong>
+  </p>
+  <p>While MP3 Juice primarily serves as a hub for mainstream music consumption, it also provides a platform for independent artists to showcase their talent. Through MP3 Juice, emerging musicians can upload their tracks and reach a wider audience without the barriers typically associated with traditional music distribution channels. This democratization of the music industry fosters creativity and diversity, allowing artists from all walks of life to share their art with the world.</p>
+  <p>
+    <strong>Navigating Copyright Conundrums</strong>
+  </p>
+  <p>Despite its undeniable convenience, MP3 Juice has found itself embroiled in controversies surrounding copyright infringement. The platform's practice of offering free downloads of copyrighted material has drawn criticism from artists, record labels, and industry stakeholders. While MP3 Juice argues that it operates within the bounds of fair use, skeptics question the legality of its practices and the potential impact on artists' livelihoods.</p>
+  <p>
+    <strong>The Ethical Quandary</strong>
+  </p>
+  <p>The debate surrounding MP3 Juice raises broader questions about the ethics of free music distribution in the digital age. On one hand, proponents argue that music should be accessible to all, regardless of financial means. They view platforms like MP3 Juice as champions of music democracy, leveling the playing field for artists and listeners alike. On the other hand, detractors raise concerns about the erosion of intellectual property rights and the devaluation of artistic work in a culture of rampant piracy.</p>
+  <p>
+    <strong>Looking Ahead: The Future of Music Consumption</strong>
+  </p>
+  <p>As technology continues to evolve, so too will the landscape of music consumption. While platforms like MP3 Juice provide a glimpse into the future of on-demand music access, their long-term viability hinges on striking a balance between convenience and ethical integrity. As consumers, we must recognize the value of music and support artists in their creative endeavors, whether through purchasing albums, attending concerts, or streaming on licensed platforms.</p>
+  <p>In conclusion, MP3 Juice - MP3Juice Free MP3 Downloads represents a double-edged sword in the realm of digital music. While it offers unparalleled convenience and accessibility, its controversial approach to copyright raises ethical concerns that cannot be ignored. As we navigate the intricacies of music consumption in the digital age, let us strive to support artists while embracing the technological innovations that enrich our musical experiences.</p>
     </div>
-
-    <script>
-    // Global variable holding the selected track data object
+</div>
+<script>
     let currentTrackData = null;
 
-    // Attach cross-platform event listeners securely 
     document.getElementById('searchBtn').addEventListener('click', performSearch);
     document.getElementById('queryInput').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            performSearch();
-        }
+        if (e.key === 'Enter') performSearch();
     });
 
     function performSearch() {
         const queryVal = document.getElementById('queryInput').value.trim();
-        if (!queryVal) {
-            alert("Please type keywords first.");
-            return;
-        }
+        if (!queryVal) return alert("Please type keywords first.");
 
-        // Change button icon to show the user a loading sequence is active
         document.getElementById('searchBtn').innerText = "⏳";
 
         fetch('/search', {
@@ -353,60 +327,41 @@
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ query: queryVal })
         })
-        .then(function(res) { 
-            return res.json(); 
-        })
-        .then(function(data) {
-            // Restore default search interface graphic state
+        .then(res => res.json())
+        .then(data => {
             document.getElementById('searchBtn').innerText = "🔍";
 
             if (data.success && data.results && data.results.length > 0) {
-                // FIXED: Extracts the single object item at index 0 without generating unexpected tokens
-                currentTrackData = data.results[0]; 
+                // Read the active item object data cleanly
+                currentTrackData = data.results; 
                 
-                // Hide landing page default informative text items safely
                 document.getElementById('infoSection').style.display = 'none';
                 document.getElementById('step3Panel').classList.remove('active');
                 
-                // Mount video player source and set dynamic text headers matching the return payload
-                document.getElementById('ytPlayer').src = currentTrackData.embed_url;
                 document.getElementById('trackTitleStep2').innerText = currentTrackData.title;
-                
-                // Display the step 2 interactive block area view
                 document.getElementById('step2Panel').classList.add('active');
             } else {
-                alert("Search failed: " + (data.error || "No matching results found. Please modify your search terms."));
+                alert("Search failed: " + (data.error || "Please try another track name."));
             }
         })
-        .catch(function(err) {
+        .catch(err => {
             document.getElementById('searchBtn').innerText = "🔍";
-            console.error("Frontend application fetch error:", err);
-            alert("Error communicating with your Render backend application service.");
+            console.error(err);
+            alert("Error connecting to Render backend.");
         });
     }
 
     function initiateStep3() {
-        if (!currentTrackData) {
-            alert("No track metadata discovered. Please restart your search query.");
-            return;
-        }
+        if (!currentTrackData) return;
         
-        // Disable visibility of step 2 player controls wrapper container
         document.getElementById('step2Panel').classList.remove('active');
         
-        // Dynamically inject object components cleanly into step 3 conversion views
-        document.getElementById('trackThumbStep3').src = currentTrackData.thumbnail;
         document.getElementById('trackTitleStep3').innerText = currentTrackData.title;
-        
-        // Map the direct web download asset pipeline out to a resilient mirror extractor node
         document.getElementById('rawDlLink').href = "https://9xbuddy.xyz" + encodeURIComponent("https://youtube.com" + currentTrackData.id);
         
-        // Make the conversion download array list visibly render on user interface screen
         document.getElementById('step3Panel').classList.add('active');
     }
 </script>
-
-
-
 </body>
 </html>
+
