@@ -77,18 +77,7 @@ def convert_video(index_id):
         conversion_index=index_id
     )
 
-@app.route('/download-file')
-def download_file():
-    video_id = request.args.get('id')
-    title = request.args.get('title', 'audio')
-    
-    if not video_id:
-        return "Missing video ID", 400
 
-    ydl_opts = {
-        'format': 'bestaudio/best',
-        'quiet': True,
-    }
     
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         try:
