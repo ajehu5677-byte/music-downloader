@@ -1,66 +1,58 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 import yt_dlp
 
 app = Flask(__name__)
 
-@app.route('/search', methods=['POST'])
-def search_music():
-    query = request.form.get('query')
-    # ... the rest of your code stays exactly the same ...
+@app.route('/')
+def home():
+    # This serves your HTML homepage
+    return render_template('index.html')
 
 @app.route('/search', methods=['POST'])
 def search_music():
     query = request.form.get('query')
     if not query:
-        return jsonify({'error': 'Please enter a search term'}), 400
+        return jsonify({"error": "No search query provided"}), 400
 
-    # Expanded configuration: pulls a wide index array from multiple public music catalogs
+    # Configure yt_dlp to search globally across YouTube and SoundCloud
     ydl_opts = {
         'format': 'bestaudio/best',
         'noplaylist': True,
-        'default_search': 'auto',  # Wider search protocol targeting open indexing channels
-        'quiet': True
+        'quiet': True,
+        'extract_flat': True,  # Fast extraction without downloading
     }
 
+    results = []
+    
+    # 1. Search YouTube (returns top 3 global results)
     try:
-        # We enforce a broader lookup wrapper falling back to soundcloud search if needed
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-            # First attempt: search via wide public cloud tracks
-            try:
-                info = ydl.extract_info(f"scsearch15:{query}", download=False)
-            except Exception:
-                # Secondary wide fallback array catalog search
-                info = ydl.extract_info(f"ytsearch10:{query}", download=False)
-                
-            results = []
-            
-            if info and 'entries' in info:
-                for entry in info['entries']:
-                    if entry:
-                        duration_sec = entry.get('duration') or 0
-                        minutes = int(duration_sec // 60)
-                        seconds = int(duration_sec % 60)
-                        formatted_duration = f"{minutes}:{seconds:02d}"
-
-                        sizes = {
-                            '320': round((320 * duration_sec) / 8 / 1024, 2),
-                            '256': round((256 * duration_sec) / 8 / 1024, 2),
-                            '192': round((192 * duration_sec) / 8 / 1024, 2),
-                            '128': round((128 * duration_sec) / 8 / 1024, 2),
-                            '64':  round((64 * duration_sec) / 8 / 1024, 2)
-                        }
-
-                        results.append({
-                            'id': entry.get('id'),
-                            'title': entry.get('title'),
-                            'download_url': entry.get('url'),
-                            'thumbnail': entry.get('thumbnail') or 'https://placeholder.com',
-                            'channel': entry.get('uploader') or 'Music Provider',
-                            'duration': formatted_duration,
-                            'sizes': sizes
-                        })
-            
-            return jsonify({'results': results, 'query': query})
-            
+            yt_search = ydl.extract_info(f"ytsearch3:{query}", download=False)
+            if 'entries' in yt_search:
+                for entry in yt_search['entries']:
+                    results.append({
+                        "title": entry.get('title'),
+                        "source": "YouTube",
+                        "url": f"https://youtube.com{entry.get('id')}"
+                    })
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        print(f"YouTube search error: {e}")
+
+    # 2. Search SoundCloud (returns top 2 global results)
+    try:
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            sc_search = ydl.extract_info(f"scsearch2:{query}", download=False)
+            if 'entries' in sc_search:
+                for entry in sc_search['entries']:
+                    results.append({
+                        "title": entry.get('title'),
+                        "source": "SoundCloud",
+                        "url": entry.get('url')
+                    })
+    except Exception as e:
+        print(f"SoundCloud search error: {e}")
+
+    return jsonify(results)
+
+if __name__ == '__main__':
+    app.run(debug=True)
