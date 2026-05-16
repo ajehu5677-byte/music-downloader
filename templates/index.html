@@ -504,31 +504,31 @@
             activePlayButton = btnNode;
         }
 
-        // HOOKED: Dynamically populates and reveals the exact replicated dark theme server panel
-        function openServerDownloadPanel(trackId, trackTitle, trackThumb) {
-            // Clean active media playback states first
-            document.getElementById('videoPlayerWrapper').style.display = 'none';
-            document.getElementById('mainYtFrame').src = "";
-            document.getElementById('resultsContainer').innerHTML = "";
+       function openServerDownloadPanel(trackId, trackTitle, trackThumb) {
+    // Clear active media playback elements from view
+    document.getElementById('videoPlayerWrapper').style.display = 'none';
+    document.getElementById('mainYtFrame').src = "";
+    document.getElementById('resultsContainer').innerHTML = "";
 
-            // Inject tracking elements into panel layout variables
-            document.getElementById('serverThumb').src = trackThumb;
-            document.getElementById('serverTitle').innerText = trackTitle;
+    // Inject metadata into the panel elements
+    document.getElementById('serverThumb').src = trackThumb;
+    document.getElementById('serverTitle').innerText = trackTitle;
 
-            // Generate clean cross-platform secure download paths using high speed external extractor node mapping arrays
-            const directExtractionUrl = "https://9xbuddy.xyz" + encodeURIComponent("https://youtube.com" + trackId);
-            
-            document.getElementById('bitrateRowOriginal').href = directExtractionUrl;
-            document.getElementById('bitrateRow320').href = directExtractionUrl;
-            document.getElementById('bitrateRow256').href = directExtractionUrl;
-            document.getElementById('bitrateRow192').href = directExtractionUrl;
-            document.getElementById('bitrateRow128').href = directExtractionUrl;
-            document.getElementById('bitrateRow64').href = directExtractionUrl;
+    // FIX: Route the click parameters cleanly into your own app.py streaming proxy node
+    const localProxyUrl = "/download_proxy?url=" + encodeURIComponent("https://www.youtube.com/watch?v=" + trackId) + "&title=" + encodeURIComponent(trackTitle);
+    
+    document.getElementById('bitrateRowOriginal').href = localProxyUrl;
+    document.getElementById('bitrateRow320').href = localProxyUrl;
+    document.getElementById('bitrateRow256').href = localProxyUrl;
+    document.getElementById('bitrateRow192').href = localProxyUrl;
+    document.getElementById('bitrateRow128').href = localProxyUrl;
+    document.getElementById('bitrateRow64').href = localProxyUrl;
 
-            // Make the replicated dark container panel display on live interface layout screen
-            document.getElementById('serverDownloadPanel').style.display = 'block';
-            window.scrollTo({ top: document.getElementById('serverDownloadPanel').offsetTop - 10, behavior: 'smooth' });
-        }
+    // Display the replicated dark layout panel box
+    document.getElementById('serverDownloadPanel').style.display = 'block';
+    window.scrollTo({ top: document.getElementById('serverDownloadPanel').offsetTop - 10, behavior: 'smooth' });
+}
+
     </script>
 </body>
 </html>
