@@ -5,18 +5,17 @@ import os
 app = Flask(__name__)
 
 def search_youtube_ytdlp(query):
-    """Uses yt-dlp to safely find working YouTube videos without getting blocked."""
     ydl_opts = {
         'format': 'bestaudio/best',
         'noplaylist': True,
         'quiet': True,
-        'extract_flat': True, # Fast extraction without downloading
+        'extract_flat': False, # Set to False so it gathers complete video metadata strings
         'skip_download': True,
+        'allowed_extractors': ['youtube', 'youtube:search'],
     }
     try:
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-            # Performs a standard ytsearch command
-            info = ydl.extract_info(f"ytsearch3:{query}", download=False)
+            info = ydl.extract_info(f"ytsearch1:{query}", download=False)
             if 'entries' not in info or not info['entries']:
                 return []
             
@@ -37,6 +36,7 @@ def search_youtube_ytdlp(query):
     except Exception as e:
         print(f"yt-dlp search error: {e}")
         return []
+
 
 @app.route('/')
 def index():
