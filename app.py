@@ -7,11 +7,6 @@ app = Flask(__name__)
 def home():
     return render_template('index.html')
 
-@app.route('/download/<video_id>')
-def download_page(video_id):
-    title = request.args.get('title', 'Unknown Track')
-    return render_template('download.html', video_id=video_id, title=title)
-
 @app.route('/search', methods=['POST'])
 def search_music():
     query = request.form.get('query')
@@ -28,7 +23,8 @@ def search_music():
     results = []
     try:
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-            yt_search = ydl.extract_info(f"ytsearch5:{query}", download=False)
+            # Searches globally to pull 10 results from the entire world
+            yt_search = ydl.extract_info(f"ytsearch10:{query}", download=False)
             if 'entries' in yt_search:
                 for entry in yt_search['entries']:
                     v_id = entry.get('id')
