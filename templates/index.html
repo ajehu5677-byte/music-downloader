@@ -334,36 +334,43 @@
         if (e.key === 'Enter') performSearch();
     });
 
-    function performSearch() {
-        const queryVal = document.getElementById('queryInput').value.trim();
-        if(!queryVal) return alert("Please type keywords first.");
+   function performSearch() {
+    const queryVal = document.getElementById('queryInput').value.trim();
+    if(!queryVal) return alert("Please type keywords first.");
 
-        document.getElementById('searchBtn').innerText = "⏳";
+    document.getElementById('searchBtn').innerText = "⏳";
 
-        fetch('/search', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ query: queryVal })
-        })
-        .then(res => res.json())
-        .then(data => {
-            document.getElementById('searchBtn').innerText = "🔍";
+    fetch('/search', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query: queryVal })
+    })
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById('searchBtn').innerText = "🔍";
 
-            if(data.success && data.results && data.results.length > 0) {
-                // Select the primary track out of the global return list array
-                currentTrackData = data.results[0]; 
-                
-                document.getElementById('infoSection').style.display = 'none';
-                document.getElementById('step3Panel').classList.remove('active');
-                
-                document.getElementById('ytPlayer').src = currentTrackData.embed_url;
-                document.getElementById('trackTitleStep2').innerText = currentTrackData.title;
-                
-                document.getElementById('step2Panel').classList.add('active');
-            } else {
-                alert("Search failed: " + (data.error || "No response received. Please try again."));
-            }
-        })
+        if(data.success && data.results && data.results.length > 0) {
+            // FIX: Grab index 0 object from results array
+            currentTrackData = data.results[0]; 
+            
+            document.getElementById('infoSection').style.display = 'none';
+            document.getElementById('step3Panel').classList.remove('active');
+            
+            document.getElementById('ytPlayer').src = currentTrackData.embed_url;
+            document.getElementById('trackTitleStep2').innerText = currentTrackData.title;
+            
+            document.getElementById('step2Panel').classList.add('active');
+        } else {
+            alert("Search failed: " + (data.error || "Please try another search phrase."));
+        }
+    })
+    .catch(err => {
+        document.getElementById('searchBtn').innerText = "🔍";
+        console.error(err);
+        alert("Server communication failure.");
+    });
+}
+
         .catch(err => {
             document.getElementById('searchBtn').innerText = "🔍";
             console.error(err);
