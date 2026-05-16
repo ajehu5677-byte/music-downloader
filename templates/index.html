@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MP3 Juice - Free MP3 Downloads</title>
+    <title>MP3 Juice - Free and Safe MP3 Downloads</title>
     <style>
         * {
             box-sizing: border-box;
@@ -18,134 +18,279 @@
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
-            padding: 20px;
+            padding-bottom: 50px;
+            position: relative;
         }
+
+        /* Top Header Navigation Styling */
         header {
             width: 100%;
-            max-width: 600px;
             display: flex;
             justify-content: center;
-            gap: 20px;
-            margin-bottom: 30px;
+            gap: 25px;
+            padding: 20px 0;
+            font-size: 13px;
         }
         header a {
-            color: #fff;
+            color: #ffffff;
             text-decoration: none;
-            font-size: 14px;
+            opacity: 0.9;
         }
+        header a:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+        .lang-select {
+            cursor: pointer;
+        }
+
+        /* Left Side Sticky Sharing Bar */
+        .sharing-sidebar {
+            position: fixed;
+            left: 0;
+            top: 30%;
+            display: flex;
+            flex-direction: column;
+            width: 40px;
+            z-index: 1000;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+        }
+        .share-count {
+            background-color: #ffffff;
+            color: #333333;
+            text-align: center;
+            font-size: 11px;
+            font-weight: bold;
+            padding: 6px 0;
+        }
+        .share-btn {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .share-fb { background-color: #3b5998; }
+        .share-tw { background-color: #000000; }
+        .share-wa { background-color: #25d366; }
+        .share-tg { background-color: #0088cc; }
+        .share-sms { background-color: #4cd964; }
+        .share-pin { background-color: #cb2027; }
+
+        /* Main Content Container */
         #content {
             width: 100%;
-            max-width: 600px;
+            max-width: 680px;
+            padding: 0 20px;
             text-align: center;
+            margin-top: 10px;
         }
-        .logo-title {
-            font-style: italic;
-            font-size: 32px;
-            margin-bottom: 20px;
-            letter-spacing: 1px;
+
+        /* Soundwave Branding Logo Alignment */
+        .brand-container {
+            margin-bottom: 30px;
         }
-        /* Self-contained styling for the search container */
+        .soundwave-svg {
+            width: 220px;
+            height: auto;
+            margin: 0 auto;
+            display: block;
+        }
+        .brand-title {
+            font-size: 34px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+            margin-top: -10px;
+        }
+
+        /* Input Form Bar UI Replicated Styling */
+        .search-box-form {
+            width: 100%;
+            margin-bottom: 12px;
+        }
         .search-box-container {
             display: flex;
-            background: #ffffff;
+            background-color: #ffffff;
             border-radius: 4px;
             overflow: hidden;
-            margin-bottom: 15px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            border: 1px solid #cccccc;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         .search-box-container input {
             flex: 1;
             border: none;
-            padding: 15px;
-            font-size: 16px;
+            padding: 14px 18px;
+            font-size: 15px;
             outline: none;
             color: #333333;
         }
-        .search-box-container button {
-            background: #ffffff;
-            border: none;
-            padding: 0 25px;
-            cursor: pointer;
-            font-size: 18px;
-            border-left: 1px solid #dddddd;
+        .search-box-container input::placeholder {
+            color: #999999;
         }
-        
-        /* Interactive Step Switcher Boxes */
+        .search-box-container button {
+            background-color: #ffffff;
+            border: none;
+            padding: 0 22px;
+            cursor: pointer;
+            font-size: 16px;
+            border-left: 1px solid #e0e0e0;
+            transition: background-color 0.15s;
+        }
+        .search-box-container button:hover {
+            background-color: #f7f7f7;
+        }
+
+        .consent-text {
+            font-size: 11px;
+            opacity: 0.85;
+            margin-bottom: 45px;
+            font-style: italic;
+        }
+
+        /* Dynamic Step Panels (Hidden initially) */
         .status-panel {
             display: none;
-            background: #ffffff;
+            background-color: #ffffff;
             color: #333333;
             border-radius: 6px;
-            padding: 20px;
-            margin-top: 20px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            padding: 25px 20px;
+            margin-bottom: 35px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            text-align: center;
         }
         .active-panel { display: block !important; }
 
+        .panel-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #222222;
+        }
+        
+        /* New Embedded Download Widget Styles */
+        .widget-frame {
+            width: 100%;
+            height: 65px;
+            border: none;
+            margin-top: 15px;
+            border-radius: 4px;
+            background: #f8f9fa;
+        }
+
         .action-button {
-            background: #007bff;
+            background-color: #007bff;
             color: #ffffff;
-            padding: 12px 30px;
+            padding: 12px 35px;
             border: none;
             border-radius: 4px;
             font-weight: bold;
             cursor: pointer;
             text-decoration: none;
             display: inline-block;
-            margin-top: 15px;
+            font-size: 14px;
         }
+        .action-button:hover {
+            background-color: #0069d9;
+        }
+
+        /* Structured SEO Main Typography Description Block */
         .info-section {
             text-align: left;
-            margin-top: 40px;
-            font-size: 14px;
+            font-size: 13.5px;
             line-height: 1.6;
+            opacity: 0.95;
         }
-        .info-section h3 { margin: 20px 0 10px 0; font-size: 18px; }
+        .info-section h2 {
+            font-size: 22px;
+            font-weight: normal;
+            text-align: center;
+            margin-bottom: 25px;
+            line-height: 1.3;
+        }
+        .info-section h3 {
+            font-size: 14px;
+            font-weight: bold;
+            margin: 22px 0 6px 0;
+        }
+        .info-section p {
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
 
+    <!-- Left Sticky Socials Overlay Layout Bar -->
+    <div class="sharing-sidebar">
+        <div class="share-count">12<br>Shares</div>
+        <a href="#" class="share-btn share-fb">f</a>
+        <a href="#" class="share-btn share-tw">𝕏</a>
+        <a href="#" class="share-btn share-wa">✆</a>
+        <a href="#" class="share-btn share-tg">✈</a>
+        <a href="#" class="share-btn share-sms">💬</a>
+        <a href="#" class="share-btn share-pin">℗</a>
+    </div>
+
+    <!-- Header Navigation Section Links -->
     <header>
         <a href="#">Home</a>
         <a href="#">FAQ</a>
         <a href="#">DMCA</a>
         <a href="#">Contact</a>
+        <a href="#" class="lang-select">English ▾</a>
     </header>
 
     <div id="content">
-        <h1 class="logo-title">Mp3Juice</h1>
+        
+        <!-- Replicated Soundwave Graphic Component Logo -->
+        <div class="brand-container">
+            <svg class="soundwave-svg" viewBox="0 0 200 60" fill="none" xmlns="http://w3.org">
+                <path d="M10 30 H190 M30 30 V15 M30 30 V45 M40 30 V10 M40 30 V50 M50 30 V22 M50 30 V38 M60 30 V5 M60 30 V55 M70 30 V18 M70 30 V42 M80 30 V8 M80 30 V52 M90 30 V25 M90 30 V35 M100 30 V3 M100 30 V57 M110 30 V20 M110 30 V40 M120 30 V5 M120 30 V55 M130 30 V15 M130 30 V45 M140 30 V25 M140 30 V35 M150 30 V8 M150 30 V52 M160 30 V18 M160 30 V42 M170 30 V12 M170 30 V48" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+            <div class="brand-title">Mp3Juice</div>
+        </div>
 
-        <!-- Form with default action blocked via JavaScript to avoid Method Errors -->
-        <form id="searchForm" onsubmit="event.preventDefault(); performSearch();">
+        <!-- Input Query Controls Block Structure -->
+        <form class="search-box-form" id="searchForm" onsubmit="event.preventDefault(); performSearch();">
             <div class="search-box-container">
                 <input type="text" id="queryInput" placeholder="Input keywords or paste YouTube URL here...">
                 <button type="submit" id="searchBtn">🔍</button>
             </div>
         </form>
-        <p style="font-size: 12px; opacity: 0.8; margin-bottom: 30px;">By pressing "Search" you confirm your consent to our Terms of Use.</p>
+        <div class="consent-text">By pressing "Search" you confirm your consent to our Terms of Use.</div>
 
-        <!-- STEP 2 PANEL -->
+        <!-- DYNAMIC STEP 2 PANEL (Appears after query submission) -->
         <div id="step2Panel" class="status-panel">
-            <h4 id="trackTitleStep2" style="font-size: 16px; font-weight: bold;"></h4>
-            <p style="font-size: 13px; color: #666666; margin-top: 5px;">Source Status: Ready for Extraction</p>
+            <div class="panel-title" id="trackTitleStep2"></div>
+            <p style="font-size: 13px; color: #666666; margin-bottom: 5px;">Source Stream Status: Verified Match Available</p>
             <button class="action-button" onclick="initiateStep3()">Download Options</button>
         </div>
 
-        <!-- STEP 3 PANEL -->
-        <div id="step3Panel" class="status-panel" style="background: #222222; color: #ffffff;">
-            <h4 id="trackTitleStep3" style="font-size: 16px; margin-bottom: 10px;"></h4>
-            <p style="color: #ff4a4a; font-size: 12px; font-style: italic; margin-bottom: 15px;">If an ad window appears, close it and click download again.</p>
-            <a href="#" id="rawDlLink" target="_blank" class="action-button" style="background: #28a745; display: block;">Download MP3 (High Quality)</a>
-            <a href="javascript:location.reload()" style="color: #cccccc; display: inline-block; margin-top: 15px; font-size: 13px; text-decoration: none;">← Search Another Song</a>
+        <!-- DYNAMIC STEP 3 PANEL (Displays safe inline button module frame) -->
+        <div id="step3Panel" class="status-panel">
+            <div class="panel-title" id="trackTitleStep3" style="margin-bottom: 5px;"></div>
+            <p style="font-size: 13px; color: #28a745; font-weight: bold;">✓ Conversion Server Configured</p>
+            
+            <iframe id="downloadWidget" class="widget-frame" src=""></iframe>
+            
+            <a href="javascript:location.reload()" style="color: #007bff; display: inline-block; margin-top: 20px; font-size: 13px; text-decoration: none; font-weight: bold;">← Search Another Song</a>
         </div>
 
-        <!-- SEO TEXT SECTION -->
+        <!-- SEO Article Segment Body Elements -->
         <div id="infoSection" class="info-section">
-            <h3>MP3 Juice - MP3Juice Free and Safe MP3 Downloads</h3>
-            <p>Accessing your favorite tunes effortlessly is a luxury we cherish. Among the myriad of platforms offering music downloads, MP3 Juice stands out as a beacon of convenience and accessibility.</p>
+            <h2>MP3 Juice - MP3Juice Free and Safe MP3 Downloads</h2>
+            <p>Mp3Juice accessing your favorite tunes effortlessly is a luxury we cherish. Among the myriad of platforms offering music downloads, MP3 Juice stands out as a beacon of convenience and accessibility. Let's delve into the realm of MP3 Juice, exploring its features, impact, and the controversies that often accompany such platforms.</p>
+            
             <h3>The Genesis of MP3 Juice</h3>
-            <p>MP3 Juice emerged as a response to the growing demand for easy-to-use platforms providing quick download files without complex installations required.</p>
+            <p>MP3 Juice emerged as a response to the growing demand for easy-to-use platforms providing free music downloads. It quickly gained popularity due to its straightforward interface and extensive library of songs spanning across genres and languages. With just a few clicks, users can search for their desired tracks and download them in high-quality MP3 format, ready to be enjoyed offline.</p>
+            
+            <h3>The Interface: Simplicity Redefined</h3>
+            <p>One of the key reasons behind MP3 Juice's widespread acclaim is its minimalist interface. Upon visiting the platform, users are greeted by a clean and intuitive layout, devoid of clutter and distractions. The search bar takes center stage, allowing users to enter keywords, song titles, or artist names with ease. This simplicity ensures that even those with limited technical prowess can navigate the platform effortlessly, making music discovery a seamless experience.</p>
         </div>
+
     </div>
 
     <script>
@@ -175,13 +320,12 @@
                     document.getElementById('trackTitleStep2').innerText = currentTrackData.title;
                     document.getElementById('step2Panel').classList.add('active-panel');
                 } else {
-                    alert("Search failed: " + (data.error || "Please try another track name."));
+                    alert("Search failed. Please try a different query.");
                 }
             })
             .catch(err => {
                 document.getElementById('searchBtn').innerText = "🔍";
-                console.error(err);
-                alert("Error connecting to server backend system.");
+                alert("Error communicating with your server backend system.");
             });
         }
 
@@ -189,9 +333,10 @@
             if (!currentTrackData) return;
             
             document.getElementById('step2Panel').classList.remove('active-panel');
-            
             document.getElementById('trackTitleStep3').innerText = currentTrackData.title;
-            document.getElementById('rawDlLink').href = "https://9xbuddy.xyz" + encodeURIComponent("https://youtube.com" + currentTrackData.id);
+            
+            // Inline converter widget injection points back to the track query parameters
+            document.getElementById('downloadWidget').src = "https://mp3.pm" + currentTrackData.id;
             
             document.getElementById('step3Panel').classList.add('active-panel');
         }
