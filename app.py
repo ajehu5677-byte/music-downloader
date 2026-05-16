@@ -4,22 +4,19 @@ import requests
 
 app = Flask(__name__)
 
-# Function to search YouTube dynamically using yt-dlp
 def search_youtube(query):
     ydl_opts = {
         'format': 'bestaudio/best',
         'noplaylist': True,
         'quiet': True,
-        'extract_flat': True,  # Fast extraction without downloading metadata
+        'extract_flat': True,
     }
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         try:
-            # Limits the search results to 5 videos
             info = ydl.extract_info(f"ytsearch5:{query}", download=False)
             results = []
             if 'entries' in info:
                 for entry in info['entries']:
-                    # Turn duration in seconds into MM:SS format
                     duration_sec = entry.get('duration', 0) or 0
                     mins = int(duration_sec // 60)
                     secs = int(duration_sec % 60)
@@ -93,13 +90,11 @@ def download_file():
         'quiet': True,
     }
     
-           with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         try:
             info = ydl.extract_info(video_id, download=False)
             stream_url = info.get('url')
-
             
-            # Proxy and stream the audio data back to the browser user
             req = requests.get(stream_url, stream=True)
             
             headers = {
