@@ -3,186 +3,335 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MP3-JUICE.IO - Server Download</title>
+    
+    <!-- GOOGLE SEARCH SEO PREVIEW META TAGS -->
+    <title>MP3Juice - MP3 Juices Music Download Free</title>
+    <meta name="description" content="MP3Juice allows you to download MP3 for free. It has high-quality audio up to 320kbps with fast and safe. You can be searched online to find your music.">
+    <meta name="keywords" content="mp3juice, mp3 juices, music download free, free mp3 download, fast mp3 downloader, 320kbps mp3">
+    <meta name="robots" content="index, follow">
+    
     <style>
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
-            color: #333;
+            background-color: #247cb5;
+            color: white;
             text-align: center;
         }
-        .header-title {
-            color: #0056b3;
-            font-size: 24px;
-            font-weight: bold;
-            margin-top: 20px;
-            letter-spacing: 1px;
-        }
-        .warning-text {
-            color: red;
-            font-style: italic;
-            font-size: 13px;
-            font-weight: bold;
-            margin: 20px auto;
-            max-width: 600px;
-        }
-        .breadcrumb {
-            font-size: 14px;
-            font-weight: bold;
-            color: #666;
-            margin: 20px 0;
-        }
-        .breadcrumb span { color: #0056b3; }
-        
-        .download-box {
-            background-color: #22252a;
-            max-width: 600px;
-            margin: 30px auto;
-            border-radius: 6px;
-            padding: 25px;
-            color: white;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-        }
-        .server-title {
-            font-size: 16px;
-            font-weight: bold;
-            margin-bottom: 20px;
-            letter-spacing: 0.5px;
-        }
-        .thumbnail-container {
-            width: 100%;
-            max-width: 320px;
-            margin: 0 auto 15px auto;
-            border-radius: 4px;
-            overflow: hidden;
-            border: 2px solid #444;
-        }
-        .thumbnail-container img {
-            width: 100%;
-            display: block;
-        }
-        .track-title {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 20px;
-            padding: 0 10px;
-        }
-        .tab-row {
+        .navbar {
+            padding: 15px;
             display: flex;
             justify-content: center;
-            gap: 10px;
-            margin-bottom: 25px;
+            gap: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.15);
         }
-        .tab-btn {
-            background: #343a40;
+        .navbar a {
             color: white;
-            border: none;
-            padding: 8px 25px;
+            text-decoration: none;
             font-size: 14px;
+        }
+        .logo-container {
+            margin-top: 35px;
+            margin-bottom: 25px;
+            display: inline-block;
+        }
+        .waveform-graphic {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+            height: 45px;
+            margin-bottom: 5px;
+        }
+        .waveform-bar {
+            width: 3px;
+            background-color: white;
+            border-radius: 2px;
+        }
+        .waveform-bar:nth-child(odd) { height: 15px; }
+        .waveform-bar:nth-child(3) { height: 35px; }
+        .waveform-bar:nth-child(5) { height: 45px; }
+        .waveform-bar:nth-child(even) { height: 25px; }
+        
+        .logo-text {
+            font-size: 38px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+        .search-container {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .search-box {
+            position: relative;
+            background: white;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 14px 50px 14px 20px;
+            font-size: 15px;
+            border: none;
+            border-radius: 4px;
+            outline: none;
+            color: #444;
+        }
+        .search-btn {
+            position: absolute;
+            right: 0;
+            top: 0;
+            height: 100%;
+            width: 50px;
+            background: none;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            color: #555;
+        }
+        .disclaimer {
+            font-size: 12px;
+            margin-top: 12px;
+            opacity: 0.85;
+        }
+        .info-text {
+            max-width: 620px;
+            margin: 25px auto;
+            font-size: 13.5px;
+            line-height: 1.6;
+            opacity: 0.9;
+            text-align: left;
+        }
+        #results {
+            max-width: 640px;
+            margin: 25px auto;
+        }
+        .result-card {
+            background: white;
+            color: #333;
+            border-radius: 4px;
+            padding: 0;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.25);
+            overflow: hidden;
+            text-align: left;
+        }
+        .video-container {
+            display: none;
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            background: #000;
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .meta-info {
+            background: #fdfdfd;
+            padding: 15px;
+            font-size: 14px;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #ddd;
+            font-weight: bold;
+        }
+        .action-row {
+            display: flex;
+            justify-content: flex-start;
+            gap: 10px;
+            background: #eaeaea;
+            padding: 12px 15px;
+        }
+        .btn {
+            padding: 8px 20px;
+            font-size: 13px;
             font-weight: bold;
             border-radius: 4px;
             cursor: pointer;
+            border: none;
         }
-        .tab-btn.active {
-            background: #495057;
-            border: 1px solid #6c757d;
+        .btn-play { background-color: #6c757d; color: white; }
+        .btn-download { background-color: #007bff; color: white; }
+        
+        /* EXPANDABLE CHANNELS DROPDOWN SECTIONS */
+        .download-panel {
+            display: none;
+            background: #22252a;
+            padding: 20px;
+            border-top: 1px solid #444;
         }
-        .quality-list {
+        .panel-title {
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .quality-options-container {
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            max-width: 450px;
-            margin: 0 auto;
+            gap: 8px;
         }
-        .quality-row {
-            background: #3b71ca;
-            color: white;
-            padding: 12px 20px;
-            border-radius: 5px;
+        .quality-btn {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            background: #3b71ca;
+            color: white;
             text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            font-size: 13px;
             font-weight: bold;
-            font-size: 14px;
-            transition: background 0.2s;
         }
-        .quality-row:hover {
-            background: #285b9c;
-        }
-        .quality-label {
-            opacity: 0.9;
+        .quality-btn:hover { background: #285b9c; }
+        .quality-btn.mp4-type { background: #28a745; }
+        .quality-btn.mp4-type:hover { background: #1e7e34; }
+        .size-tag { opacity: 0.8; font-weight: normal; }
+        
+        .loader {
+            display: none;
+            font-size: 16px;
+            margin-top: 25px;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
 
-    <div class="header-title">MP3-JUICE.IO</div>
-    
-    <div class="warning-text">If the ad appears, please come back and click the download button again ..</div>
-    
-    <div class="breadcrumb">Panduan: <span>-> Download MP3 -> Converting -> Download Now</span></div>
-    
-    <div class="download-box">
-        <div class="server-title">Server Download MP3</div>
-        
-        <div class="thumbnail-container">
-            <img src="https://youtube.com{{ video_id }}/mqdefault.jpg" alt="Video Cover">
+    <div class="navbar">
+        <a href="#">Home</a>
+        <a href="#">FAQ</a>
+        <a href="#">DMCA</a>
+        <a href="#">Contact</a>
+        <a href="#">English ▾</a>
+    </div>
+
+    <div class="logo-container">
+        <div class="waveform-graphic">
+            <div class="waveform-bar"></div>
+            <div class="waveform-bar"></div>
+            <div class="waveform-bar"></div>
+            <div class="waveform-bar"></div>
+            <div class="waveform-bar"></div>
+            <div class="waveform-bar"></div>
         </div>
-        
-        <div class="track-title">{{ title }}</div>
-        
-        <div class="tab-row">
-            <button class="tab-btn active" id="mp3Tab" onclick="switchFormat('mp3')">MP3</button>
-            <button class="tab-btn" id="mp4Tab" onclick="switchFormat('mp4')">MP4</button>
+        <div class="logo-text">Mp3Juice</div>
+    </div>
+
+    <div class="search-container">
+        <div class="search-box">
+            <input type="text" id="query" placeholder="Input keywords or paste YouTube URL here...">
+            <button class="search-btn" onclick="triggerSearch()">🔍</button>
         </div>
+        <p class="disclaimer">By pressing Search you confirm your consent to our Terms of Use.</p>
         
-        <div class="quality-list" id="downloadContainer">
-            <!-- Populated dynamically via JS -->
-        </div>
+        <div class="loader" id="loadingText">Searching global databases... Please wait...</div>
+        <div class="info-text" id="statusHeader"></div>
+        <div id="results"></div>
     </div>
 
     <script>
-        const videoId = "{{ video_id }}";
-        
-        function switchFormat(type) {
-            document.getElementById('mp3Tab').classList.toggle('active', type === 'mp3');
-            document.getElementById('mp4Tab').classList.toggle('active', type === 'mp4');
-            renderButtons(type);
+        document.getElementById('query').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') triggerSearch();
+        });
+
+        function triggerSearch() {
+            const searchInput = document.getElementById('query').value;
+            const resultsDiv = document.getElementById('results');
+            const loader = document.getElementById('loadingText');
+            const statusHeader = document.getElementById('statusHeader');
+
+            if (!searchInput) return;
+
+            loader.style.display = 'block';
+            resultsDiv.innerHTML = '';
+            statusHeader.innerHTML = '';
+
+            const formData = new FormData();
+            formData.append('query', searchInput);
+
+            fetch('/search', { method: 'POST', body: formData })
+            .then(res => res.json())
+            .then(data => {
+                loader.style.display = 'none';
+                if (data.error || data.length === 0) {
+                    statusHeader.innerHTML = `No results found for "${searchInput}"`;
+                    return;
+                }
+
+                statusHeader.innerHTML = `Here you can find all search results for your search query "${searchInput}". We've found 10 matching results. Now you have the opportunity to listen to each result before downloading it. If you wish to do so, click on the 'Play' button.`;
+
+                data.forEach(track => {
+                    const card = document.createElement('div');
+                    card.className = 'result-card';
+                    
+                    // Fixed tracking strings to completely avoid breaking Flask rendering engines
+                    card.innerHTML = `
+                        <div class="video-container" id="video-box-${track.id}">
+                            <iframe id="player-${track.id}" src="" allowfullscreen></iframe>
+                        </div>
+                        <div class="meta-info">
+                            ${track.title}<br>
+                            <span style="font-size:11px; font-weight:normal; opacity:0.7;">Source: ${track.source} | Channel: ${track.channel} | Duration: ${track.duration}</span>
+                        </div>
+                        <div class="action-row">
+                            <button class="btn btn-play" id="play-btn-${track.id}" onclick="togglePlayer('${track.id}')">Play</button>
+                            <button class="btn btn-download" onclick="toggleDownloadPanel('${track.id}')">Download</button>
+                        </div>
+                        <div class="download-panel" id="download-panel-${track.id}">
+                            <div class="panel-title">Server Download Option Matrix</div>
+                            <div class="quality-options-container">
+                                <a href="https://vexdwn.com{track.id}&f=mp3&b=320" target="_blank" class="quality-btn"><span>MP3 Original</span><span class="size-tag">320 Kbps</span></a>
+                                <a href="https://vexdwn.com{track.id}&f=mp3&b=256" target="_blank" class="quality-btn"><span>MP3 High</span><span class="size-tag">256 Kbps</span></a>
+                                <a href="https://vexdwn.com{track.id}&f=mp3&b=128" target="_blank" class="quality-btn"><span>MP3 Standard</span><span class="size-tag">128 Kbps</span></a>
+                                <a href="https://vexdwn.com{track.id}&f=mp4" target="_blank" class="quality-btn mp4-type"><span>MP4 Video Stream</span><span class="size-tag">720p HD</span></a>
+                            </div>
+                        </div>
+                    `;
+                    resultsDiv.appendChild(card);
+                });
+            })
+            .catch(() => {
+                loader.style.display = 'none';
+                statusHeader.innerHTML = 'Search execution failed.';
+            });
         }
 
-        function renderButtons(format) {
-            const container = document.getElementById('downloadContainer');
-            container.innerHTML = '';
-            
-            if (format === 'mp3') {
-                const mp3Qualities = [
-                    { label: "MP3 Original", size: "Original Quality", rate: "320" },
-                    { label: "MP3 320 Kbps", size: "9.35 MB", rate: "320" },
-                    { label: "MP3 256 Kbps", size: "7.48 MB", rate: "256" },
-                    { label: "MP3 192 Kbps", size: "5.61 MB", rate: "192" },
-                    { label: "MP3 128 Kbps", size: "3.74 MB", rate: "128" }
-                ];
-                
-                mp3Qualities.forEach(q => {
-                    const href = `https://vexdwn.com\${videoId}&f=mp3&b=\${q.rate}`;
-                    container.innerHTML += `<a href="\${href}" target="_blank" class="quality-row"><span>\${q.label}</span><span class="quality-label">\${q.size}</span></a>`;
-                });
+        function togglePlayer(id) {
+            const videoBox = document.getElementById(`video-box-${id}`);
+            const iframe = document.getElementById(`player-${id}`);
+            const playBtn = document.getElementById(`play-btn-${id}`);
+
+            if (videoBox.style.display === "block") {
+                // Clicking "Stop" hides it and clears out video link stream instantly
+                videoBox.style.display = "none";
+                iframe.src = "";
+                playBtn.innerText = "Play";
+                playBtn.style.backgroundColor = "#6c757d";
             } else {
-                const mp4Qualities = [
-                    { label: "MP4 1080p HD", size: "Max HD" },
-                    { label: "MP4 720p", size: "High Quality" },
-                    { label: "MP4 480p", size: "Medium Quality" }
-                ];
-                mp4Qualities.forEach(q => {
-                    const href = `https://vexdwn.com\${videoId}&f=mp4`;
-                    container.innerHTML += `<a href="\${href}" target="_blank" class="quality-row" style="background:#28a745;"><span>\${q.label}</span><span class="quality-label">\${q.size}</span></a>`;
-                });
+                // Clicking "Play" opens video framework container panel frame
+                videoBox.style.display = "block";
+                iframe.src = `https://youtube.com{id}?autoplay=1`;
+                playBtn.innerText = "Stop";
+                playBtn.style.backgroundColor = "#dc3545";
             }
         }
 
-        renderButtons('mp3');
+        function toggleDownloadPanel(id) {
+            const panel = document.getElementById(`download-panel-${id}`);
+            if (panel.style.display === "block") {
+                panel.style.display = "none";
+            } else {
+                panel.style.display = "block";
+            }
+        }
     </script>
 </body>
 </html>
