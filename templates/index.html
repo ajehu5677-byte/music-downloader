@@ -90,7 +90,6 @@
     </div>
 
     <div class="search-container">
-        <!-- Removed standard action/method to prevent page reload -->
         <div class="search-box">
             <input type="text" id="query" placeholder="Search global YouTube & SoundCloud music...">
             <button onclick="triggerSearch()">🔍</button>
@@ -104,7 +103,6 @@
     </div>
 
     <script>
-        // Listen for Enter key press inside the search box
         document.getElementById('query').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 triggerSearch();
@@ -118,11 +116,9 @@
 
             if (!searchInput) return;
 
-            // Show loading text and clear previous items
             loader.style.display = 'block';
             resultsDiv.innerHTML = '';
 
-            // Send search request to Flask app via background API call
             const formData = new FormData();
             formData.append('query', searchInput);
 
@@ -139,7 +135,6 @@
                     return;
                 }
 
-                // Render the global tracks directly onto the page
                 data.forEach(item => {
                     const card = document.createElement('div');
                     card.className = 'track-card';
@@ -148,14 +143,14 @@
                             <strong>${item.title}</strong><br>
                             <span style="font-size:12px; opacity:0.7;">Source: ${item.source}</span>
                         </div>
-                        <a href="${item.url}" target="_blank">Open Link</a>
+                        <a href="${item.url}" target="_blank" rel="noopener noreferrer">Play Track</a>
                     `;
                     resultsDiv.appendChild(card);
                 });
             })
             .catch(error => {
                 loader.style.display = 'none';
-                resultsDiv.innerHTML = '<p style="text-align:center; color: #ff8888;">Search failed. Ensure Render backend is running.</p>';
+                resultsDiv.innerHTML = '<p style="text-align:center; color: #ff8888;">Search failed. Check Render server status.</p>';
                 console.error('Error:', error);
             });
         }
