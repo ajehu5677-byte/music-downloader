@@ -1,42 +1,46 @@
 from flask import Flask, render_template, request, jsonify
-import yt_dlp
+import urllib.request
+import json
 import os
 
 app = Flask(__name__)
 
-def search_youtube_ytdlp(query):
-    ydl_opts = {
-        'format': 'bestaudio/best',
-        'noplaylist': True,
-        'quiet': True,
-        'extract_flat': False, # Set to False so it gathers complete video metadata strings
-        'skip_download': True,
-        'allowed_extractors': ['youtube', 'youtube:search'],
-    }
+def universal_youtube_search(query):
+    """Uses a public search endpoint to bypass cloud network blocks globally."""
     try:
-        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-            info = ydl.extract_info(f"ytsearch1:{query}", download=False)
-            if 'entries' not in info or not info['entries']:
-                return []
+        # Encode the search string safely for URLs
+        encoded_query = urllib.parse.quote(query)
+        # Using a reliable, unblocked open-source Invidious API instance for global video fetching
+        url = f"https://puffyan.us{encoded_query}&type=video"
+        
+        req = urllib.request.Request(
+            url, 
+            headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}
+        )
+        
+        with urllib.request.urlopen(req, timeout=7) as response:
+            data = json.loads(response.read().decode())
             
-            results = []
-            for entry in info['entries']:
-                if not entry:
-                    continue
-                v_id = entry.get('id')
-                v_title = entry.get('title', 'Unknown Track')
+        if not data:
+            return []
+            
+        results = []
+        # Parse out the top 3 global results matching the criteria
+        for item in data[:3]:
+            v_id = item.get('videoId')
+            if not v_id:
+                continue
                 
-                results.append({
-                    "id": v_id,
-                    "title": v_title,
-                    "embed_url": f"https://youtube.com{v_id}",
-                    "thumbnail": f"https://youtube.com{v_id}/mqdefault.jpg"
-                })
-            return results
+            results.append({
+                "id": v_id,
+                "title": item.get('title', 'Unknown Track'),
+                "embed_url": f"https://youtube.com{v_id}",
+                "thumbnail": f"https://youtube.com{v_id}/mqdefault.jpg"
+            })
+        return results
     except Exception as e:
-        print(f"yt-dlp search error: {e}")
+        print(f"Global proxy search fallback error: {e}")
         return []
-
 
 @app.route('/')
 def index():
@@ -49,14 +53,12 @@ def handle_search():
     if not query:
         return jsonify({"success": False, "error": "Query cannot be empty"})
         
-    search_results = search_youtube_ytdlp(query)
+    search_results = universal_youtube_search(query)
     if search_results:
-        # Send the top result directly to your step layout panels
-        return jsonify({"success": True, "results": search_results[0]})
+        return jsonify({"success": True, "results": search_results})
     else:
-        return jsonify({"success": False, "error": "No matching streams found."})
+        return jsonify({"success": False, "error": "Global servers are busy. Please try clicking search again."})
 
 if __name__ == '__main__':
-    # Binds directly to Render's required host environment port
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
