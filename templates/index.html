@@ -7,8 +7,7 @@
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Circular', Arial, sans-serif; }
         
-        /* Spotify Signature Dark Theme Layout Styling Colors */
-        body { background-color: #121212; color: #ffffff; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding-bottom: 60px; }
+        body { background-color: #121212; color: #ffffff; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding-bottom: 60px; overflow-x: hidden; }
         header { width: 100%; display: flex; justify-content: center; gap: 30px; padding: 25px 0; font-size: 14px; background-color: #000000; margin-bottom: 20px; }
         header a { color: #b3b3b3; text-decoration: none; font-weight: bold; }
         header a:hover { color: #ffffff; }
@@ -25,7 +24,7 @@
         .search-box-container button:hover { color: #ffffff; }
         
         #resultsContainer { width: 100%; display: flex; flex-direction: column; gap: 12px; margin-bottom: 30px; }
-        .track-row-card { display: flex; align-items: center; justify-content: space-between; background-color: #181818; border-radius: 8px; padding: 14px 20px; transition: background-color: 0.2s ease; border: 1px solid #282828; }
+        .track-row-card { display: flex; align-items: center; justify-content: space-between; background-color: #181818; border-radius: 8px; padding: 14px 20px; transition: background-color 0.2s ease; border: 1px solid #282828; }
         .track-row-card:hover { background-color: #282828; }
         
         .track-info-block { text-align: left; flex: 1; padding-right: 15px; }
@@ -38,16 +37,35 @@
         .card-btn.play-btn { background-color: #ffffff; color: #000000; }
         .card-btn.play-btn:hover { background-color: #f6f6f6; }
         
-        /* Interactive Media Audio Stream Processing Panel Section */
         .server-download-container { display: none; width: 100%; background-color: #181818; border-radius: 12px; padding: 30px; border: 1px solid #282828; margin-top: 10px; }
         .player-wrapper { width: 100%; margin: 20px 0; background: #242424; padding: 15px; border-radius: 8px; }
         audio { width: 100%; outline: none; }
         
         .bitrate-link-row { display: inline-block; background-color: #1DB954; color: #ffffff; text-decoration: none; padding: 14px 32px; border-radius: 50px; font-size: 15px; font-weight: bold; margin-top: 15px; transition: transform 0.1s ease; }
         .bitrate-link-row:hover { transform: scale(1.04); background-color: #1ed760; }
+
+        /* Modernized Looping Left Sidebar Sharing Deck Setup Styles */
+        .sharing-sidebar { position: fixed; left: 0; top: 35%; display: flex; flex-direction: column; width: 45px; z-index: 9999; box-shadow: 2px 0 10px rgba(0,0,0,0.5); border-top-right-radius: 6px; border-bottom-right-radius: 6px; overflow: hidden; }
+        .share-btn { width: 45px; height: 45px; display: none; align-items: center; justify-content: center; color: #ffffff; text-decoration: none; font-size: 18px; font-weight: bold; transition: all 0.3s ease; transform: translateX(-45px); opacity: 0; }
+        
+        /* Show Active Keyframe Animation Slide Block Layout */
+        .share-btn.slide-active { display: flex; transform: translateX(0); opacity: 1; }
+        
+        .share-fb { background-color: #1877F2; }
+        .share-msg { background-color: #0084FF; }
+        .share-ig { background-color: #E1306C; }
+        .share-tk { background-color: #000000; border-right: 1px solid #282828; }
     </style>
 </head>
 <body>
+    <!-- Automated Looping Sharing Sidebar Buttons Element Container Deck -->
+    <div class="sharing-sidebar" id="shareSidebar">
+        <a href="javascript:void(0)" onclick="shareLink('fb')" class="share-btn share-fb slide-active">👤</a>
+        <a href="javascript:void(0)" onclick="shareLink('msg')" class="share-btn share-msg">💬</a>
+        <a href="javascript:void(0)" onclick="shareLink('ig')" class="share-btn share-ig">📸</a>
+        <a href="javascript:void(0)" onclick="shareLink('tk')" class="share-btn share-tk">🎵</a>
+    </div>
+
     <header><a href="#">Home</a><a href="#">FAQ</a><a href="#">DMCA</a><a href="#">Contact</a></header>
     <div id="content">
         <div class="brand-container"><div class="brand-title">Mp3Juice</div></div>
@@ -60,7 +78,6 @@
         
         <div id="resultsContainer"></div>
         
-        <!-- Live Stream and Native File Download Dashboard Deck Section -->
         <div id="serverDownloadPanel" class="server-download-container">
             <h3 id="serverTitle" style="font-size: 20px; margin-bottom: 5px;">Track Name</h3>
             <p id="serverArtist" style="color: #b3b3b3; font-size: 14px; margin-bottom: 15px;">Artist Name</p>
@@ -76,12 +93,38 @@
     </div>
     
     <script>
+        // Looping Left Sidebar 3-Second Automatic Sliding Animation Sequencer Script
+        let currentShareIndex = 0;
+        const shareButtons = document.querySelectorAll('.share-btn');
+        
+        setInterval(() => {
+            // Hide the active item out of view smoothly
+            shareButtons[currentShareIndex].classList.remove('slide-active');
+            
+            // Increment rotation array indexes cleanly
+            currentShareIndex = (currentShareIndex + 1) % shareButtons.length;
+            
+            // Pop the next social handle network icon item straight into active layout view
+            shareButtons[currentShareIndex].classList.add('slide-active');
+        }, 3000);
+
+        function shareLink(platform) {
+            const currentUrl = encodeURIComponent(window.location.href);
+            const alertText = "Share link copied! Post it to your profile screen layout context.";
+            
+            navigator.clipboard.writeText(window.location.href);
+            
+            if (platform === 'fb') window.open(`https://facebook.com{currentUrl}`, '_blank');
+            if (platform === 'msg') window.open(`fb-messenger://share?link=${currentUrl}`, '_blank');
+            if (platform === 'ig') alert("Instagram doesn't support direct web sharing links. " + alertText);
+            if (platform === 'tk') alert("TikTok link sharing ready. " + alertText);
+        }
+
         function performSearch() {
             const queryVal = document.getElementById('queryInput').value.trim();
             if (!queryVal) return alert("Please type a track name first.");
             document.getElementById('searchBtn').innerText = "⏳";
             
-            // Core Client-Side Global API Fetch Call Setup Architecture
             fetch(`https://saavn.dev{encodeURIComponent(queryVal)}`)
             .then(res => res.json())
             .then(data => {
@@ -96,13 +139,23 @@
                         const card = document.createElement('div');
                         card.className = 'track-row-card';
                         
-                        // Parse clear name details cleanly from response
+                        // FIXED: Completely clean artist extraction to fix the network lag popup crash bug 
                         const trackName = track.name || 'Unknown Track';
-                        const artistName = track.artists?.primary?.[0]?.name || 'Various Artists';
+                        let artistName = 'Various Artists';
+                        
+                        if (track.artists && track.artists.primary && track.artists.primary.length > 0) {
+                            artistName = track.artists.primary[0].name || 'Various Artists';
+                        } else if (track.artists && track.artists.all && track.artists.all.length > 0) {
+                            artistName = track.artists.all[0].name || 'Various Artists';
+                        }
+                        
                         const cleanTitle = `${artistName} - ${trackName}`.replace(/'/g, "\\'");
                         
-                        // Safely pull down high-quality audio streaming addresses directly from data source arrays
-                        const streamUrl = track.downloadUrl?.[4]?.url || track.downloadUrl?.[2]?.url || '';
+                        // Safely retrieve high-quality streaming addresses directly from data response arrays
+                        let streamUrl = '';
+                        if (track.downloadUrl && track.downloadUrl.length > 0) {
+                            streamUrl = track.downloadUrl[track.downloadUrl.length - 1].url || '';
+                        }
                         
                         card.innerHTML = `
                             <div class="track-info-block">
@@ -122,26 +175,24 @@
             })
             .catch(err => {
                 document.getElementById('searchBtn').innerText = "🔍";
-                alert("Network communication lag. Try clicking search again.");
+                alert("Search connection reset. Type your keywords and click search again.");
                 console.error(err);
             });
         }
 
         function openMediaControlPanel(fullTitle, artist, streamUrl, autoPlayActive) {
             document.getElementById('resultsContainer').innerHTML = "";
-            document.getElementById('serverTitle').innerText = fullTitle.split(' - ')[1] || fullTitle;
+            document.getElementById('serverTitle').innerText = fullTitle;
             document.getElementById('serverArtist').innerText = artist;
             
-            // Direct tracking properties mapping layout definition
             const playerElement = document.getElementById('audioStreamPlayer');
             playerElement.src = streamUrl;
             playerElement.load();
             
-            if(autoPlayActive) {
-                playerElement.play().catch(e => console.log("Playback interaction focus notice"));
+            if(autoPlayActive && streamUrl) {
+                playerElement.play().catch(e => console.log("User interaction requirement check"));
             }
             
-            // Map the download conversion button directly to your app.py routing proxy pipe
             const targetQueryUrl = `ytsearch:${fullTitle} official audio`;
             const downloadUrl = `/download_proxy?url=${encodeURIComponent(targetQueryUrl)}&title=${encodeURIComponent(fullTitle)}`;
             document.getElementById('finalDownloadBtn').href = downloadUrl;
