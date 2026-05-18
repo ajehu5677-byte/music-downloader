@@ -7,13 +7,13 @@
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
         
-        body { background-color: #1e73be; color: #ffffff; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding-bottom: 50px; }
-        header { width: 100%; display: flex; justify-content: center; gap: 25px; padding: 20px 0; font-size: 13px; }
-        header a { color: #ffffff; text-decoration: none; opacity: 0.9; }
-        header a:hover { opacity: 1; text-decoration: underline; }
+        body { background-color: #121212; color: #ffffff; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding-bottom: 50px; }
+        header { width: 100%; display: flex; justify-content: center; gap: 25px; padding: 20px 0; font-size: 13px; background-color: #000000; }
+        header a { color: #b3b3b3; text-decoration: none; opacity: 0.9; }
+        header a:hover { opacity: 1; color: #ffffff; text-decoration: underline; }
         .lang-select { cursor: pointer; }
         
-        /* Fixed Left Platform Share Sidebar Deck - All Visible with Clean Spacing Layout */
+        /* Fixed Left Platform Share Sidebar Deck - All Visible with Spacing Layout */
         .sharing-sidebar { position: fixed; left: 0; top: 25%; display: flex; flex-direction: column; gap: 12px; width: 45px; z-index: 1000; }
         .share-count { background-color: #ffffff; color: #333333; text-align: center; font-size: 11px; font-weight: bold; padding: 6px 0; border-top-right-radius: 4px; border-bottom-right-radius: 4px; box-shadow: 2px 2px 5px rgba(0,0,0,0.3); }
         
@@ -28,39 +28,41 @@
         #content { width: 100%; max-width: 680px; padding: 0 20px; text-align: center; margin-top: 10px; }
         .brand-container { margin-bottom: 30px; }
         .soundwave-svg { width: 220px; height: auto; margin: 0 auto; display: block; }
-        .brand-title { font-size: 34px; font-weight: bold; letter-spacing: 0.5px; margin-top: -10px; }
+        .brand-title { font-size: 34px; font-weight: bold; letter-spacing: 0.5px; margin-top: -10px; color: #1DB954; }
         
         .search-box-form { width: 100%; margin-bottom: 12px; }
-        .search-box-container { display: flex; background-color: #ffffff; border-radius: 4px; overflow: hidden; border: 1px solid #cccccc; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .search-box-container input { flex: 1; border: none; padding: 14px 18px; font-size: 15px; outline: none; color: #333333; }
+        .search-box-container { display: flex; background-color: #242424; border-radius: 4px; overflow: hidden; border: 1px solid #282828; box-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+        .search-box-container input { flex: 1; border: none; background: none; padding: 14px 18px; font-size: 15px; outline: none; color: #ffffff; }
+        .search-box-container input::placeholder { color: #757575; }
         
-        /* High-quality Vector Search Icon button layout */
-        .search-submit-btn { background: none; border: none; padding: 0 22px; cursor: pointer; display: flex; align-items: center; justify-content: center; border-left: 1px solid #e0e0e0; }
-        .vector-search-icon { width: 18px; height: 18px; stroke: #333333; stroke-width: 2.5; fill: none; stroke-linecap: round; transition: stroke 0.2s ease; }
-        .search-submit-btn:hover .vector-search-icon { stroke: #1e73be; }
+        /* Updated: Sleek, high-quality vector CSS styling for a modern search icon */
+        .search-submit-btn { background: none; border: none; padding: 0 22px; cursor: pointer; display: flex; align-items: center; justify-content: center; border-left: 1px solid #333333; }
+        .vector-search-icon { width: 18px; height: 18px; stroke: #b3b3b3; stroke-width: 2.5; fill: none; stroke-linecap: round; transition: stroke 0.2s ease; }
+        .search-submit-btn:hover .vector-search-icon { stroke: #ffffff; }
         
-        .consent-text { font-size: 11px; opacity: 0.85; margin-bottom: 45px; }
+        .consent-text { font-size: 11px; opacity: 0.85; margin-bottom: 45px; color: #b3b3b3; }
         
         #resultsContainer { width: 100%; display: flex; flex-direction: column; gap: 15px; margin-bottom: 35px; }
-        .track-row-card { display: flex; align-items: center; justify-content: space-between; background-color: rgba(0, 0, 0, 0.2); border-radius: 4px; padding: 16px 20px; text-align: left; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-        .track-row-card:hover { background-color: rgba(0, 0, 0, 0.3); }
+        .track-row-card { display: flex; align-items: center; justify-content: space-between; background-color: #181818; border-radius: 6px; padding: 16px 20px; text-align: left; border: 1px solid #282828; }
+        .track-row-card:hover { background-color: #282828; }
         
         .track-info-block { flex: 1; padding-right: 15px; }
         .track-row-title { font-size: 15px; font-weight: bold; color: #ffffff; margin-bottom: 4px; display: block; }
+        .track-row-meta { font-size: 12px; color: #b3b3b3; display: block; }
         
         .track-actions { display: flex; gap: 10px; align-items: center; }
-        .card-btn { background-color: #ffffff; color: #333333; border: none; padding: 8px 18px; font-size: 13px; font-weight: bold; border-radius: 3px; cursor: pointer; }
-        .card-btn:hover { background-color: #f6f6f6; }
+        .card-btn { background-color: #1DB954; color: #ffffff; border: none; padding: 8px 18px; font-size: 13px; font-weight: bold; border-radius: 50px; cursor: pointer; }
+        .card-btn:hover { background-color: #1ed760; }
         
-        .server-download-container { display: none; width: 100%; background-color: #2b2b2b; border-radius: 6px; padding: 20px; margin-bottom: 35px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); text-align: center; }
-        .sc-player-frame-wrapper { width: 100%; height: 166px; margin: 15px 0; border-radius: 6px; overflow: hidden; background-color: #1a1a1a; }
+        .server-download-container { display: none; width: 100%; background-color: #181818; border-radius: 6px; padding: 20px; margin-bottom: 35px; border: 1px solid #282828; text-align: center; }
+        .sc-player-frame-wrapper { width: 100%; height: 166px; margin: 15px 0; border-radius: 6px; overflow: hidden; background-color: #242424; }
         .sc-player-frame-wrapper iframe { width: 100%; height: 100%; border: none; }
         
-        .bitrate-link-row { display: block; background-color: #007bff; color: #ffffff; text-decoration: none; padding: 12px 20px; border-radius: 4px; font-size: 14px; font-weight: bold; margin-bottom: 10px; text-align: center; }
-        .bitrate-link-row:hover { background-color: #0056b3; }
+        .bitrate-link-row { display: block; background-color: #1DB954; color: #ffffff; text-decoration: none; padding: 12px 20px; border-radius: 4px; font-size: 14px; font-weight: bold; margin-bottom: 10px; text-align: center; }
+        .bitrate-link-row:hover { background-color: #1ed760; }
         
-        .info-section { text-align: left; font-size: 13.5px; line-height: 1.6; opacity: 0.95; }
-        .info-section h2 { font-size: 22px; text-align: center; margin-bottom: 25px; }
+        .info-section { text-align: left; font-size: 13.5px; line-height: 1.6; opacity: 0.85; color: #b3b3b3; }
+        .info-section h2 { font-size: 22px; text-align: center; margin-bottom: 25px; color: #ffffff; }
     </style>
 </head>
 <body>
@@ -82,8 +84,9 @@
         </div>
         <form class="search-box-form" id="searchForm" onsubmit="event.preventDefault(); performSearch();">
             <div class="search-box-container">
-                <input type="text" id="queryInput" placeholder="Input keywords or paste YouTube/SoundCloud URL here...">
+                <input type="text" id="queryInput" placeholder="Input keywords to search music worldwide...">
                 <button type="submit" class="search-submit-btn" id="searchBtn">
+                    <!-- High-quality SVG design search icon replaces old emoji text layout -->
                     <svg class="vector-search-icon" viewBox="0 0 24 24">
                         <circle cx="11" cy="11" r="8"></circle>
                         <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
@@ -119,7 +122,7 @@
 
         function copySiteLink(platformName) {
             navigator.clipboard.writeText(window.location.href);
-            alert(`Site URL link successfully copied! Paste it directly into your active ${platformName} window.`);
+            alert(`Site URL link successfully copied! Paste it directly into your active ${platformName} layout window.`);
         }
 
         function performSearch() {
@@ -127,60 +130,63 @@
             if (!queryVal) return alert("Please type keywords first.");
             
             const resultsContainer = document.getElementById('resultsContainer');
-            resultsContainer.innerHTML = "<p style='text-align:center; color:#ffffff;'>Searching global servers...</p>";
+            resultsContainer.innerHTML = "<p style='text-align:center; color:#b3b3b3;'>Searching global servers...</p>";
             document.getElementById('serverDownloadPanel').style.display = 'none';
             
-            // Connects to your internal app.py search proxy route to bypass CORS block filters
-            fetch('/search', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ query: queryVal })
-            })
+            // Core Browser-Direct API Call Setup to unblocked Jamendo global directory endpoints
+            fetch(`https://jamendo.com{encodeURIComponent(queryVal)}`)
             .then(res => res.json())
             .then(data => {
                 resultsContainer.innerHTML = "";
+                const items = data.results || [];
                 
-                if (data.success && data.results && data.results.length > 0) {
+                if (items.length > 0) {
                     document.getElementById('infoSection').style.display = 'none';
 
-                    data.results.forEach(track => {
+                    items.forEach(track => {
                         const card = document.createElement('div');
                         card.className = 'track-row-card';
-                        const safeTitle = track.title.replace(/'/g, "\\'");
+                        
+                        const trackName = track.name || 'Unknown Track';
+                        const artistName = track.artist_name || 'Various Artists';
+                        const fullTitle = `${artistName} - ${trackName}`;
+                        const safeTitle = fullTitle.replace(/'/g, "\\'");
                         
                         card.innerHTML = `
                             <div class="track-info-block">
-                                <span class="track-row-title">${track.title}</span>
+                                <span class="track-row-title">${trackName}</span>
+                                <span class="track-row-artist" style="font-size:12px; color:#b3b3b3;">${artistName}</span>
                             </div>
                             <div class="track-actions">
-                                <button class="card-btn" onclick="openMediaPanel('${safeTitle}', '${encodeURIComponent(track.video_url)}')">Play & Download</button>
+                                <button class="card-btn" onclick="openMediaPanel('${safeTitle}')">Play & Download</button>
                             </div>
                         `;
-                        resultsContainer.appendChild(card);
+                        container = resultsContainer;
+                        container.appendChild(card);
                     });
                 } else {
-                    resultsContainer.innerHTML = `<p style='text-align:center; color:#ffffff;'>${data.error || "No results found. Try alternative keywords."}</p>`;
+                    resultsContainer.innerHTML = "<p style='text-align:center; color:#b3b3b3;'>No music found. Try general words like 'pop', 'dance', or 'rock'.</p>";
                 }
             })
             .catch(err => {
                 resultsContainer.innerHTML = "";
-                alert("Search connection reset. Please re-try.");
+                alert("Search connection pipeline error. Please click search again.");
                 console.error(err);
             });
         }
 
-        function openMediaPanel(fullTitle, encodedVideoUrl) {
-            const decodedVideoUrl = decodeURIComponent(encodedVideoUrl);
+        function openMediaPanel(fullTitle) {
             document.getElementById('resultsContainer').innerHTML = "";
             document.getElementById('serverTitle').innerText = fullTitle;
             
+            // Build unblocked SoundCloud stream embed widget links securely using target name parameters
             const embedQuery = encodeURIComponent(fullTitle);
-            const scEmbedUrl = `https://soundcloud.com{embedQuery}&auto_play=true&show_artwork=true&color=%23007bff`;
+            const scEmbedUrl = `https://soundcloud.com{embedQuery}&auto_play=true&show_artwork=true&color=%231DB954`;
             
             document.getElementById('scEmbedPlayerFrame').src = scEmbedUrl;
             
-            // Safe backend download connection link configuration
-            const proxyDownloadPath = `/download_proxy?url=${encodeURIComponent(decodedVideoUrl)}&title=${encodeURIComponent(fullTitle)}`;
+            const targetDownloadQuery = `ytsearch:${fullTitle} official audio`;
+            const proxyDownloadPath = `/download_proxy?url=${encodeURIComponent(targetDownloadQuery)}&title=${encodeURIComponent(fullTitle)}`;
             document.getElementById('finalDownloadBtn').href = proxyDownloadPath;
             
             document.getElementById('serverDownloadPanel').style.display = 'block';
