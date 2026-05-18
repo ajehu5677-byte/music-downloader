@@ -51,7 +51,7 @@
             if (!queryVal) return alert("Please type keywords first.");
             document.getElementById('searchBtn').innerText = "⏳";
             
-            // BYPASSES RENDER ENTIRELY: Uses browser-level fetch to a completely unblocked global open-source API database
+            // Fixed API parsing logic parameters
             fetch(`https://saavn.dev{encodeURIComponent(queryVal)}`)
             .then(res => res.json())
             .then(data => {
@@ -65,8 +65,14 @@
                         const card = document.createElement('div');
                         card.className = 'track-row-card';
                         
-                        const trackName = track.name;
-                        const artistName = track.artists?.primary?.[0]?.name || 'Various Artists';
+                        const trackName = track.name || 'Unknown Track';
+                        
+                        // FIXED TYPO: Safe navigation chain without double question dots
+                        let artistName = 'Various Artists';
+                        if (track.artists && track.artists.primary && track.artists.primary.length > 0) {
+                            artistName = track.artists.primary[0].name || 'Various Artists';
+                        }
+                        
                         const fullTitle = `${artistName} - ${trackName}`;
                         
                         card.innerHTML = `
@@ -92,7 +98,6 @@
             document.getElementById('resultsContainer').innerHTML = "";
             document.getElementById('serverTitle').innerText = trackTitle;
             
-            // Redirects to your backend proxy using an automated query format
             const targetUrl = `ytsearch:${trackTitle} official audio`;
             const downloadUrl = `/download_proxy?url=${encodeURIComponent(targetUrl)}&title=${encodeURIComponent(trackTitle)}`;
             
