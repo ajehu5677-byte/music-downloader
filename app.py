@@ -52,28 +52,60 @@ def handle_search():
         return jsonify({"success": True, "results": search_results})
     else:
         return jsonify({"success": False, "error": "Global query limit reached. Please try general keywords."})
+import subprocess
+from flask import Flask, request, Response
+
+# ... keep everything else up to line 54 the same ...
 
 @app.route('/download_proxy')
 def download_proxy():
-    """Streams data dynamically through Render back to user to bypass cross-origin browser constraints."""
+    """Streams data dynamically through Render back to user via yt-dlp."""
     url = request.args.get('url')
     title = request.args.get('title', 'music_track')
+    
     if not url:
         return "Missing tracking parameters.", 400
-    try:
-        # Construct path to a free high-performance external fallback stream converter node
-        api_extraction_endpoint = f"https://vexdl.com{url}&format=mp3&bitrate=320"
         
-        req = requests.get(api_extraction_endpoint, stream=True, timeout=15)
+    try:
+        # Construct the safe filename for the download header
+        safe_title = "".join(c for c in title if c.isalnum() or c in (' ', '_', '-')).strip()
+        filename = f"{safe_title}.mp3"
+        
+        # Configure yt-dlp command to extract audio and output raw data to stdout
+        command = [
+            'yt-dlp', 
+            '-x', 
+            '--audio-format', 'mp3', 
+            '--audio-quality', '0', 
+            '-o', '-', 
+            url
+        ]
+        
+        # Spawn the background streaming process
+        process = subprocess.Popen(
+            command, 
+            stdout=subprocess.PIPE, 
+            stderr=subprocess.DEVNULL
+        )
+        
+        # Stream chunks directly to the user as they process to prevent RAM overload
+        def generate_chunks():
+            while True:
+                chunk = process.stdout.read(4096)
+                if not chunk:
+                    break
+                yield chunk
         
         headers = {
-            'Content-Disposition': f'attachment; filename="{title}.mp3"',
+            'Content-Disposition': f'attachment; filename="{filename}"',
             'Content-Type': 'audio/mpeg'
         }
-        # Pull file chunks cleanly and push directly into user browser's saving pipeline automatically
-        return Response(req.iter_content(chunk_size=512*1024), headers=headers)
+        
+        return Response(generate_chunks(), headers=headers)
+        
     except Exception as e:
         return f"Streaming link connection timeout: {str(e)}", 500
+
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
