@@ -1,9 +1,11 @@
+import io
+import os
+import subprocess
 from flask import Flask, render_template, request, jsonify, Response
 from youtubesearchpython import VideosSearch
-import requests
-import os
 
 app = Flask(__name__)
+
 def worldwide_youtube_search(query):
     """Uses an advanced internal query wrapper to fetch worldwide results securely."""
     try:
@@ -11,7 +13,6 @@ def worldwide_youtube_search(query):
         videos_search = VideosSearch(query, limit=5)
         result_data = videos_search.result()
         
-        # FIXED: Corrected spelling to match result_data variable name
         if not result_data or 'result' not in result_data or len(result_data['result']) == 0:
             return None
             
@@ -28,7 +29,7 @@ def worldwide_youtube_search(query):
             results.append({
                 "id": v_id,
                 "title": item.get('title', 'Unknown Track'),
-                "video_url": f"https://youtube.comwatch?v={v_id}",
+                "video_url": f"https://youtube.com{v_id}",  # FIXED: Added missing slashes
                 "thumbnail": thumb_url
             })
             
@@ -54,10 +55,6 @@ def handle_search():
         return jsonify({"success": True, "results": search_results})
     else:
         return jsonify({"success": False, "error": "Global query limit reached. Please try general keywords."})
-import subprocess
-from flask import Flask, request, Response
-
-# ... keep everything else up to line 54 the same ...
 
 @app.route('/download_proxy')
 def download_proxy():
@@ -107,7 +104,6 @@ def download_proxy():
         
     except Exception as e:
         return f"Streaming link connection timeout: {str(e)}", 500
-
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
