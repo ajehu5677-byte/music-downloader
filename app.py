@@ -9,54 +9,55 @@ from flask import Flask, render_template, request, jsonify, Response
 app = Flask(__name__)
 
 def global_unblocked_api_search(query):
-    """Fetches global music search results via public API mirror networks to completely bypass IP bans."""
+    """Fetches global music search results via stable, unblocked open music directory databases."""
     encoded_query = urllib.parse.quote(query)
     
-    # List of redundant public API search mirrors to circle through automatically
-    api_endpoints = [
-        f"https://kavin.rocks{encoded_query}&filter=videos",
-        f"https://puffyan.us{encoded_query}"
-    ]
+    # Secure, stable worldwide open music database API mirror
+    url = f"https://saavn.dev{encoded_query}"
     
-    for url in api_endpoints:
-        try:
-            req = urllib.request.Request(
-                url, 
-                headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}
-            )
-            with urllib.request.urlopen(req, timeout=5) as response:
-                data = json.loads(response.read().decode('utf-8'))
-                
-            results = []
+    try:
+        req = urllib.request.Request(
+            url, 
+            headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}
+        )
+        with urllib.request.urlopen(req, timeout=6) as response:
+            data = json.loads(response.read().decode('utf-8'))
             
-            # Handle standard Piped format data structure parsing
-            items = data.get('content', []) if isinstance(data, dict) else data
-            if not items:
-                continue
-                
-            for item in items:
-                v_id = item.get('videoId') or item.get('id')
-                if not v_id:
-                    continue
-                    
-                results.append({
-                    "id": v_id,
-                    "title": item.get('title', 'Unknown Track'),
-                    "video_url": f"https://youtube.com{v_id}",
-                    "thumbnail": f"https://youtube.com{v_id}/mqdefault.jpg"
-                })
-                
-                if len(results) >= 5:
-                    break
-                    
-            if results:
-                return results
-                
-        except Exception as e:
-            print(f"Mirror server node bypass warning: {str(e)}")
-            continue # Try the fallback mirror automatically if one is slow or down
+        results = []
+        # Parse data structure from the global music network response arrays
+        items = data.get('data', {}).get('results', []) if isinstance(data, dict) else []
+        
+        if not items:
+            return None
             
-    return None
+        for item in items:
+            track_name = item.get('name', 'Unknown Track')
+            artists = item.get('artists', {}).get('primary', [])
+            artist_name = artists[0].get('name', 'Various Artists') if artists else 'Unknown Artist'
+            full_title = f"{artist_name} - {track_name}"
+            
+            # Map dynamic download request pipelines via keyword matching query lookups
+            download_query_string = f"{full_title} official audio"
+            
+            # Extract image preview files cleanly
+            image_list = item.get('image', [])
+            thumb_url = image_list[-1].get('url') if image_list else "https://unsplash.com"
+            
+            results.append({
+                "id": item.get('id', 'track'),
+                "title": full_title,
+                "video_url": f"ytsearch:{download_query_string}", # Safely directs yt-dlp to search and grab the audio track stream automatically
+                "thumbnail": thumb_url
+            })
+            
+            if len(results) >= 5:
+                break
+                
+        return results if results else None
+        
+    except Exception as e:
+        print(f"Global Directory API Mirror warning: {str(e)}")
+        return None
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
