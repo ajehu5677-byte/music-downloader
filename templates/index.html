@@ -82,10 +82,10 @@
             <div class="server-track-year">2026</div>
             <div class="format-selector-wrapper"><button class="format-tab-btn active-tab">MP3</button><button class="format-tab-btn">MP4</button></div>
             <div class="bitrate-rows-grid">
-                <a href="#" id="bitrateRowOriginal" class="bitrate-link-row"><span class="bitrate-tag-left">MP3 3.52 MB</span> <span>Original</span></a>
-                <a href="#" id="bitrateRow320" class="bitrate-link-row"><span class="bitrate-tag-left">MP3 8.62 MB</span> <span>320 Kbps</span></a>
-                <a href="#" id="bitrateRow256" class="bitrate-link-row"><span class="bitrate-tag-left">MP3 6.90 MB</span> <span>256 Kbps</span></a>
-                <a href="#" id="bitrateRow128" class="bitrate-link-row"><span class="bitrate-tag-left">MP3 3.45 MB</span> <span>128 Kbps</span></a>
+                <a href="#" id="bitrateRowOriginal" class="bitrate-link-row"><span class="bitrate-tag-left">MP3 Stream</span> <span>Download Audio</span></a>
+                <a href="#" id="bitrateRow320" class="bitrate-link-row"><span class="bitrate-tag-left">High Quality</span> <span>320 Kbps</span></a>
+                <a href="#" id="bitrateRow256" class="bitrate-link-row"><span class="bitrate-tag-left">Medium Quality</span> <span>256 Kbps</span></a>
+                <a href="#" id="bitrateRow128" class="bitrate-link-row"><span class="bitrate-tag-left">Standard Quality</span> <span>128 Kbps</span></a>
             </div>
             <a href="javascript:location.reload()" style="color:#fff; opacity:0.7; font-size:13px; text-decoration:none; font-weight:bold; display:inline-block; margin-top:15px;">← Back to Search Lists</a>
         </div>
@@ -106,41 +106,47 @@
             document.getElementById('mainYtFrame').src = "";
             activePlayButton = null;
 
-            // GLOBAL BYPASS: Search from the visitor's unblocked browser IP address using a robust Invidious proxy instance
-            const globalSearchUrl = "https://puffyan.us" + encodeURIComponent(queryVal) + "&type=video";
-
-            fetch(globalSearchUrl)
+            // CONNECTS TO YOUR APP.PY BACKEND SEARCH ROUTE
+            fetch('/search', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ query: queryVal })
+            })
             .then(res => res.json())
             .then(data => {
                 document.getElementById('searchBtn').innerText = "🔍";
                 const container = document.getElementById('resultsContainer');
                 container.innerHTML = "";
                 
-                if (data && data.length > 0) {
+                if (data.success && data.results && data.results.length > 0) {
                     document.getElementById('infoSection').style.display = 'none';
                     document.getElementById('serverDownloadPanel').style.display = 'none';
 
-                    data.slice(0, 5).forEach(track => {
+                    data.results.forEach(track => {
                         const card = document.createElement('div');
                         card.className = 'track-row-card';
-                        const thumbUrl = "https://youtube.com" + track.videoId + "/mqdefault.jpg";
+                        
+                        // Escape single quotes in track title to prevent JS errors
+                        const safeTitle = track.title.replace(/'/g, "\\'");
+                        
                         card.innerHTML = `
                             <div class="track-row-title">${track.title}</div>
-                            <div class="track-row-meta">Source: YouTube Worldwide | Channel: ${track.author} | Duration: ${track.durationText}</div>
+                            <div class="track-row-meta">Source: YouTube Worldwide</div>
                             <div class="track-actions">
-                                <button class="card-btn" onclick="openServerDownloadPanel('${track.videoId}', '${track.title.replace(/'/g, "\\'")}', '${thumbUrl}')">Download</button>
-                                <button class="card-btn" onclick="togglePlayInline(this, '${track.videoId}')">Play</button>
+                                <button class="card-btn" onclick="openServerDownloadPanel('${track.id}', '${safeTitle}', '${track.thumbnail}', '${btoa(track.video_url)}')">Download</button>
+                                <button class="card-btn" onclick="togglePlayInline(this, '${track.id}')">Play</button>
                             </div>
                         `;
                         container.appendChild(card);
                     });
                 } else {
-                    alert("No results found. Please check your keywords.");
+                    alert(data.error || "No results found. Please try different keywords.");
                 }
             })
             .catch(err => {
                 document.getElementById('searchBtn').innerText = "🔍";
                 alert("Global search mirror is busy. Click search button again.");
+                console.error(err);
             });
         }
 
@@ -155,21 +161,24 @@
                 return;
             }
             if (activePlayButton) { activePlayButton.innerText = "Play"; }
+            
+            // Safe embedded player URL format
             ytFrame.src = "https://youtube.com" + trackId + "?autoplay=1";
             playerWrapper.style.display = 'block';
             btnNode.innerText = "Stop";
             activePlayButton = btnNode;
         }
 
-        function openServerDownloadPanel(trackId, trackTitle, trackThumb) {
+        function openServerDownloadPanel(trackId, trackTitle, trackThumb, encodedUrl) {
+            const videoUrl = atob(encodedUrl);
             document.getElementById('videoPlayerWrapper').style.display = 'none';
             document.getElementById('mainYtFrame').src = "";
             document.getElementById('resultsContainer').innerHTML = "";
             document.getElementById('serverThumb').src = trackThumb;
             document.getElementById('serverTitle').innerText = trackTitle;
 
-            // Connects directly to a fast, reliable worldwide audio file extraction handler
-            const finalDownloadLink = "https://vexdl.com" + encodeURIComponent("https://youtube.com" + trackId) + "&format=mp3&bitrate=320";
+            // MAPS DIRECTLY TO YOUR APP.PY /DOWNLOAD_PROXY ROUTE
+            const finalDownloadLink = `/download_proxy?url=${encodeURIComponent(videoUrl)}&title=${encodeURIComponent(trackTitle)}`;
             
             document.getElementById('bitrateRowOriginal').href = finalDownloadLink;
             document.getElementById('bitrateRow320').href = finalDownloadLink;
