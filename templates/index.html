@@ -7,25 +7,23 @@
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
         
-        /* Spotify Signature Dark Theme Color Palette Switch */
         body { background-color: #121212; color: #ffffff; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding-bottom: 50px; }
         header { width: 100%; display: flex; justify-content: center; gap: 25px; padding: 20px 0; font-size: 13px; background-color: #000000; }
         header a { color: #b3b3b3; text-decoration: none; opacity: 0.9; }
         header a:hover { opacity: 1; color: #ffffff; text-decoration: underline; }
         .lang-select { cursor: pointer; }
         
-        /* Fixed Left Platform Share Sidebar Deck with Working Embed Sharing Links */
-        .sharing-sidebar { position: fixed; left: 0; top: 30%; display: flex; flex-direction: column; width: 40px; z-index: 1000; box-shadow: 2px 0 10px rgba(0,0,0,0.5); }
-        .share-count { background-color: #ffffff; color: #333333; text-align: center; font-size: 11px; font-weight: bold; padding: 6px 0; }
-        .share-btn { width: 40px; height: 40px; display: none; align-items: center; justify-content: center; color: #ffffff; text-decoration: none; font-size: 16px; font-weight: bold; transform: translateX(-40px); opacity: 0; transition: all 0.3s ease; }
+        /* Fixed Left Platform Share Sidebar Deck - All Visible with Spacing Layout */
+        .sharing-sidebar { position: fixed; left: 0; top: 25%; display: flex; flex-direction: column; gap: 12px; width: 45px; z-index: 1000; }
+        .share-count { background-color: #ffffff; color: #333333; text-align: center; font-size: 11px; font-weight: bold; padding: 6px 0; border-top-right-radius: 4px; border-bottom-right-radius: 4px; box-shadow: 2px 2px 5px rgba(0,0,0,0.3); }
         
-        /* Slide Loop Active Visuals Animation Trigger Hook */
-        .share-btn.slide-active { display: flex; transform: translateX(0); opacity: 1; }
+        .share-btn { width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; color: #ffffff; text-decoration: none; font-size: 18px; font-weight: bold; border-top-right-radius: 4px; border-bottom-right-radius: 4px; box-shadow: 2px 2px 5px rgba(0,0,0,0.3); transition: transform 0.2s ease; }
+        .share-btn:hover { transform: scale(1.08); width: 50px; }
         
         .share-fb { background-color: #3b5998; }
         .share-msg { background-color: #0084FF; }
         .share-ig { background-color: #E1306C; }
-        .share-tk { background-color: #000000; border-right: 1px solid #282828; }
+        .share-tk { background-color: #000000; border: 1px solid #282828; }
         
         #content { width: 100%; max-width: 680px; padding: 0 20px; text-align: center; margin-top: 10px; }
         .brand-container { margin-bottom: 30px; }
@@ -36,8 +34,12 @@
         .search-box-container { display: flex; background-color: #242424; border-radius: 4px; overflow: hidden; border: 1px solid #282828; box-shadow: 0 2px 4px rgba(0,0,0,0.5); }
         .search-box-container input { flex: 1; border: none; background: none; padding: 14px 18px; font-size: 15px; outline: none; color: #ffffff; }
         .search-box-container input::placeholder { color: #757575; }
-        .search-box-container button { background: none; border: none; padding: 0 22px; cursor: pointer; font-size: 16px; color: #b3b3b3; border-left: 1px solid #333333; }
-        .search-box-container button:hover { color: #ffffff; }
+        
+        /* Updated: Sleek, high-quality vector CSS styling for a modern search icon */
+        .search-submit-btn { background: none; border: none; padding: 0 22px; cursor: pointer; display: flex; align-items: center; justify-content: center; border-left: 1px solid #333333; }
+        .vector-search-icon { width: 18px; height: 18px; stroke: #b3b3b3; stroke-width: 2.5; fill: none; stroke-linecap: round; transition: stroke 0.2s ease; }
+        .search-submit-btn:hover .vector-search-icon { stroke: #ffffff; }
+        
         .consent-text { font-size: 11px; opacity: 0.85; margin-bottom: 45px; color: #b3b3b3; }
         
         #resultsContainer { width: 100%; display: flex; flex-direction: column; gap: 15px; margin-bottom: 35px; }
@@ -52,7 +54,6 @@
         .card-btn { background-color: #1DB954; color: #ffffff; border: none; padding: 8px 18px; font-size: 13px; font-weight: bold; border-radius: 50px; cursor: pointer; }
         .card-btn:hover { background-color: #1ed760; }
         
-        /* SoundCloud Interactive Embedded Player Framework Module Box */
         .server-download-container { display: none; width: 100%; background-color: #181818; border-radius: 6px; padding: 20px; margin-bottom: 35px; border: 1px solid #282828; text-align: center; }
         .sc-player-frame-wrapper { width: 100%; height: 166px; margin: 15px 0; border-radius: 6px; overflow: hidden; background-color: #242424; }
         .sc-player-frame-wrapper iframe { width: 100%; height: 100%; border: none; }
@@ -62,17 +63,15 @@
         
         .info-section { text-align: left; font-size: 13.5px; line-height: 1.6; opacity: 0.85; color: #b3b3b3; }
         .info-section h2 { font-size: 22px; text-align: center; margin-bottom: 25px; color: #ffffff; }
-        .info-section h3 { font-size: 16px; margin-top: 20px; margin-bottom: 5px; color: #ffffff; }
     </style>
 </head>
 <body>
-    <!-- Sliding Platforms Loop Sharing Sidebar Deck with Functional Embed Links -->
     <div class="sharing-sidebar">
         <div class="share-count">375<br>Shares</div>
-        <a href="javascript:void(0)" onclick="shareLink('fb')" class="share-btn share-fb slide-active">👤 Facebook</a>
-        <a href="javascript:void(0)" onclick="shareLink('msg')" class="share-btn share-msg">💬 Messenger</a>
-        <a href="javascript:void(0)" onclick="shareLink('ig')" class="share-btn share-ig">📸 Instagram</a>
-        <a href="javascript:void(0)" onclick="shareLink('tk')" class="share-btn share-tk">🎵 TikTok</a>
+        <a id="fbShareLink" href="#" target="_blank" class="share-btn share-fb" title="Share on Facebook">👤</a>
+        <a id="msgShareLink" href="#" target="_blank" class="share-btn share-msg" title="Share on Messenger">💬</a>
+        <a href="javascript:void(0)" onclick="copySiteLink('Instagram')" class="share-btn share-ig" title="Copy Link for Instagram">📸</a>
+        <a href="javascript:void(0)" onclick="copySiteLink('TikTok')" class="share-btn share-tk" title="Copy Link for TikTok">🎵</a>
     </div>
 
     <header>
@@ -85,20 +84,24 @@
         </div>
         <form class="search-box-form" id="searchForm" onsubmit="event.preventDefault(); performSearch();">
             <div class="search-box-container">
-                <input type="text" id="queryInput" placeholder="Input keywords or paste YouTube/SoundCloud URL here...">
-                <button type="submit" id="searchBtn">🔍</button>
+                <input type="text" id="queryInput" placeholder="Input keywords to search music worldwide...">
+                <button type="submit" class="search-submit-btn" id="searchBtn">
+                    <!-- High-quality SVG design search icon replaces old emoji text layout -->
+                    <svg class="vector-search-icon" viewBox="0 0 24 24">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                </button>
             </div>
         </form>
         <div class="consent-text">By pressing "Search" you confirm your consent to our Terms of Use.</div>
         
         <div id="resultsContainer"></div>
         
-        <!-- Live SoundCloud Embedded Player Panel Layout View -->
         <div id="serverDownloadPanel" class="server-download-container">
-            <h3 id="serverTitle" style="font-size: 18px; margin-bottom: 5px; color:#ffffff;">Track Title</h3>
+            <h3 id="serverTitle" style="font-size: 18px; margin-bottom: 15px; color:#ffffff;">Track Title</h3>
             
             <div class="sc-player-frame-wrapper">
-                <!-- Working SoundCloud Embed Player Frame -->
                 <iframe id="scEmbedPlayerFrame" allow="autoplay" src=""></iframe>
             </div>
             
@@ -108,83 +111,66 @@
 
         <div id="infoSection" class="info-section">
             <h2>MP3 Juice - MP3Juice Free and Safe MP3 Downloads</h2>
-            <p>Mp3Juice accessing your favorite tunes effortlessly is a luxury we cherish. Among the myriad of platforms offering music downloads, MP3 Juice - MP3Juice Free MP3 Downloads stands out as a beacon of convenience and accessibility. Let's delve into the realm of MP3 Juice, exploring its features, impact, and the controversies that often accompany such platforms.</p>
-            <h3>The Genesis of MP3 Juice</h3>
-            <p>MP3 Juice emerged as a response to the growing demand for easy-to-use platforms providing free music downloads. It quickly gained popularity due to its straightforward interface and extensive library of songs spanning across genres and languages. With just a few clicks, users can search for their desired tracks and download them in high-quality MP3 format, ready to be enjoyed offline.</p>
+            <p>Mp3Juice accessing your favorite tunes effortlessly is a luxury we cherish. Among the myriad of platforms offering music downloads, MP3 Juice stands out as a beacon of convenience and accessibility.</p>
         </div>
     </div>
     
     <script>
-        // Automatic Sidebar 3-Second Gliding Rotation Script
-        let currentShareIndex = 0;
-        const shareButtons = document.querySelectorAll('.share-btn');
-        
-        setInterval(() => {
-            shareButtons[currentShareIndex].classList.remove('slide-active');
-            currentShareIndex = (currentShareIndex + 1) % shareButtons.length;
-            shareButtons[currentShareIndex].classList.add('slide-active');
-        }, 3000);
+        const currentDomain = encodeURIComponent(window.location.href);
+        document.getElementById('fbShareLink').href = `https://facebook.com{currentDomain}`;
+        document.getElementById('msgShareLink').href = `https://facebook.com{currentDomain}&redirect_uri=${currentDomain}`;
 
-        function shareLink(platform) {
-            const currentUrl = encodeURIComponent(window.location.href);
-            // Real Working Web Link Sharing Intent Strings
-            if (platform === 'fb') window.open(`https://facebook.com{currentUrl}`, '_blank');
-            if (platform === 'msg') window.open(`https://facebook.com{currentUrl}&redirect_uri=${currentUrl}`, '_blank');
-            if (platform === 'ig') {
-                navigator.clipboard.writeText(window.location.href);
-                alert("Site link successfully copied! Paste it directly into your Instagram Bio or Story sticker frame.");
-            }
-            if (platform === 'tk') {
-                navigator.clipboard.writeText(window.location.href);
-                alert("Site link copied! Open TikTok and paste the link context into your profile message feed window.");
-            }
+        function copySiteLink(platformName) {
+            navigator.clipboard.writeText(window.location.href);
+            alert(`Site URL link successfully copied! Paste it directly into your active ${platformName} layout window.`);
         }
 
         function performSearch() {
             const queryVal = document.getElementById('queryInput').value.trim();
             if (!queryVal) return alert("Please type keywords first.");
-            document.getElementById('searchBtn').innerText = "⏳";
             
-            // Client-Side Browser Tracking Engine via stable open music search endpoints
-            fetch(`https://saavn.dev{encodeURIComponent(queryVal)}`)
+            const resultsContainer = document.getElementById('resultsContainer');
+            resultsContainer.innerHTML = "<p style='text-align:center; color:#b3b3b3;'>Searching global servers...</p>";
+            document.getElementById('serverDownloadPanel').style.display = 'none';
+            
+            // Core Browser-Direct API Call Setup to unblocked Jamendo global directory endpoints
+            fetch(`https://jamendo.com{encodeURIComponent(queryVal)}`)
             .then(res => res.json())
             .then(data => {
-                document.getElementById('searchBtn').innerText = "🔍";
-                const container = document.getElementById('resultsContainer');
-                container.innerHTML = "";
-                document.getElementById('serverDownloadPanel').style.display = 'none';
+                resultsContainer.innerHTML = "";
+                const items = data.results || [];
                 
-                const items = data.data?.results || [];
                 if (items.length > 0) {
                     document.getElementById('infoSection').style.display = 'none';
 
-                    items.slice(0, 5).forEach(track => {
+                    items.forEach(track => {
                         const card = document.createElement('div');
                         card.className = 'track-row-card';
                         
                         const trackName = track.name || 'Unknown Track';
-                        const artistName = track.artists?.primary?.[0]?.name || 'Various Artists';
+                        const artistName = track.artist_name || 'Various Artists';
                         const fullTitle = `${artistName} - ${trackName}`;
                         const safeTitle = fullTitle.replace(/'/g, "\\'");
                         
                         card.innerHTML = `
                             <div class="track-info-block">
                                 <span class="track-row-title">${trackName}</span>
-                                <span class="track-row-artist">${artistName}</span>
+                                <span class="track-row-artist" style="font-size:12px; color:#b3b3b3;">${artistName}</span>
                             </div>
                             <div class="track-actions">
                                 <button class="card-btn" onclick="openMediaPanel('${safeTitle}')">Play & Download</button>
                             </div>
                         `;
+                        container = resultsContainer;
                         container.appendChild(card);
                     });
                 } else {
-                    alert("No matching music discovered. Try different phrasing.");
+                    resultsContainer.innerHTML = "<p style='text-align:center; color:#b3b3b3;'>No music found. Try general words like 'pop', 'dance', or 'rock'.</p>";
                 }
             })
             .catch(err => {
-                document.getElementById('searchBtn').innerText = "🔍";
-                alert("Search network error. Please try clicking search again.");
+                resultsContainer.innerHTML = "";
+                alert("Search connection pipeline error. Please click search again.");
                 console.error(err);
             });
         }
@@ -193,13 +179,12 @@
             document.getElementById('resultsContainer').innerHTML = "";
             document.getElementById('serverTitle').innerText = fullTitle;
             
-            // Generate real working SoundCloud embed player source parameters automatically based on track name keyword lookups
+            // Build unblocked SoundCloud stream embed widget links securely using target name parameters
             const embedQuery = encodeURIComponent(fullTitle);
             const scEmbedUrl = `https://soundcloud.com{embedQuery}&auto_play=true&show_artwork=true&color=%231DB954`;
             
             document.getElementById('scEmbedPlayerFrame').src = scEmbedUrl;
             
-            // Directs your app.py background streaming converter route
             const targetDownloadQuery = `ytsearch:${fullTitle} official audio`;
             const proxyDownloadPath = `/download_proxy?url=${encodeURIComponent(targetDownloadQuery)}&title=${encodeURIComponent(fullTitle)}`;
             document.getElementById('finalDownloadBtn').href = proxyDownloadPath;
