@@ -1,80 +1,13 @@
 import io
 import os
-import json
-import urllib.request
-import urllib.parse
 import subprocess
-from flask import Flask, render_template, request, jsonify, Response
+from flask import Flask, render_template, request, Response
 
 app = Flask(__name__)
-
-def global_unblocked_api_search(query):
-    """Fetches global music search results via stable, unblocked open music directory databases."""
-    encoded_query = urllib.parse.quote(query)
-    
-    # Secure, stable worldwide open music database API mirror
-    url = f"https://saavn.dev{encoded_query}"
-    
-    try:
-        req = urllib.request.Request(
-            url, 
-            headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}
-        )
-        with urllib.request.urlopen(req, timeout=6) as response:
-            data = json.loads(response.read().decode('utf-8'))
-            
-        results = []
-        # Parse data structure from the global music network response arrays
-        items = data.get('data', {}).get('results', []) if isinstance(data, dict) else []
-        
-        if not items:
-            return None
-            
-        for item in items:
-            track_name = item.get('name', 'Unknown Track')
-            artists = item.get('artists', {}).get('primary', [])
-            artist_name = artists[0].get('name', 'Various Artists') if artists else 'Unknown Artist'
-            full_title = f"{artist_name} - {track_name}"
-            
-            # Map dynamic download request pipelines via keyword matching query lookups
-            download_query_string = f"{full_title} official audio"
-            
-            # Extract image preview files cleanly
-            image_list = item.get('image', [])
-            thumb_url = image_list[-1].get('url') if image_list else "https://unsplash.com"
-            
-            results.append({
-                "id": item.get('id', 'track'),
-                "title": full_title,
-                "video_url": f"ytsearch:{download_query_string}", # Safely directs yt-dlp to search and grab the audio track stream automatically
-                "thumbnail": thumb_url
-            })
-            
-            if len(results) >= 5:
-                break
-                
-        return results if results else None
-        
-    except Exception as e:
-        print(f"Global Directory API Mirror warning: {str(e)}")
-        return None
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
     return render_template('index.html')
-
-@app.route('/search', methods=['POST'])
-def handle_search():
-    data = request.get_json() or {}
-    query = data.get('query', '').strip()
-    if not query:
-        return jsonify({"success": False, "error": "Input text is blank"})
-        
-    search_result = global_unblocked_api_search(query)
-    if search_result:
-        return jsonify({"success": True, "results": search_result})
-    else:
-        return jsonify({"success": False, "error": "Global query mirror limits hit. Please try direct keywords."})
 
 @app.route('/download_proxy')
 def download_proxy():
