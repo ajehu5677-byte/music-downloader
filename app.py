@@ -4,67 +4,59 @@ import json
 import urllib.request
 import urllib.parse
 import subprocess
-import re
 from flask import Flask, render_template, request, jsonify, Response
 
 app = Flask(__name__)
 
-def unblocked_global_search(query):
-    """Fetches global search results by parsing YouTube's internal layout data structure."""
-    try:
-        encoded_query = urllib.parse.quote(query)
-        url = f"https://youtube.com{encoded_query}"
-        
-        req = urllib.request.Request(
-            url, 
-            headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'}
-        )
-        
-        with urllib.request.urlopen(req, timeout=7) as response:
-            html = response.read().decode('utf-8')
+def global_unblocked_api_search(query):
+    """Fetches global music search results via public API mirror networks to completely bypass IP bans."""
+    encoded_query = urllib.parse.quote(query)
+    
+    # List of redundant public API search mirrors to circle through automatically
+    api_endpoints = [
+        f"https://kavin.rocks{encoded_query}&filter=videos",
+        f"https://puffyan.us{encoded_query}"
+    ]
+    
+    for url in api_endpoints:
+        try:
+            req = urllib.request.Request(
+                url, 
+                headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}
+            )
+            with urllib.request.urlopen(req, timeout=5) as response:
+                data = json.loads(response.read().decode('utf-8'))
+                
+            results = []
             
-        # Extract the hidden structural data JSON payload from YouTube's page response
-        json_search = re.search(r'ytInitialData\s*=\s*({.+?});', html)
-        if not json_search:
-            return None
-            
-        data = json.loads(json_search.group(1))
-        
-        # Navigate through YouTube's nested dictionary layout layers safely
-        contents = data['contents']['twoColumnSearchResultsRenderer']['primaryContents']['sectionListRenderer']['contents']
-        video_items = contents[0]['itemSectionRenderer']['contents']
-        
-        results = []
-        for item in video_items:
-            if 'videoRenderer' not in item:
+            # Handle standard Piped format data structure parsing
+            items = data.get('content', []) if isinstance(data, dict) else data
+            if not items:
                 continue
                 
-            video_data = item['videoRenderer']
-            v_id = video_data.get('videoId')
-            if not v_id:
-                continue
+            for item in items:
+                v_id = item.get('videoId') or item.get('id')
+                if not v_id:
+                    continue
+                    
+                results.append({
+                    "id": v_id,
+                    "title": item.get('title', 'Unknown Track'),
+                    "video_url": f"https://youtube.com{v_id}",
+                    "thumbnail": f"https://youtube.com{v_id}/mqdefault.jpg"
+                })
                 
-            # Safely parse text objects out of the nested titles dictionary array
-            title_text = "Unknown Track"
-            if 'title' in video_data and 'runs' in video_data['title']:
-                title_text = video_data['title']['runs'][0].get('text', 'Unknown Track')
+                if len(results) >= 5:
+                    break
+                    
+            if results:
+                return results
                 
-            results.append({
-                "id": v_id,
-                "title": title_text,
-                "video_url": f"https://youtube.com{v_id}",
-                "thumbnail": f"https://youtube.com{v_id}/mqdefault.jpg"
-            })
+        except Exception as e:
+            print(f"Mirror server node bypass warning: {str(e)}")
+            continue # Try the fallback mirror automatically if one is slow or down
             
-            # Limit our dashboard feed to exactly 5 search cards
-            if len(results) >= 5:
-                break
-                
-        return results if results else None
-        
-    except Exception as e:
-        print(f"Backend processor extraction exception: {str(e)}")
-        return None
+    return None
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -77,7 +69,7 @@ def handle_search():
     if not query:
         return jsonify({"success": False, "error": "Input text is blank"})
         
-    search_result = unblocked_global_search(query)
+    search_result = global_unblocked_api_search(query)
     if search_result:
         return jsonify({"success": True, "results": search_result})
     else:
