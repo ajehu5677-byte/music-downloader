@@ -10,180 +10,93 @@
         header { width: 100%; display: flex; justify-content: center; gap: 25px; padding: 20px 0; font-size: 13px; }
         header a { color: #ffffff; text-decoration: none; opacity: 0.9; }
         header a:hover { opacity: 1; text-decoration: underline; }
-        .lang-select { cursor: pointer; }
-        .sharing-sidebar { position: fixed; left: 0; top: 30%; display: flex; flex-direction: column; width: 40px; z-index: 1000; }
-        .share-count { background-color: #ffffff; color: #333333; text-align: center; font-size: 11px; font-weight: bold; padding: 6px 0; }
-        .share-btn { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; color: #ffffff; text-decoration: none; font-size: 16px; font-weight: bold; }
-        .share-fb { background-color: #3b5998; }
-        .share-tw { background-color: #000000; }
-        .share-wa { background-color: #25d366; }
         #content { width: 100%; max-width: 680px; padding: 0 20px; text-align: center; margin-top: 10px; }
         .brand-container { margin-bottom: 30px; }
-        .soundwave-svg { width: 220px; height: auto; margin: 0 auto; display: block; }
-        .brand-title { font-size: 34px; font-weight: bold; letter-spacing: 0.5px; margin-top: -10px; }
+        .brand-title { font-size: 34px; font-weight: bold; letter-spacing: 0.5px; }
         .search-box-form { width: 100%; margin-bottom: 12px; }
         .search-box-container { display: flex; background-color: #ffffff; border-radius: 4px; overflow: hidden; border: 1px solid #cccccc; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
         .search-box-container input { flex: 1; border: none; padding: 14px 18px; font-size: 15px; outline: none; color: #333333; }
         .search-box-container button { background-color: #ffffff; border: none; padding: 0 22px; cursor: pointer; font-size: 16px; border-left: 1px solid #e0e0e0; }
-        .consent-text { font-size: 11px; opacity: 0.85; margin-bottom: 45px; }
-        #videoPlayerWrapper { display: none; width: 100%; background-color: #ffffff; border-radius: 4px; padding: 10px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
-        .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 4px; }
-        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
-        #resultsContainer { width: 100%; display: flex; flex-direction: column; gap: 15px; margin-bottom: 35px; }
+        #resultsContainer { width: 100%; display: flex; flex-direction: column; gap: 15px; margin-bottom: 35px; margin-top: 20px; }
         .track-row-card { background-color: rgba(0, 0, 0, 0.2); border-radius: 4px; padding: 20px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
         .track-row-title { font-size: 15px; font-weight: bold; color: #ffffff; margin-bottom: 6px; display: inline-block; }
-        .track-row-meta { font-size: 11px; color: rgba(255, 255, 255, 0.75); margin-bottom: 15px; }
-        .track-actions { display: flex; justify-content: center; gap: 10px; }
+        .track-actions { display: flex; justify-content: center; gap: 10px; margin-top: 10px; }
         .card-btn { background-color: #ffffff; color: #333333; border: none; padding: 6px 18px; font-size: 13px; font-weight: bold; border-radius: 3px; cursor: pointer; }
-        .server-download-container { display: none; width: 100%; background-color: #2b2b2b; border-radius: 6px; padding: 30px 20px; margin-bottom: 35px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); text-align: center; }
-        .server-title-header { font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: #ffffff; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; }
-        .server-thumb-img { width: 100%; max-width: 260px; height: auto; border-radius: 4px; margin-bottom: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.4); }
-        .server-track-title { font-size: 16px; font-weight: bold; color: #ffffff; margin-bottom: 5px; padding: 0 10px; }
-        .server-track-year { font-size: 14px; color: rgba(255,255,255,0.6); margin-bottom: 20px; }
-        .format-selector-wrapper { display: flex; justify-content: center; gap: 10px; margin-bottom: 25px; }
-        .format-tab-btn { background-color: #1a1a1a; color: #ffffff; border: 1px solid rgba(255,255,255,0.2); padding: 8px 24px; font-size: 13px; font-weight: bold; border-radius: 4px; cursor: pointer; }
-        .format-tab-btn.active-tab { background-color: #444444; border-color: #ffffff; }
-        .bitrate-rows-grid { display: flex; flex-direction: column; gap: 8px; max-width: 420px; margin: 0 auto 25px auto; }
-        .bitrate-link-row { display: flex; justify-content: space-between; align-items: center; background-color: #007bff; color: #ffffff; text-decoration: none; padding: 12px 20px; border-radius: 4px; font-size: 14px; font-weight: bold; }
+        .server-download-container { display: none; width: 100%; background-color: #2b2b2b; border-radius: 6px; padding: 30px 20px; margin-bottom: 35px; text-align: center; }
+        .server-track-title { font-size: 16px; font-weight: bold; color: #ffffff; margin-bottom: 20px; }
+        .bitrate-link-row { display: block; background-color: #007bff; color: #ffffff; text-decoration: none; padding: 12px 20px; border-radius: 4px; font-size: 14px; font-weight: bold; margin-bottom: 10px; }
         .bitrate-link-row:hover { background-color: #0056b3; }
-        .bitrate-tag-left { font-size: 11px; background-color: rgba(0, 0, 0, 0.2); padding: 3px 8px; border-radius: 3px; }
-        .info-section { text-align: left; font-size: 13.5px; line-height: 1.6; opacity: 0.95; }
-        .info-section h2 { font-size: 22px; text-align: center; margin-bottom: 25px; }
     </style>
 </head>
 <body>
-    <div class="sharing-sidebar">
-        <div class="share-count">12<br>Shares</div>
-        <a href="#" class="share-btn share-fb">f</a>
-        <a href="#" class="share-btn share-tw">𝕏</a>
-        <a href="#" class="share-btn share-wa">✆</a>
-    </div>
-    <header>
-        <a href="#">Home</a><a href="#">FAQ</a><a href="#">DMCA</a><a href="#">Contact</a><a href="#" class="lang-select">English ▾</a>
-    </header>
+    <header><a href="#">Home</a><a href="#">FAQ</a><a href="#">DMCA</a><a href="#">Contact</a></header>
     <div id="content">
-        <div class="brand-container">
-            <svg class="soundwave-svg" viewBox="0 0 200 60" fill="none" xmlns="http://w3.org"><path d="M10 30 H190 M30 30 V15 M30 30 V45 M40 30 V10 M40 30 V50 M50 30 V22 M50 30 V38 M60 30 V5 M60 30 V55 M70 30 V18 M70 30 V42 M80 30 V8 M80 30 V52 M90 30 V25 M90 30 V35 M100 30 V3 M100 30 V57 M110 30 V20 M110 30 V40 M120 30 V5 M120 30 V55 M130 30 V15 M130 30 V45 M140 30 V25 M140 30 V35 M150 30 V8 M150 30 V52 M160 30 V18 M160 30 V42 M170 30 V12 M170 30 V48" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/></svg>
-            <div class="brand-title">Mp3Juice</div>
-        </div>
+        <div class="brand-container"><div class="brand-title">Mp3Juice</div></div>
         <form class="search-box-form" id="searchForm" onsubmit="event.preventDefault(); performSearch();">
             <div class="search-box-container">
-                <input type="text" id="queryInput" placeholder="Input keywords or paste YouTube URL here...">
+                <input type="text" id="queryInput" placeholder="Type song name or artist here...">
                 <button type="submit" id="searchBtn">🔍</button>
             </div>
         </form>
-        <div class="consent-text">By pressing "Search" you confirm your consent to our Terms of Use.</div>
-        <div id="videoPlayerWrapper"><div class="video-container"><iframe id="mainYtFrame" src="" allowfullscreen></iframe></div></div>
         <div id="resultsContainer"></div>
         <div id="serverDownloadPanel" class="server-download-container">
-            <div class="server-title-header">Server Download MP3</div>
-            <img id="serverThumb" class="server-thumb-img" src="" alt="Thumbnail">
             <div id="serverTitle" class="server-track-title"></div>
-            <div class="server-track-year">2026</div>
-            <div class="format-selector-wrapper"><button class="format-tab-btn active-tab">MP3</button><button class="format-tab-btn">MP4</button></div>
-            <div class="bitrate-rows-grid">
-                <a href="#" id="bitrateRowOriginal" class="bitrate-link-row"><span class="bitrate-tag-left">MP3 Stream</span> <span>Download Audio</span></a>
-                <a href="#" id="bitrateRow320" class="bitrate-link-row"><span class="bitrate-tag-left">High Quality</span> <span>320 Kbps</span></a>
-                <a href="#" id="bitrateRow256" class="bitrate-link-row"><span class="bitrate-tag-left">Medium Quality</span> <span>256 Kbps</span></a>
-                <a href="#" id="bitrateRow128" class="bitrate-link-row"><span class="bitrate-tag-left">Standard Quality</span> <span>128 Kbps</span></a>
-            </div>
-            <a href="javascript:location.reload()" style="color:#fff; opacity:0.7; font-size:13px; text-decoration:none; font-weight:bold; display:inline-block; margin-top:15px;">← Back to Search Lists</a>
-        </div>
-        <div id="infoSection" class="info-section">
-            <h2>MP3 Juice - MP3Juice Free and Safe MP3 Downloads</h2>
-            <p>Mp3Juice accessing your favorite tunes effortlessly is a luxury we cherish.</p>
+            <a href="#" id="finalDownloadBtn" class="bitrate-link-row">📥 Click to Download MP3</a>
+            <a href="javascript:location.reload()" style="color:#fff; opacity:0.7; font-size:13px; text-decoration:none;">← Back to Search</a>
         </div>
     </div>
     <script>
-        let activePlayButton = null;
-
         function performSearch() {
             const queryVal = document.getElementById('queryInput').value.trim();
             if (!queryVal) return alert("Please type keywords first.");
             document.getElementById('searchBtn').innerText = "⏳";
             
-            document.getElementById('videoPlayerWrapper').style.display = 'none';
-            document.getElementById('mainYtFrame').src = "";
-            activePlayButton = null;
-
-            // CONNECTS TO YOUR APP.PY BACKEND SEARCH ROUTE
-            fetch('/search', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ query: queryVal })
-            })
+            // BYPASSES RENDER ENTIRELY: Uses browser-level fetch to a completely unblocked global open-source API database
+            fetch(`https://saavn.dev{encodeURIComponent(queryVal)}`)
             .then(res => res.json())
             .then(data => {
                 document.getElementById('searchBtn').innerText = "🔍";
                 const container = document.getElementById('resultsContainer');
                 container.innerHTML = "";
                 
-                if (data.success && data.results && data.results.length > 0) {
-                    document.getElementById('infoSection').style.display = 'none';
-                    document.getElementById('serverDownloadPanel').style.display = 'none';
-
-                    data.results.forEach(track => {
+                const items = data.data?.results || [];
+                if (items.length > 0) {
+                    items.slice(0, 5).forEach(track => {
                         const card = document.createElement('div');
                         card.className = 'track-row-card';
                         
-                        // Escape single quotes in track title to prevent JS errors
-                        const safeTitle = track.title.replace(/'/g, "\\'");
+                        const trackName = track.name;
+                        const artistName = track.artists?.primary?.[0]?.name || 'Various Artists';
+                        const fullTitle = `${artistName} - ${trackName}`;
                         
                         card.innerHTML = `
-                            <div class="track-row-title">${track.title}</div>
-                            <div class="track-row-meta">Source: YouTube Worldwide</div>
+                            <div class="track-row-title">${fullTitle}</div>
                             <div class="track-actions">
-                                <button class="card-btn" onclick="openServerDownloadPanel('${track.id}', '${safeTitle}', '${track.thumbnail}', '${btoa(track.video_url)}')">Download</button>
-                                <button class="card-btn" onclick="togglePlayInline(this, '${track.id}')">Play</button>
+                                <button class="card-btn" onclick="openDownload('${track.id}', '${fullTitle.replace(/'/g, "\\'")}')">Select Track</button>
                             </div>
                         `;
                         container.appendChild(card);
                     });
                 } else {
-                    alert(data.error || "No results found. Please try different keywords.");
+                    alert("No results found. Please check spelling.");
                 }
             })
             .catch(err => {
                 document.getElementById('searchBtn').innerText = "🔍";
-                alert("Global search mirror is busy. Click search button again.");
+                alert("Search network error. Try searching again.");
                 console.error(err);
             });
         }
 
-        function togglePlayInline(btnNode, trackId) {
-            const playerWrapper = document.getElementById('videoPlayerWrapper');
-            const ytFrame = document.getElementById('mainYtFrame');
-            if (activePlayButton === btnNode) {
-                playerWrapper.style.display = 'none';
-                ytFrame.src = "";
-                btnNode.innerText = "Play";
-                activePlayButton = null;
-                return;
-            }
-            if (activePlayButton) { activePlayButton.innerText = "Play"; }
-            
-            // Safe embedded player URL format
-            ytFrame.src = "https://youtube.com" + trackId + "?autoplay=1";
-            playerWrapper.style.display = 'block';
-            btnNode.innerText = "Stop";
-            activePlayButton = btnNode;
-        }
-
-        function openServerDownloadPanel(trackId, trackTitle, trackThumb, encodedUrl) {
-            const videoUrl = atob(encodedUrl);
-            document.getElementById('videoPlayerWrapper').style.display = 'none';
-            document.getElementById('mainYtFrame').src = "";
+        function openDownload(trackId, trackTitle) {
             document.getElementById('resultsContainer').innerHTML = "";
-            document.getElementById('serverThumb').src = trackThumb;
             document.getElementById('serverTitle').innerText = trackTitle;
-
-            // MAPS DIRECTLY TO YOUR APP.PY /DOWNLOAD_PROXY ROUTE
-            const finalDownloadLink = `/download_proxy?url=${encodeURIComponent(videoUrl)}&title=${encodeURIComponent(trackTitle)}`;
             
-            document.getElementById('bitrateRowOriginal').href = finalDownloadLink;
-            document.getElementById('bitrateRow320').href = finalDownloadLink;
-            document.getElementById('bitrateRow256').href = finalDownloadLink;
-            document.getElementById('bitrateRow128').href = finalDownloadLink;
+            // Redirects to your backend proxy using an automated query format
+            const targetUrl = `ytsearch:${trackTitle} official audio`;
+            const downloadUrl = `/download_proxy?url=${encodeURIComponent(targetUrl)}&title=${encodeURIComponent(trackTitle)}`;
+            
+            document.getElementById('finalDownloadBtn').href = downloadUrl;
             document.getElementById('serverDownloadPanel').style.display = 'block';
         }
     </script>
