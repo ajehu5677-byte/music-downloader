@@ -3,29 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MP3 Juice - Free and Safe MP3 Downloads</title>
+    <title>MP3 Juice - Stream & Download Global Music</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
-        body { background-color: #1e73be; color: #ffffff; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding-bottom: 50px; }
-        header { width: 100%; display: flex; justify-content: center; gap: 25px; padding: 20px 0; font-size: 13px; }
-        header a { color: #ffffff; text-decoration: none; opacity: 0.9; }
-        header a:hover { opacity: 1; text-decoration: underline; }
-        #content { width: 100%; max-width: 680px; padding: 0 20px; text-align: center; margin-top: 10px; }
-        .brand-container { margin-bottom: 30px; }
-        .brand-title { font-size: 34px; font-weight: bold; letter-spacing: 0.5px; }
-        .search-box-form { width: 100%; margin-bottom: 12px; }
-        .search-box-container { display: flex; background-color: #ffffff; border-radius: 4px; overflow: hidden; border: 1px solid #cccccc; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .search-box-container input { flex: 1; border: none; padding: 14px 18px; font-size: 15px; outline: none; color: #333333; }
-        .search-box-container button { background-color: #ffffff; border: none; padding: 0 22px; cursor: pointer; font-size: 16px; border-left: 1px solid #e0e0e0; }
-        #resultsContainer { width: 100%; display: flex; flex-direction: column; gap: 15px; margin-bottom: 35px; margin-top: 20px; }
-        .track-row-card { background-color: rgba(0, 0, 0, 0.2); border-radius: 4px; padding: 20px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-        .track-row-title { font-size: 15px; font-weight: bold; color: #ffffff; margin-bottom: 6px; display: inline-block; }
-        .track-actions { display: flex; justify-content: center; gap: 10px; margin-top: 10px; }
-        .card-btn { background-color: #ffffff; color: #333333; border: none; padding: 6px 18px; font-size: 13px; font-weight: bold; border-radius: 3px; cursor: pointer; }
-        .server-download-container { display: none; width: 100%; background-color: #2b2b2b; border-radius: 6px; padding: 30px 20px; margin-bottom: 35px; text-align: center; }
-        .server-track-title { font-size: 16px; font-weight: bold; color: #ffffff; margin-bottom: 20px; }
-        .bitrate-link-row { display: block; background-color: #007bff; color: #ffffff; text-decoration: none; padding: 12px 20px; border-radius: 4px; font-size: 14px; font-weight: bold; margin-bottom: 10px; }
-        .bitrate-link-row:hover { background-color: #0056b3; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Circular', Arial, sans-serif; }
+        
+        /* Spotify Signature Dark Theme Layout Styling Colors */
+        body { background-color: #121212; color: #ffffff; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding-bottom: 60px; }
+        header { width: 100%; display: flex; justify-content: center; gap: 30px; padding: 25px 0; font-size: 14px; background-color: #000000; margin-bottom: 20px; }
+        header a { color: #b3b3b3; text-decoration: none; font-weight: bold; }
+        header a:hover { color: #ffffff; }
+        
+        #content { width: 100%; max-width: 680px; padding: 0 20px; text-align: center; }
+        .brand-title { font-size: 42px; font-weight: 900; letter-spacing: -1px; margin-bottom: 25px; color: #1DB954; }
+        
+        .search-box-form { width: 100%; margin-bottom: 25px; }
+        .search-box-container { display: flex; background-color: #242424; border-radius: 50px; overflow: hidden; border: 1px solid transparent; transition: border 0.2s ease; }
+        .search-box-container:focus-within { border: 1px solid #ffffff; }
+        .search-box-container input { flex: 1; border: none; background: none; padding: 16px 24px; font-size: 16px; outline: none; color: #ffffff; }
+        .search-box-container input::placeholder { color: #757575; }
+        .search-box-container button { background: none; border: none; padding: 0 24px; cursor: pointer; font-size: 18px; color: #b3b3b3; }
+        .search-box-container button:hover { color: #ffffff; }
+        
+        #resultsContainer { width: 100%; display: flex; flex-direction: column; gap: 12px; margin-bottom: 30px; }
+        .track-row-card { display: flex; align-items: center; justify-content: space-between; background-color: #181818; border-radius: 8px; padding: 14px 20px; transition: background-color: 0.2s ease; border: 1px solid #282828; }
+        .track-row-card:hover { background-color: #282828; }
+        
+        .track-info-block { text-align: left; flex: 1; padding-right: 15px; }
+        .track-row-title { font-size: 16px; font-weight: bold; color: #ffffff; margin-bottom: 4px; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .track-row-artist { font-size: 14px; color: #b3b3b3; display: block; }
+        
+        .track-actions { display: flex; gap: 10px; align-items: center; }
+        .card-btn { background-color: #1DB954; color: #ffffff; border: none; padding: 10px 20px; font-size: 14px; font-weight: bold; border-radius: 50px; cursor: pointer; transition: transform 0.1s ease; }
+        .card-btn:hover { transform: scale(1.04); background-color: #1ed760; }
+        .card-btn.play-btn { background-color: #ffffff; color: #000000; }
+        .card-btn.play-btn:hover { background-color: #f6f6f6; }
+        
+        /* Interactive Media Audio Stream Processing Panel Section */
+        .server-download-container { display: none; width: 100%; background-color: #181818; border-radius: 12px; padding: 30px; border: 1px solid #282828; margin-top: 10px; }
+        .player-wrapper { width: 100%; margin: 20px 0; background: #242424; padding: 15px; border-radius: 8px; }
+        audio { width: 100%; outline: none; }
+        
+        .bitrate-link-row { display: inline-block; background-color: #1DB954; color: #ffffff; text-decoration: none; padding: 14px 32px; border-radius: 50px; font-size: 15px; font-weight: bold; margin-top: 15px; transition: transform 0.1s ease; }
+        .bitrate-link-row:hover { transform: scale(1.04); background-color: #1ed760; }
     </style>
 </head>
 <body>
@@ -34,30 +53,42 @@
         <div class="brand-container"><div class="brand-title">Mp3Juice</div></div>
         <form class="search-box-form" id="searchForm" onsubmit="event.preventDefault(); performSearch();">
             <div class="search-box-container">
-                <input type="text" id="queryInput" placeholder="Type song name or artist here...">
+                <input type="text" id="queryInput" placeholder="What do you want to listen to?">
                 <button type="submit" id="searchBtn">🔍</button>
             </div>
         </form>
+        
         <div id="resultsContainer"></div>
+        
+        <!-- Live Stream and Native File Download Dashboard Deck Section -->
         <div id="serverDownloadPanel" class="server-download-container">
-            <div id="serverTitle" class="server-track-title"></div>
-            <a href="#" id="finalDownloadBtn" class="bitrate-link-row">📥 Click to Download MP3</a>
-            <a href="javascript:location.reload()" style="color:#fff; opacity:0.7; font-size:13px; text-decoration:none;">← Back to Search</a>
+            <h3 id="serverTitle" style="font-size: 20px; margin-bottom: 5px;">Track Name</h3>
+            <p id="serverArtist" style="color: #b3b3b3; font-size: 14px; margin-bottom: 15px;">Artist Name</p>
+            
+            <div class="player-wrapper">
+                <p style="font-size: 12px; color: #b3b3b3; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; font-weight: bold;">🎵 Live Preview Player</p>
+                <audio id="audioStreamPlayer" controls src=""></audio>
+            </div>
+            
+            <a href="#" id="finalDownloadBtn" class="bitrate-link-row">📥 Download MP3 Audio File</a>
+            <div style="margin-top: 20px;"><a href="javascript:location.reload()" style="color:#b3b3b3; font-size:13px; text-decoration:none; font-weight:bold;">← Search Another Song</a></div>
         </div>
     </div>
+    
     <script>
         function performSearch() {
             const queryVal = document.getElementById('queryInput').value.trim();
-            if (!queryVal) return alert("Please type keywords first.");
+            if (!queryVal) return alert("Please type a track name first.");
             document.getElementById('searchBtn').innerText = "⏳";
             
-            // Fixed API parsing logic parameters
+            // Core Client-Side Global API Fetch Call Setup Architecture
             fetch(`https://saavn.dev{encodeURIComponent(queryVal)}`)
             .then(res => res.json())
             .then(data => {
                 document.getElementById('searchBtn').innerText = "🔍";
                 const container = document.getElementById('resultsContainer');
                 container.innerHTML = "";
+                document.getElementById('serverDownloadPanel').style.display = 'none';
                 
                 const items = data.data?.results || [];
                 if (items.length > 0) {
@@ -65,43 +96,56 @@
                         const card = document.createElement('div');
                         card.className = 'track-row-card';
                         
+                        // Parse clear name details cleanly from response
                         const trackName = track.name || 'Unknown Track';
+                        const artistName = track.artists?.primary?.[0]?.name || 'Various Artists';
+                        const cleanTitle = `${artistName} - ${trackName}`.replace(/'/g, "\\'");
                         
-                        // FIXED TYPO: Safe navigation chain without double question dots
-                        let artistName = 'Various Artists';
-                        if (track.artists && track.artists.primary && track.artists.primary.length > 0) {
-                            artistName = track.artists.primary[0].name || 'Various Artists';
-                        }
-                        
-                        const fullTitle = `${artistName} - ${trackName}`;
+                        // Safely pull down high-quality audio streaming addresses directly from data source arrays
+                        const streamUrl = track.downloadUrl?.[4]?.url || track.downloadUrl?.[2]?.url || '';
                         
                         card.innerHTML = `
-                            <div class="track-row-title">${fullTitle}</div>
+                            <div class="track-info-block">
+                                <span class="track-row-title">${trackName}</span>
+                                <span class="track-row-artist">${artistName}</span>
+                            </div>
                             <div class="track-actions">
-                                <button class="card-btn" onclick="openDownload('${track.id}', '${fullTitle.replace(/'/g, "\\'")}')">Select Track</button>
+                                <button class="card-btn play-btn" onclick="openMediaControlPanel('${cleanTitle}', '${artistName}', '${streamUrl}', true)">Play</button>
+                                <button class="card-btn" onclick="openMediaControlPanel('${cleanTitle}', '${artistName}', '${streamUrl}', false)">Download</button>
                             </div>
                         `;
                         container.appendChild(card);
                     });
                 } else {
-                    alert("No results found. Please check spelling.");
+                    alert("No matching song titles found globally. Try another term phrase.");
                 }
             })
             .catch(err => {
                 document.getElementById('searchBtn').innerText = "🔍";
-                alert("Search network error. Try searching again.");
+                alert("Network communication lag. Try clicking search again.");
                 console.error(err);
             });
         }
 
-        function openDownload(trackId, trackTitle) {
+        function openMediaControlPanel(fullTitle, artist, streamUrl, autoPlayActive) {
             document.getElementById('resultsContainer').innerHTML = "";
-            document.getElementById('serverTitle').innerText = trackTitle;
+            document.getElementById('serverTitle').innerText = fullTitle.split(' - ')[1] || fullTitle;
+            document.getElementById('serverArtist').innerText = artist;
             
-            const targetUrl = `ytsearch:${trackTitle} official audio`;
-            const downloadUrl = `/download_proxy?url=${encodeURIComponent(targetUrl)}&title=${encodeURIComponent(trackTitle)}`;
+            // Direct tracking properties mapping layout definition
+            const playerElement = document.getElementById('audioStreamPlayer');
+            playerElement.src = streamUrl;
+            playerElement.load();
             
+            if(autoPlayActive) {
+                playerElement.play().catch(e => console.log("Playback interaction focus notice"));
+            }
+            
+            // Map the download conversion button directly to your app.py routing proxy pipe
+            const targetQueryUrl = `ytsearch:${fullTitle} official audio`;
+            const downloadUrl = `/download_proxy?url=${encodeURIComponent(targetQueryUrl)}&title=${encodeURIComponent(fullTitle)}`;
             document.getElementById('finalDownloadBtn').href = downloadUrl;
+            
             document.getElementById('serverDownloadPanel').style.display = 'block';
         }
     </script>
