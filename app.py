@@ -4,14 +4,14 @@ import requests
 import os
 
 app = Flask(__name__)
-
 def worldwide_youtube_search(query):
     """Uses an advanced internal query wrapper to fetch worldwide results securely."""
     try:
-        # Search for the top 5 live matching video metadata elements globally
+        # Search for top 5 live matching video metadata elements globally
         videos_search = VideosSearch(query, limit=5)
         result_data = videos_search.result()
         
+        # FIXED: Corrected spelling to match result_data variable name
         if not result_data or 'result' not in result_data or len(result_data['result']) == 0:
             return None
             
@@ -28,12 +28,14 @@ def worldwide_youtube_search(query):
             results.append({
                 "id": v_id,
                 "title": item.get('title', 'Unknown Track'),
-                "embed_url": f"https://youtube.com{v_id}",
+                "video_url": f"https://youtube.comwatch?v={v_id}",
                 "thumbnail": thumb_url
             })
+            
         return results
+        
     except Exception as e:
-        print(f"Global metadata pipeline mapping exception: {e}")
+        print(f"Error handling search request: {str(e)}")
         return None
 
 @app.route('/', methods=['GET', 'POST'])
