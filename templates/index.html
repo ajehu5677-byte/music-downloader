@@ -1,14 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MP3 Juice - Free and Safe MP3 Downloads</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+        
+        body { background-color: #1e73be; color: #ffffff; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding-bottom: 50px; }
+        header { width: 100%; display: flex; justify-content: center; gap: 25px; padding: 20px 0; font-size: 13px; }
+        header a { color: #ffffff; text-decoration: none; opacity: 0.9; }
+        header a:hover { opacity: 1; text-decoration: underline; }
+        .lang-select { cursor: pointer; }
+        
+        /* Fixed Left Platform Share Sidebar Deck - All Visible with Clean Spacing Layout */
+        .sharing-sidebar { position: fixed; left: 0; top: 25%; display: flex; flex-direction: column; gap: 12px; width: 45px; z-index: 1000; }
+        .share-count { background-color: #ffffff; color: #333333; text-align: center; font-size: 11px; font-weight: bold; padding: 6px 0; border-top-right-radius: 4px; border-bottom-right-radius: 4px; box-shadow: 2px 2px 5px rgba(0,0,0,0.3); }
+        
+        .share-btn { width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; color: #ffffff; text-decoration: none; font-size: 18px; font-weight: bold; border-top-right-radius: 4px; border-bottom-right-radius: 4px; box-shadow: 2px 2px 5px rgba(0,0,0,0.3); transition: transform 0.2s ease; }
+        .share-btn:hover { transform: scale(1.08); width: 50px; }
+        
+        .share-fb { background-color: #3b5998; }
+        .share-msg { background-color: #0084FF; }
+        .share-ig { background-color: #E1306C; }
+        .share-tk { background-color: #000000; border: 1px solid #282828; }
+        
+        #content { width: 100%; max-width: 680px; padding: 0 20px; text-align: center; margin-top: 10px; }
+        .brand-container { margin-bottom: 30px; }
+        .soundwave-svg { width: 220px; height: auto; margin: 0 auto; display: block; }
+        .brand-title { font-size: 34px; font-weight: bold; letter-spacing: 0.5px; margin-top: -10px; }
+        
+        .search-box-form { width: 100%; margin-bottom: 12px; }
+        .search-box-container { display: flex; background-color: #ffffff; border-radius: 4px; overflow: hidden; border: 1px solid #cccccc; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .search-box-container input { flex: 1; border: none; padding: 14px 18px; font-size: 15px; outline: none; color: #333333; }
+        
+        /* High-quality Vector Search Icon button layout */
+        .search-submit-btn { background: none; border: none; padding: 0 22px; cursor: pointer; display: flex; align-items: center; justify-content: center; border-left: 1px solid #e0e0e0; }
+        .vector-search-icon { width: 18px; height: 18px; stroke: #333333; stroke-width: 2.5; fill: none; stroke-linecap: round; transition: stroke 0.2s ease; }
+        .search-submit-btn:hover .vector-search-icon { stroke: #1e73be; }
+        
+        .consent-text { font-size: 11px; opacity: 0.85; margin-bottom: 45px; }
+        
+        #resultsContainer { width: 100%; display: flex; flex-direction: column; gap: 15px; margin-bottom: 35px; }
+        .track-row-card { display: flex; align-items: center; justify-content: space-between; background-color: rgba(0, 0, 0, 0.2); border-radius: 4px; padding: 16px 20px; text-align: left; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .track-row-card:hover { background-color: rgba(0, 0, 0, 0.3); }
+        
+        .track-info-block { flex: 1; padding-right: 15px; }
+        .track-row-title { font-size: 15px; font-weight: bold; color: #ffffff; margin-bottom: 4px; display: block; }
+        
+        .track-actions { display: flex; gap: 10px; align-items: center; }
+        .card-btn { background-color: #ffffff; color: #333333; border: none; padding: 8px 18px; font-size: 13px; font-weight: bold; border-radius: 3px; cursor: pointer; }
+        .card-btn:hover { background-color: #f6f6f6; }
+        
+        .server-download-container { display: none; width: 100%; background-color: #2b2b2b; border-radius: 6px; padding: 20px; margin-bottom: 35px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); text-align: center; }
+        .sc-player-frame-wrapper { width: 100%; height: 166px; margin: 15px 0; border-radius: 6px; overflow: hidden; background-color: #1a1a1a; }
+        .sc-player-frame-wrapper iframe { width: 100%; height: 100%; border: none; }
+        
+        .bitrate-link-row { display: block; background-color: #007bff; color: #ffffff; text-decoration: none; padding: 12px 20px; border-radius: 4px; font-size: 14px; font-weight: bold; margin-bottom: 10px; text-align: center; }
+        .bitrate-link-row:hover { background-color: #0056b3; }
+        
+        .info-section { text-align: left; font-size: 13.5px; line-height: 1.6; opacity: 0.95; }
+        .info-section h2 { font-size: 22px; text-align: center; margin-bottom: 25px; }
+    </style>
+</head>
+<body>
+    <div class="sharing-sidebar">
+        <div class="share-count">375<br>Shares</div>
+        <a id="fbShareLink" href="#" target="_blank" class="share-btn share-fb" title="Share on Facebook">👤</a>
+        <a id="msgShareLink" href="#" target="_blank" class="share-btn share-msg" title="Share on Messenger">💬</a>
+        <a href="javascript:void(0)" onclick="copySiteLink('Instagram')" class="share-btn share-ig" title="Copy Link for Instagram">📸</a>
+        <a href="javascript:void(0)" onclick="copySiteLink('TikTok')" class="share-btn share-tk" title="Copy Link for TikTok">🎵</a>
+    </div>
+
+    <header>
+        <a href="#">Home</a><a href="#">FAQ</a><a href="#">DMCA</a><a href="#">Contact</a><a href="#" class="lang-select">English ▾</a>
+    </header>
+    <div id="content">
+        <div class="brand-container">
+            <svg class="soundwave-svg" viewBox="0 0 200 60" fill="none" xmlns="http://w3.org"><path d="M10 30 H190 M30 30 V15 M30 30 V45 M40 30 V10 M40 30 V50 M50 30 V22 M50 30 V38 M60 30 V5 M60 30 V55 M70 30 V18 M70 30 V42 M80 30 V8 M80 30 V52 M90 30 V25 M90 30 V35 M100 30 V3 M100 30 V57 M110 30 V20 M110 30 V40 M120 30 V5 M120 30 V55 M130 30 V15 M130 30 V45 M140 30 V25 M140 30 V35 M150 30 V8 M150 30 V52 M160 30 V18 M160 30 V42 M170 30 V12 M170 30 V48" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/></svg>
+            <div class="brand-title">Mp3Juice</div>
+        </div>
+        <form class="search-box-form" id="searchForm" onsubmit="event.preventDefault(); performSearch();">
+            <div class="search-box-container">
+                <input type="text" id="queryInput" placeholder="Input keywords or paste YouTube/SoundCloud URL here...">
+                <button type="submit" class="search-submit-btn" id="searchBtn">
+                    <svg class="vector-search-icon" viewBox="0 0 24 24">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                </button>
+            </div>
+        </form>
+        <div class="consent-text">By pressing "Search" you confirm your consent to our Terms of Use.</div>
+        
+        <div id="resultsContainer"></div>
+        
+        <div id="serverDownloadPanel" class="server-download-container">
+            <h3 id="serverTitle" style="font-size: 18px; margin-bottom: 15px; color:#ffffff;">Track Title</h3>
+            
+            <div class="sc-player-frame-wrapper">
+                <iframe id="scEmbedPlayerFrame" allow="autoplay" src=""></iframe>
+            </div>
+            
+            <a href="#" id="finalDownloadBtn" class="bitrate-link-row">📥 Download MP3 Audio File</a>
+            <a href="javascript:location.reload()" style="color:#b3b3b3; font-size:13px; text-decoration:none; display:inline-block; margin-top:15px;">← Back to Search Lists</a>
+        </div>
+
+        <div id="infoSection" class="info-section">
+            <h2>MP3 Juice - MP3Juice Free and Safe MP3 Downloads</h2>
+            <p>Mp3Juice accessing your favorite tunes effortlessly is a luxury we cherish. Among the myriad of platforms offering music downloads, MP3 Juice stands out as a beacon of convenience and accessibility.</p>
+        </div>
+    </div>
+    
     <script>
-        // Formulate share links dynamically using your active host address 
         const currentDomain = encodeURIComponent(window.location.href);
-        const fbLink = document.getElementById('fbShareLink');
-        const msgLink = document.getElementById('msgShareLink');
-        if(fbLink) fbLink.href = `https://facebook.com{currentDomain}`;
-        if(msgLink) msgLink.href = `https://facebook.com{currentDomain}&redirect_uri=${currentDomain}`;
+        document.getElementById('fbShareLink').href = `https://facebook.com{currentDomain}`;
+        document.getElementById('msgShareLink').href = `https://facebook.com{currentDomain}&redirect_uri=${currentDomain}`;
 
         function copySiteLink(platformName) {
             navigator.clipboard.writeText(window.location.href);
-            alert(`Site URL link successfully copied! Paste it directly into your active ${platformName} layout window.`);
+            alert(`Site URL link successfully copied! Paste it directly into your active ${platformName} window.`);
         }
 
         function performSearch() {
@@ -19,7 +130,7 @@
             resultsContainer.innerHTML = "<p style='text-align:center; color:#ffffff;'>Searching global servers...</p>";
             document.getElementById('serverDownloadPanel').style.display = 'none';
             
-            // Connects cleanly to your own unblocked Flask routing endpoint to bypass CORS
+            // Connects to your internal app.py search proxy route to bypass CORS block filters
             fetch('/search', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -30,8 +141,7 @@
                 resultsContainer.innerHTML = "";
                 
                 if (data.success && data.results && data.results.length > 0) {
-                    const infoSection = document.getElementById('infoSection') || document.getElementById('infoSection');
-                    if(infoSection) infoSection.style.display = 'none';
+                    document.getElementById('infoSection').style.display = 'none';
 
                     data.results.forEach(track => {
                         const card = document.createElement('div');
@@ -39,9 +149,11 @@
                         const safeTitle = track.title.replace(/'/g, "\\'");
                         
                         card.innerHTML = `
-                            <div class="track-row-title">${track.title}</div>
+                            <div class="track-info-block">
+                                <span class="track-row-title">${track.title}</span>
+                            </div>
                             <div class="track-actions">
-                                <button class="card-btn" onclick="openMediaPanel('${safeTitle}')">Play & Download</button>
+                                <button class="card-btn" onclick="openMediaPanel('${safeTitle}', '${encodeURIComponent(track.video_url)}')">Play & Download</button>
                             </div>
                         `;
                         resultsContainer.appendChild(card);
@@ -52,26 +164,27 @@
             })
             .catch(err => {
                 resultsContainer.innerHTML = "";
-                alert("Internal route connection reset. Please re-try.");
+                alert("Search connection reset. Please re-try.");
                 console.error(err);
             });
         }
 
-        function openMediaPanel(fullTitle) {
+        function openMediaPanel(fullTitle, encodedVideoUrl) {
+            const decodedVideoUrl = decodeURIComponent(encodedVideoUrl);
             document.getElementById('resultsContainer').innerHTML = "";
             document.getElementById('serverTitle').innerText = fullTitle;
             
             const embedQuery = encodeURIComponent(fullTitle);
-            const scEmbedUrl = `https://soundcloud.com{embedQuery}&auto_play=true&show_artwork=true&color=%231DB954`;
+            const scEmbedUrl = `https://soundcloud.com{embedQuery}&auto_play=true&show_artwork=true&color=%23007bff`;
             
-            const playerFrame = document.getElementById('scEmbedPlayerFrame') || document.getElementById('mainYtFrame');
-            if(playerFrame) playerFrame.src = scEmbedUrl;
+            document.getElementById('scEmbedPlayerFrame').src = scEmbedUrl;
             
-            const proxyDownloadPath = `/download_proxy?url=${encodeURIComponent(track.video_url)}&title=${encodeURIComponent(fullTitle)}`;
-            const dBtn = document.getElementById('finalDownloadBtn') || document.getElementById('bitrateRowOriginal');
-            if(dBtn) dBtn.href = proxyDownloadPath;
+            // Safe backend download connection link configuration
+            const proxyDownloadPath = `/download_proxy?url=${encodeURIComponent(decodedVideoUrl)}&title=${encodeURIComponent(fullTitle)}`;
+            document.getElementById('finalDownloadBtn').href = proxyDownloadPath;
             
-            const panel = document.getElementById('serverDownloadPanel');
-            if(panel) panel.style.display = 'block';
+            document.getElementById('serverDownloadPanel').style.display = 'block';
         }
     </script>
+</body>
+</html>
