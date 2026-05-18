@@ -1,42 +1,69 @@
 import io
 import os
+import json
+import urllib.request
+import urllib.parse
 import subprocess
+import re
 from flask import Flask, render_template, request, jsonify, Response
-from youtubesearchpython import VideosSearch
 
 app = Flask(__name__)
 
-def worldwide_youtube_search(query):
-    """Uses an advanced internal query wrapper to fetch worldwide results securely."""
+def unblocked_global_search(query):
+    """Fetches global search results by parsing YouTube's internal layout data structure."""
     try:
-        # Search for top 5 live matching video metadata elements globally
-        videos_search = VideosSearch(query, limit=5)
-        result_data = videos_search.result()
+        encoded_query = urllib.parse.quote(query)
+        url = f"https://youtube.com{encoded_query}"
         
-        if not result_data or 'result' not in result_data or len(result_data['result']) == 0:
+        req = urllib.request.Request(
+            url, 
+            headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'}
+        )
+        
+        with urllib.request.urlopen(req, timeout=7) as response:
+            html = response.read().decode('utf-8')
+            
+        # Extract the hidden structural data JSON payload from YouTube's page response
+        json_search = re.search(r'ytInitialData\s*=\s*({.+?});', html)
+        if not json_search:
             return None
             
+        data = json.loads(json_search.group(1))
+        
+        # Navigate through YouTube's nested dictionary layout layers safely
+        contents = data['contents']['twoColumnSearchResultsRenderer']['primaryContents']['sectionListRenderer']['contents']
+        video_items = contents[0]['itemSectionRenderer']['contents']
+        
         results = []
-        for item in result_data['result']:
-            v_id = item.get('id')
+        for item in video_items:
+            if 'videoRenderer' not in item:
+                continue
+                
+            video_data = item['videoRenderer']
+            v_id = video_data.get('videoId')
             if not v_id:
                 continue
                 
-            # Extract the best resolution image available out of the thumbnails array list
-            thumbnails = item.get('thumbnails', [])
-            thumb_url = thumbnails[0].get('url') if thumbnails else f"https://youtube.com{v_id}/mqdefault.jpg"
-            
+            # Safely parse text objects out of the nested titles dictionary array
+            title_text = "Unknown Track"
+            if 'title' in video_data and 'runs' in video_data['title']:
+                title_text = video_data['title']['runs'][0].get('text', 'Unknown Track')
+                
             results.append({
                 "id": v_id,
-                "title": item.get('title', 'Unknown Track'),
-                "video_url": f"https://youtube.com{v_id}",  # FIXED: Added missing slashes
-                "thumbnail": thumb_url
+                "title": title_text,
+                "video_url": f"https://youtube.com{v_id}",
+                "thumbnail": f"https://youtube.com{v_id}/mqdefault.jpg"
             })
             
-        return results
+            # Limit our dashboard feed to exactly 5 search cards
+            if len(results) >= 5:
+                break
+                
+        return results if results else None
         
     except Exception as e:
-        print(f"Error handling search request: {str(e)}")
+        print(f"Backend processor extraction exception: {str(e)}")
         return None
 
 @app.route('/', methods=['GET', 'POST'])
@@ -48,13 +75,13 @@ def handle_search():
     data = request.get_json() or {}
     query = data.get('query', '').strip()
     if not query:
-        return jsonify({"success": False, "error": "Query cannot be empty"})
+        return jsonify({"success": False, "error": "Input text is blank"})
         
-    search_results = worldwide_youtube_search(query)
-    if search_results:
-        return jsonify({"success": True, "results": search_results})
+    search_result = unblocked_global_search(query)
+    if search_result:
+        return jsonify({"success": True, "results": search_result})
     else:
-        return jsonify({"success": False, "error": "Global query limit reached. Please try general keywords."})
+        return jsonify({"success": False, "error": "Global query mirror limits hit. Please try direct keywords."})
 
 @app.route('/download_proxy')
 def download_proxy():
@@ -66,11 +93,9 @@ def download_proxy():
         return "Missing tracking parameters.", 400
         
     try:
-        # Construct the safe filename for the download header
         safe_title = "".join(c for c in title if c.isalnum() or c in (' ', '_', '-')).strip()
         filename = f"{safe_title}.mp3"
         
-        # Configure yt-dlp command to extract audio and output raw data to stdout
         command = [
             'yt-dlp', 
             '-x', 
@@ -80,14 +105,12 @@ def download_proxy():
             url
         ]
         
-        # Spawn the background streaming process
         process = subprocess.Popen(
             command, 
             stdout=subprocess.PIPE, 
             stderr=subprocess.DEVNULL
         )
         
-        # Stream chunks directly to the user as they process to prevent RAM overload
         def generate_chunks():
             while True:
                 chunk = process.stdout.read(4096)
